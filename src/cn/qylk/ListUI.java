@@ -106,12 +106,9 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 		unregisterReceiver(Receiver);
 		if (withservice)
 			stopService(new Intent(MyAction.INTENT_START_SERVICE));
-//		else
-//			startService(new Intent(MyAction.INTENT_START_SERVICE));
 		if (APP.Config.desklrc)
 			Service.DesktopLrc(true);
-		unbindService(ServiceConnector);// 解绑定
-		
+		unbindService(ServiceConnector);// 解绑定	
 		Service = null;
 		finish();
 	}

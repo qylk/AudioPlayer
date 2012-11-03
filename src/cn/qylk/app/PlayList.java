@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import android.util.Log;
 import cn.qylk.database.MediaDatabase;
 
 public class PlayList implements IPlayList, Serializable {
@@ -96,7 +95,6 @@ public class PlayList implements IPlayList, Serializable {
 			info.pos = 0;
 		if (sum != 0)
 			MediaDatabase.getTrackInfo(getId(), track);
-		Log.i("TEST", "Got Track:"+track.path);
 	}
 
 	@Override

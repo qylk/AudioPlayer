@@ -49,6 +49,8 @@
     <string name="operation_cancel">放弃</string>
     <string name="scaning">正在后台扫描</string>
     <string name="scaned">扫描完毕</string>
+    <string name="checkfailed">检查失败了</string>
+     <string name="noupdate">已经是最新版</string>
     <string name="setsuc">成功</string>
     <string name="newlist">新建列表</string>
     <string name="ps_unplunge">拔出耳机的同时自动暂停音乐播放</string>

@@ -3,40 +3,34 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
     <TextView
         android:id="@+id/videotitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"/>
-
+        android:gravity="center_horizontal" />
     <SurfaceView
-        android:id="@+id/surfaceView"
+        android:id="@+id/surface"
         android:layout_width="fill_parent"
         android:layout_height="240dp"
         android:layout_gravity="center" />
-
     <LinearLayout
         android:id="@+id/controller"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical" >
-
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:descendantFocusability="blocksDescendants" >
-
             <TextView
                 android:id="@+id/videopos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginTop="10dip"
-                android:gravity="center_vertical"/>
-
+                android:gravity="center_vertical" />
             <TextView
                 android:id="@+id/videodura"
                 android:layout_width="wrap_content"
@@ -44,8 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dip"
                 android:layout_marginTop="10dip"
-                android:gravity="center_vertical"/>
-
+                android:gravity="center_vertical" />
             <SeekBar
                 android:id="@+id/videobar"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -59,25 +52,21 @@
                 android:minHeight="4dp"
                 android:thumb="@drawable/time_indicator_thumb_on" />
         </RelativeLayout>
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-
             <ImageView
                 android:id="@+id/videopre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/btn_video_pre" />
-
             <ImageView
                 android:id="@+id/videoplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/btn_video_pause" />
-
             <ImageView
                 android:id="@+id/videonext"
                 android:layout_width="match_parent"
@@ -86,5 +75,4 @@
                 android:src="@drawable/btn_video_next" />
         </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>

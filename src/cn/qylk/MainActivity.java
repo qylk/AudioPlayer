@@ -77,6 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			}
 		}
 	}
+
 	private static final int PREFERENCE_CODE = 1008;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 	private Animation animationdown;
@@ -132,7 +133,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		StartLoad(-1);
 		tasks.startPicTask(this, false);
 		lrcview.clearView();
-		
+
 	}
 
 	/**
@@ -181,7 +182,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		if (visual && mVisualizer == null) {
 			setupVisualizerFxAndUi();
 			visualizerview.setUpView();
-		} else if (mVisualizer != null) {
+		} else if (mVisualizer != null && !visual) {
 			mVisualizer.setEnabled(false);
 			mVisualizer.release();
 			visualizerview.ClearView();

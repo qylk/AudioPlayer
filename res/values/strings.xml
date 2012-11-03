@@ -50,6 +50,8 @@
     <string name="scaning">SCANNING</string>
     <string name="scaned">SCAN DONE</string>
     <string name="setsuc">SUCCESS</string>
+    <string name="checkfailed">CHECK FAILED</string>
+    <string name="noupdate">IS ALREADY NEW</string>
     <string name="newlist">NEW LIST</string>
     <string name="pt_wifimode">WIFI ONLY</string>
     <string name="delphy">删除SD卡上的文件</string>

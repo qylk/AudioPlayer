@@ -71,20 +71,16 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 	}
 
 	public MusicListAdapter adapter;
-	private Handler handler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			ReFreshList();
-			super.handleMessage(msg);
-		}
-	};
+	private Handler handler;
 	private ListTypeInfo ListInfo;
-
 	public ListView musiclist;
 
 	public Fragment_PlayList(ListTypeInfo listInfo) {
 		ListInfo = listInfo;
+	}
+
+	@Deprecated
+	public Fragment_PlayList() {
 	}
 
 	private void AddToPersonalList(Integer[] ids) {
@@ -151,6 +147,14 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 		musiclist.setOnItemClickListener(this);
 		musiclist.setOnItemLongClickListener(this);
 		musiclist.setSelectionFromTop(APP.list.getIndex(), 150);
+		handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				ReFreshList();
+				super.handleMessage(msg);
+			}
+		};
 		return view;
 	}
 

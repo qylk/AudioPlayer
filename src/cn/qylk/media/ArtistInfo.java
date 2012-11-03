@@ -9,7 +9,6 @@ import LastFm.JsonParser;
 import LastFm.Lastfm;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import cn.qylk.app.APP;
 import cn.qylk.app.TrackInfo;
 import cn.qylk.database.DataBaseService;

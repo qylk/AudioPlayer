@@ -206,6 +206,8 @@ public class LocalService extends Service { // 服务
 		try {
 			InitPlayer();
 			mPlayer.seekTo(APP.Config.lastbarekpoint);
+			mPlayer.start();
+			mPlayer.pause();
 			SendStatusChanged(false);
 		} catch (IOException e) {
 			Log.v("TEST", "IOException in init mediaplayer");
@@ -292,12 +294,12 @@ public class LocalService extends Service { // 服务
 		NM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		Notification(R.string.qylk);// 通知栏提示信息提示
 		track = APP.list.getTrackEntity();
-		Log.i("TEST", track.path);
 		mPlayer = new MediaPlayer();
 		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		mPlayer.setOnCompletionListener(new OnCompletionListener() {// 一曲完成，自动播放下一曲
 			@Override
 			public void onCompletion(MediaPlayer mp) {
+				Log.i("TEST", "onCompletion");
 				if (APP.list.getMode() != PlayMode.Repeat_One) {
 					next();
 				} else

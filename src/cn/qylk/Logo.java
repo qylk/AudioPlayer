@@ -6,27 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 import cn.qylk.app.APP;
 import cn.qylk.app.APPUtils;
+import cn.qylk.utils.Update;
 
-public class Logo extends Activity {
-	private Handler handler = new Handler() {
-
-		@Override
-		public void dispatchMessage(Message msg) {
-			startActivity(new Intent(Logo.this, ListUI.class));
-			finish();
-			super.dispatchMessage(msg);
-		}
-	};
-
+public class Logo extends Activity implements Callback{
+	private Handler handler = new Handler(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);// 显示欢迎画面
 		APPUtils.ScanSD(false);
+		new Update().start(this);
 		if (!APP.Config.sdplunged || !APP.Config.Library) {// 是否加载sd卡
 			new AlertDialog.Builder(this)
 					.setMessage(R.string.nolibrary)
@@ -42,5 +36,12 @@ public class Logo extends Activity {
 		}
 		APPUtils.ScanSD(false);
 		handler.sendEmptyMessageDelayed(0, 3000);
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		startActivity(new Intent(Logo.this, ListUI.class));
+		finish();
+		return true;
 	}
 }

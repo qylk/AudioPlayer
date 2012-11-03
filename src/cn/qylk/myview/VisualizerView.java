@@ -2,10 +2,8 @@ package cn.qylk.myview;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.PathEffect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -14,7 +12,7 @@ public class VisualizerView extends View {
 	private Paint mForePaint = new Paint();
 	private Paint poPaint = new Paint();
 	private static final int mSpectrumNum = 32;
-	private float[] toppoint = new float[mSpectrumNum * 2];
+	private float[] toppoint = new float[mSpectrumNum];
 	private byte[] mBytes = new byte[mSpectrumNum];
 	private float[] mPoints = new float[mSpectrumNum * 4];
 	private int height, width;
@@ -49,17 +47,15 @@ public class VisualizerView extends View {
 
 	private void init() {
 		poPaint.setStrokeWidth(3f);
-		poPaint.setColor(0x77FFFF00);
-		DashPathEffect effect = new DashPathEffect(new float[] { 10, 10, 10, 10}, 1);
-		mForePaint.setColor(0x77FFFFFF);
+		poPaint.setColor(0xFFFFFF00);
+		mForePaint.setColor(0xFFFFFFFF);
 		mForePaint.setStyle(Style.STROKE);
-		mForePaint.setStrokeWidth(5f);
-		mForePaint.setPathEffect(effect);
+		mForePaint.setStrokeWidth(6f);
 	}
 
 	public void updateVisualizer(byte[] fft) {
 		// FFT数据详见public int getFft (byte[] fft)方法解释;
-		// 以下做了非标准FFT显示处理.
+		// 以下做了非标准FFT显示处理.只是为了达到较佳的效果
 		for (int i = 0, j = 0; j < mSpectrumNum; j++) {
 			mBytes[j] = (byte) ((Math.hypot(fft[i], fft[i + 1]) / scalefit));
 			i += 1;
@@ -84,16 +80,15 @@ public class VisualizerView extends View {
 			mPoints[i * 4 + 1] = height;
 			mPoints[i * 4 + 2] = xi;
 			mPoints[i * 4 + 3] = height - mBytes[i] + 3;
-			toppoint[i * 2] = xi;
-			if (mPoints[i * 4 + 3] < toppoint[i * 2 + 1])
-				toppoint[i * 2 + 1] = height - mBytes[i];
+			if (mPoints[i * 4 + 3] < toppoint[i])
+				toppoint[i] = height - mBytes[i];
 			else
-				toppoint[i * 2 + 1] += 4;
-			if (toppoint[i * 2 + 1] > height - 4)
-				toppoint[i * 2 + 1] = height - 4;
+				toppoint[i] += 4;
+			if (toppoint[i] > height - 4)
+				toppoint[i] = height - 4;
+			canvas.drawRect(xi - 3, toppoint[i], xi + 3,
+					toppoint[i] + 2, poPaint);
 		}
 		canvas.drawLines(mPoints, mForePaint);
-		canvas.drawPoints(toppoint, poPaint);
-
 	}
 }

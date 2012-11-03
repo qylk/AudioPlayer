@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 底部控制区 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/buttombtns_bg"
+    android:orientation="vertical" >
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <ImageView
+            android:id="@+id/voicesearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/voicesearch" />
+        <ImageView
+            android:id="@+id/mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/tool_repeat_all" />
+        <ImageView
+            android:id="@+id/love"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/tool_favorite_off" />
+        <ImageView
+            android:id="@+id/openinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/btn_info_bg" />
+    </TableRow>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dip"
+            android:gravity="center_vertical"
+            android:text="@string/timeformat"
+            android:textSize="12sp" > <!-- 显示当前进度时间 -->
+        </TextView>
+        <TextView
+            android:id="@+id/dura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:gravity="center_vertical"
+            android:text="@string/timeformat"
+            android:textSize="12sp" > <!-- 显示持续时间 -->
+        </TextView>
+        <SeekBar
+            android:id="@+id/progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/dura"
+            android:layout_toRightOf="@id/pos"
+            android:maxHeight="4dip"
+            android:minHeight="4dip"
+            android:paddingLeft="7dip"
+            android:paddingRight="7dip"
+            android:progressDrawable="@drawable/seekbar_layer"
+            android:thumb="@drawable/thumb" /> <!-- 进度条 -->
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/pre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/btn_pre_bg" > <!-- 上一曲 -->
+        </ImageView>
+        <ImageView
+            android:id="@+id/play_pause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/main_play" >
+        </ImageView> <!-- 播放暂停 -->
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/btn_next_bg" >
+        </ImageView> <!-- 下一曲 -->
+    </LinearLayout>
+</LinearLayout>

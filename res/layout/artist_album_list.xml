@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 歌手、专辑列表 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="45dip" >
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
+        android:padding="5dip"
+        android:src="@drawable/artistimage" /> <!-- 固定图标 -->
+    <TextView
+        android:id="@+id/listitem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv"
+        android:singleLine="true"
+        android:text="title"
+        android:textAppearance="@android:style/TextAppearance.Large" /> <!-- 名称 -->
+    <TextView
+        android:id="@+id/artist4this"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listitem"
+        android:layout_toRightOf="@id/iv"
+        android:text="artist"
+        android:textColor="@android:color/white"
+        android:textSize="12dp" > <!-- 艺术家 -->
+    </TextView>
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listitem"
+        android:layout_toRightOf="@id/artist4this"
+        android:paddingLeft="10dip"
+        android:text="anything"
+        android:textColor="@android:color/white"
+        android:textSize="12dp" > <!-- 总数 -->
+    </TextView>
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <cn.qylk.myview.EditTextView
+        android:id="@+id/etv1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        Text="@string/musictitle" >
+    </cn.qylk.myview.EditTextView>
+
+    <cn.qylk.myview.EditTextView
+        android:id="@+id/etv2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        Text="@string/musicartist" >
+    </cn.qylk.myview.EditTextView>
+
+</LinearLayout>

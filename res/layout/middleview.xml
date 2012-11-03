@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <ImageView
+        android:id="@+id/albumpic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/loading" />
+    <LinearLayout
+        style="@style/AlbumMask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <include
+            android:id="@+id/headinfo"
+            layout="@layout/top_info" />
+        <include
+            android:layout_width="match_parent"
+            layout="@layout/lrcshow" />
+    </LinearLayout>
+    <cn.qylk.myview.VisualizerView
+        android:id="@+id/visualizer"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/sliding_panel_visualization_bg"
+        android:layout_gravity="bottom" >
+    </cn.qylk.myview.VisualizerView>
+    <ScrollView
+        android:id="@+id/infoarea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/middle_bg"
+        android:scrollbars="none"
+        android:visibility="invisible" >
+        <TextView
+            android:id="@+id/artistinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/googlepage" />
+    </ScrollView>
+</FrameLayout>

@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include <string.h>
+typedef struct  MUSIC_TITAL_INFO
+{
+	char ID3v1TAG[3];  //TAG
+	char MUSIC_NAME[30]; //存储标题信息
+	char Artist[30];   //存储歌手信息
+	char Album[30];   //存储专辑信息
+	char YEAR[4];   //存储年代信息
+	char Comments[28];  //存储备注信息,28个字节(有时为30字节)
+	char Genre;    //存储音乐风格信息,保留位，1个字节
+	char Reserved;   //保留位，1个字节(有时没有意思
+	char Track;    //音轨(曲号)保留位，1个字节(有时没有)
+}
+MUSIC;
+
+//************************************
+// Method:    reCalculateSize
+// FullName:  reCalculateSize
+// Access:    public 
+// Returns:   void
+// Qualifier: 重写ID3标签大小
+// Parameter: char head[]
+// Parameter: int id3size 标签大小
+//************************************
+void reCalculateSize(char head[],int id3size){
+	head[6]=id3size/0x200000;
+	id3size-=head[6]*0x200000;
+	head[7]=id3size/0x4000;
+	id3size-=head[7]*0x4000;
+	head[8]=id3size/0x80;
+	id3size-=head[8]*0x80;
+	head[9]=id3size;
+}
+
+
+//************************************
+// Method:    getHeaderSize
+// FullName:  getHeaderSize
+// Access:    public 
+// Returns:   char *
+// Qualifier: 重写帧头里的帧大小字节块
+// Parameter: char header[]
+// Parameter: int size	帧大小
+//************************************
+void getHeaderSize(char header[],int size)
+{								  
+	 header[4]=size/0x1000000;
+	 size-=header[4]*0x1000000;
+	 header[5]=size/0x10000;
+	 size-=header[5]*0x10000;
+	 header[6]=size/0x100;
+	 size-=header[6]*0x100;
+	 header[7]=size;
+}
+
+//************************************
+// Method:    writeHead
+// FullName:  writeHead
+// Access:    public 
+// Returns:   void
+// Qualifier: 写ID3标签头，10字节
+// Parameter: FILE * fp
+// Parameter: char header[]	要写的标签头
+//************************************
+void writeHead(FILE *fp,char header[]){
+	fwrite(header,10,1,fp);
+}
+
+//************************************
+// Method:    writeItem
+// FullName:  writeItem
+// Access:    public 
+// Returns:   void
+// Qualifier: 写帧数据
+// Parameter: FILE * fp
+// Parameter: char frameheader[]帧头
+// Parameter: char * value 帧数据
+//************************************
+void writeItem(FILE *fp,char frameheader[],char *value){
+	getHeaderSize(frameheader,strlen(value)+1);
+	fwrite(frameheader,10,1,fp);
+	fputc(0x00,fp);
+	fwrite(value,strlen(value),1,fp);
+}
+//************************************
+// Method:    getTagSize
+// FullName:  getTagSize
+// Access:    public 
+// Returns:   int
+// Qualifier: 获取ID3标签大小
+// Parameter: char head[]
+//************************************
+int getTagSize(char head[]){
+	return	(head[6]&0x7F)*0x200000 +(head[7]&0x7F)*0x4000 +(head[8]&0x7F)*0x80 +(head[9]&0x7F);
+}
+//************************************
+// Method:    getHeaderSize
+// FullName:  getHeaderSize
+// Access:    public 
+// Returns:   char *
+// Qualifier: 获取文件长度
+// Parameter: char header[]
+// Parameter: int size
+//************************************
+long filesize(FILE *stream)
+{
+	long curpos, length;
+	curpos = ftell(stream);
+	fseek(stream, 0L, SEEK_END);
+	length = ftell(stream);
+	fseek(stream, curpos, SEEK_SET);
+	return length;
+}
+
+
+//************************************
+// Method:    copydata
+// FullName:  copydata
+// Access:    public 
+// Returns:   void
+// Qualifier: 对拷剩余数据块
+// Parameter: FILE * from
+// Parameter: FILE * to
+//************************************
+void copydata(FILE* from,FILE * to){
+	static unsigned char buffer[4096];
+	long fsize;
+	int factread=0;
+	fseek(from,10,SEEK_SET);
+	for (fsize=filesize(from)-10;fsize>0;fsize-=factread)
+    {
+        factread=fread(buffer,1,sizeof(buffer),from);
+        fwrite(buffer,factread,1,to);
+    }
+}
+
+
+//************************************
+// Method:    getFrameID
+// FullName:  getFrameID
+// Access:    public 
+// Returns:   void
+// Qualifier: 写帧标志
+// Parameter: char head[]
+// Parameter: char * Id
+//************************************
+void getFrameID(char head[],const char *Id){
+	int i;
+	for(i=0;i<4;i++)
+		head[i]=Id[i];
+}
+
+void main(){
+	FILE *fp,*newfp;
+	char *title="红尘情歌";
+	char *artist="高安&黑鸭子";
+	char *album="qylk收藏";
+	char head[10];
+	long id3size;
+	if((fp=fopen("c:\\2.mp3","rb"))==NULL) return;
+	newfp=fopen("c:\\tmp.mp3","wb+");
+	fread(head,sizeof(head),1,fp);
+	id3size=getTagSize(head);
+	reCalculateSize(head,33+id3size+strlen(title)+strlen(album)+strlen(artist));
+	writeHead(newfp,head);
+	memset(head,0x00,sizeof(head));
+	getFrameID(head,"TIT2");
+	writeItem(newfp,head,title);
+	getFrameID(head,"TPE1");
+	writeItem(newfp,head,artist);
+	getFrameID(head,"TALB");
+	writeItem(newfp,head,album);
+	copydata(fp,newfp);
+	fclose(fp);
+	fclose(newfp);
+}
+
+

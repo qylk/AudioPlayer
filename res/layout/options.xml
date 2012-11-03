@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 首选项 -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:title="@string/settings" >
+    <PreferenceCategory android:title="lyrics" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pk_lyric"
+            android:summaryOff="@string/ps_lrc_download"
+            android:summaryOn="@string/ps_lrc_download"
+            android:title="@string/pt_lrc_download" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="fale"
+            android:key="@string/pk_desklrc"
+            android:summaryOff="@string/ps_desklrc"
+            android:summaryOn="@string/ps_desklrc"
+            android:title="@string/pt_desklrc" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pk_lrc_shadow"
+            android:summaryOff="@string/ps_lrc_shadow"
+            android:summaryOn="@string/ps_lrc_shadow"
+            android:title="@string/pt_lrc_shadow" >
+        </CheckBoxPreference>
+        <cn.qylk.dialog.ColorPickerDialog
+            android:dialogTitle="Color"
+            android:key="@string/pk_lrc_color"
+            android:persistent="true"
+            android:summary="@string/ps_lrc_color"
+            android:title="@string/pt_lrc_color" >
+        </cn.qylk.dialog.ColorPickerDialog>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="media" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pk_pic"
+            android:summaryOff="@string/ps_pic"
+            android:summaryOn="@string/ps_pic"
+            android:title="@string/pt_pic" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="@string/pk_pic"
+            android:key="@string/pk_wifimode"
+            android:summaryOff="@string/ps_wifi"
+            android:summaryOn="@string/ps_wifi"
+            android:title="@string/pt_wifimode" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pk_bio"
+            android:summaryOff="@string/ps_bio"
+            android:summaryOn="@string/ps_bio"
+            android:title="@string/pt_bio" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pk_eqpanel"
+            android:summaryOff="@string/ps_eqpanel"
+            android:summaryOn="@string/ps_eqpanel"
+            android:title="@string/pt_eqpanel" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="control" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pk_unpluge"
+            android:summaryOff="@string/ps_unplunge"
+            android:summaryOn="@string/ps_unplunge"
+            android:title="@string/pt_unpluge" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pk_light"
+            android:summaryOff="@string/ps_light"
+            android:summaryOn="@string/ps_light"
+            android:title="@string/pt_light" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pk_shake"
+            android:summaryOff="@string/ps_shake"
+            android:summaryOn="@string/ps_shake"
+            android:title="@string/pt_shake" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="about" >
+        <PreferenceScreen android:title="QYLK2012" >
+            <intent
+                android:targetClass="cn.qylk.About"
+                android:targetPackage="cn.qylk" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

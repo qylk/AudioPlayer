@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 更多按钮背景 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="false" android:drawable="@drawable/appwidget_icon_more_normal"></item>
+<item android:state_pressed="true" android:drawable="@drawable/appwidget_icon_more_pressed"></item>
+</selector>

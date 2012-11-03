@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 用于模糊搜索列表显示 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_marginLeft="10dip"
+    android:layout_marginTop="5dip"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/itemdis1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dip" />
+    <TextView
+        android:id="@+id/itemdis2"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

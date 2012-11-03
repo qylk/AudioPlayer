@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 界面顶部，显示歌曲相关信息 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/titledisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:text="@string/qylk"
+        android:textColor="@android:color/white"
+        android:textSize="24dip" /> <!-- 歌名，支持滚动效果 -->
+    <TextView
+        android:id="@+id/artistdis"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:text="artist"
+        android:textSize="18dip" /> <!-- 歌手名 -->
+    <TextView
+        android:id="@+id/nextmusic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="next music"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="15dip" /> <!-- 下一曲歌名 -->
+</LinearLayout>

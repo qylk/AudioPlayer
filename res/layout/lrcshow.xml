@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 歌词显示 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/lrcaero"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <cn.qylk.myview.LrcView
+            android:id="@+id/lrcshow"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+        </cn.qylk.myview.LrcView>
+ <!-- 歌词显示空间 -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lrclink"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:text="@string/nolrcfind"
+        android:textColor="#00ff00"
+        android:textSize="18dip"
+        android:visibility="invisible" />
+ <!-- 搜索歌词提示 -->
+
+    <LinearLayout
+        android:id="@+id/lrcadj"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone" >
+ <!-- 调整歌词 -->
+
+        <ImageView
+            android:id="@+id/delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_delay_bg" />
+ <!-- 上调 -->
+
+        <ImageView
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dip"
+            android:src="@drawable/btn_ok" />
+ <!-- 保存 -->
+
+        <ImageView
+            android:id="@+id/advance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dip"
+            android:src="@drawable/btn_advance_bg" />
+ <!-- 下调 -->
+    </LinearLayout>
+
+</FrameLayout>

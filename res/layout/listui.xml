@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 列表首页 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <RelativeLayout
+        android:id="@+id/panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green_dark" >
+        <!-- 播放控制板 -->
+        <ImageView
+            android:id="@+id/sticon"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_margin="1dp"
+            android:background="@drawable/smallicon_bg"
+            android:padding="3dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_icon" />
+        <!-- 歌手图标 -->
+        <ImageView
+            android:id="@+id/stnext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/btn_next_bg" />
+        <!-- 下一曲 -->
+        <ImageView
+            android:id="@+id/stplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/stnext"
+            android:src="@drawable/main_play" />
+        <!-- 播放暂停 -->
+        <TextView
+            android:id="@+id/sttitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:layout_toLeftOf="@id/stplay"
+            android:layout_toRightOf="@id/sticon"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+        <!-- 歌曲标题 -->
+        <TextView
+            android:id="@+id/startist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sttitle"
+            android:layout_toLeftOf="@+id/stplay"
+            android:layout_toRightOf="@+id/sticon"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+        <!-- 歌手名 -->
+    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/pbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/panel"
+        android:maxHeight="2dip"
+        android:minHeight="2dip"
+        android:progressDrawable="@drawable/seekbar_layer" />
+    <!-- 进度条 -->
+    <FrameLayout
+        android:id="@+id/realtabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/pbar"
+        android:background="@drawable/listuibg" />
+</RelativeLayout>

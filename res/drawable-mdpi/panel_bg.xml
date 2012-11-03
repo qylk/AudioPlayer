@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 播放控制面板 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="false" android:drawable="@color/green_dark"></item>
+<item android:state_pressed="true" android:drawable="@color/green_light"></item>
+</selector>

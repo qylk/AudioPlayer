@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 顶部悬浮控制条 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topadj"
+    android:layout_width="fill_parent"
+    android:layout_height="30dip"
+    android:layout_gravity="top"
+    android:layout_marginTop="85dip"
+    android:background="@color/lightgray"
+    android:visibility="invisible" >
+
+    <ImageView
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_repeate_all" /> <!-- 改变播放模式 -->
+
+    <SeekBar
+        android:id="@+id/volumebar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_toLeftOf="@id/mode"
+        android:maxHeight="3dip"
+        android:minHeight="3dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="20dip"
+        android:progressDrawable="@drawable/seekbar_layer"
+        android:thumb="@drawable/time_indicator_thumb_on" /> <!-- 改变音量 -->
+
+</RelativeLayout>

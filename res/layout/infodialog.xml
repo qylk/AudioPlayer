@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/musictitle" />
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true" >
+        </EditText>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/musicartist" />
+        <EditText
+            android:id="@+id/et_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true" >
+        </EditText>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/musicalbum" />
+        <EditText
+            android:id="@+id/et_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true" >
+        </EditText>
+    </TableRow>
+    <CheckBox
+        android:id="@+id/tagoption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/writetag"
+        android:textColor="@color/purered" >
+    </CheckBox>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+        <Button
+            android:id="@+id/positivebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search" />
+        <Button
+            android:id="@+id/additionbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/readtag1" />
+        <Button
+            android:id="@+id/negitivebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/operation_cancel" />
+    </TableRow>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/dialog_bg"
+        android:gravity="center_horizontal"
+        android:text="@string/searchresult" />
+    <ProgressBar
+        android:id="@+id/waitingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+    <ListView
+        android:id="@+id/lrclist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+</LinearLayout>

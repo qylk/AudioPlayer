@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_item_name">
+        <item>OPTIONS</item>
+        <item>TIMER</item>
+        <item>SEARCH</item>
+        <item>ADJLRC</item>
+        <item>DELLRC</item>
+        <item>SCAN</item>
+ </string-array>
+    <string-array name="popmenu">
+        <item>ringtone</item>
+        <item>info</item>
+        <item>remove</item>
+        <item>share</item>
+    </string-array>
+    <string-array name="tab">
+        <item>本地音乐</item>
+        <item>在线音乐</item>
+        <item>我的音乐</item>
+    </string-array>
+</resources>

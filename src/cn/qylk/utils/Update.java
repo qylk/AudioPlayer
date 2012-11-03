@@ -17,7 +17,7 @@ public class Update {
 	/**
 	 * 升级信息获取地址
 	 */
-	public static final String UPDATECHECKURL = "http://qylk2011.googlecode.com/files/version";
+	public static final String UPDATECHECKURL = "https://github.com/qylk/AudioPlayer/blob/master/version";
 
 	private Thread CheckUpdateThread = new Thread(new Runnable() {
 		public void run() {
@@ -26,7 +26,6 @@ public class Update {
 	});
 
 	private byte code;
-
 	private Context context;
 	private Handler handler = new Handler() {
 		@Override

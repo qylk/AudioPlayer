@@ -1,0 +1,1 @@
+{"version": {"ver": "2.7.1","date": "2012-10-14","info": "·全新WIN8 Metro风格列表视图\r\n\r\n·修复service无法超时销毁的Bug\r\n\r\n·解决歌曲断点恢复不准问题\r\n\r\n·修复点击widget导致崩溃的Bug\r\n\r\n·修复对媒体键的支持,兼容MIUI\r\n\r\n·修复拔出耳机程序自启动的BUG\r\n\r\n·支持ID3歌曲信息解析修改\r\n\r\n·音乐频谱支持(测试阶段)"}}

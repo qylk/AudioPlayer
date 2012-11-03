@@ -23,7 +23,7 @@ public class UpdateApk {
 	/**
 	 * apk升级地址
 	 */
-	private static final String APKURL = "http://qylk2011.googlecode.com/files/qylk.apk";
+	private static final String APKURL = "http://qylk2011.googlecode.com/files/qplayer18.apk";
 	private Context context;
 	private Handler handler;
 	private boolean kill;

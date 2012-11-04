@@ -117,7 +117,7 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 			ShiftMode();
 			break;
 		case R.id.openinfo:// 显示歌手信息
-			((MainActivity) getActivity()).showInfo();
+			((MainActivity) getActivity()).showInfo2();
 			break;
 		case R.id.seteq:
 			CharSequence[] presets = getResources().getStringArray(

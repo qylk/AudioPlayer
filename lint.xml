@@ -8,4 +8,5 @@
         <ignore path="src\cn\qylk\VideoActivity.java" />
         <ignore path="src\cn\qylk\fragment\Fragment_PlayList.java" />
     </issue>
+    <issue id="TextFields" severity="ignore" />
 </lint>

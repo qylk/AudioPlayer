@@ -1,107 +1,53 @@
 开发日志
 <ul>
-	<li>V2.7.1 2012-10-19
-		优化歌曲信息修改界面，支持内嵌ID3V2.3信息，读取ID3V1信息；用C++重写用到jni的本地代码,修复了其中若干Bug;优化歌曲信息查看界面;新增柱状频谱显示功能(测试阶段);修复视频播放崩溃的BUG，视频播放更改成横屏模式；修复随机播放状态下,点播歌曲出错的Bug；新增列表视图中当前歌曲位置高亮功能；
-		修复频谱显示在无声或低声状态不显示的Bug;新增对预置均衡器更改的支持。<br>
-	<li>V2.7.0 2012-10-13
-		更新播放界面布局，部分采用MIUI播放器的元素；修复桌面widget首次不更新的Bug;修复ID3
-		tag的内嵌图片解析Bug,修改歌词服务器，歌词模糊搜索可以返回多条结果待选；新增APP升级提示操作界面，界面更加优美。<br>
-	<li>V2.6.7 2012-10-11
-		修复上一版本中service无法超时销毁的bug，修复歌曲断点问题；修复点击桌面widget进入程序导致崩溃的bug;从此版本将使用android系统Actionbar，不再使用SherlockActionbar，因此程序最低版本改为sdkver=11，即仅支持android
-		3.0+，低版本将不再更新。<br>
-	<li>V2.6.6 2012-09-29
-		修复对媒体键的支持，兼容MIUI的锁屏音乐控制功能；修复拔出耳机程序自启动的问题；去除一些繁琐的非
-		必要的功能(如横屏功能等)；调整程序的大部分结构(对面向对象编程有了进一步认识，工作仍在继续...)<br>
-	<li>V2.6.5 2012-06-01 增加视频列表及播放界面支持；新增桌面歌词;列表更改为win8
-		metro风格，播放界面提供更多简洁菜单（此 版本未发布，仅提供初期预览）<br>
-	<li>V2.6.4 2012-05-06
-		修复preference中个别选项改变后没有效果的bug（如wifi选项）;新增"最近添加"列表;个人列表数量降至4 个;
-		封装Lrcview和ListProvider两个类，内部逻辑更加清晰;更改历史列表位置到系统数据库；新增收藏列表及设置铃声功能；重新
-		整理了其他处代码;修改随机列表的实现逻辑;修复上版修改过程中的逻辑错误（如歌手信息的下载与存贮）；修复由于旋转屏幕偶尔
-		发生的崩溃现象；修复其他个别问题<br>
-	<li>V2.6.3 2012-04-24
-		仿ttpod的列表基本完成，个别地方功能未完成；修复睡眠定时功能;改善UI；更新桌面Widget;从此版开始依赖actionbarsherlock项目支持<br>
-	<li>V2.6.2 2012-04-19 新增语音搜索支持，优化模糊搜歌性能(未发布)<br>
-	<li>V2.6.1 2012-04-13 高仿天天动听歌曲列表，工作半途中，期待。。。（未发布）<br>
-	<li>V2.6.0 2012-04-01
-		主界面增加抽屉效果;设置里增加wifi支持选项;歌曲列表可左右滑屏翻页（此版未发布，作废）<br>
-	<li>V2.5.91
-		2012-03-24修改定时功能：提前30秒提示，亦可中断定时;修复恢复歌曲最后断点而偶尔出现的内存溢出问题，修复修改
-		完歌曲信息后不更新的问题；增加“屏幕旋转”可选选项（此版仍在自测，未发布）<br>
-	<li>V2.5.9
-		2012-03-20增加一些小功能：点击列表会自动跳转到正在播放的列表视图；专辑、艺术家、个人列表视图中可以长按该
-		条目来播放一组歌曲；程序检查更新时会显示最新版本的特性；修复歌词渐变时，歌词颜色不响应颜色设置里的颜色变化；修复歌曲
-		播放完毕后自动切换偶尔带来的内存溢出问题；完善歌曲断点记忆功能;<br>
-	<li>v2.5.8 2012-03-15改变横屏布局。<br>
-	<li>V2.5.7
-		2012-03-03升级列表，增加艺术家和专辑列表以及个人列表，优化内存占用，修复歌曲信息网络匹配时出现的崩溃问题；解决多屏幕尺寸的适配问题，现在支持各屏幕尺寸了；重写屏幕旋转代码。<br>
-	<li>V2.5.4 增加桌面widget支持，新增版本检查和更新，修正若干潜在错误。<br>
-	<li>V2.5春节版 2012-01-12~01-28
-		更换歌词服务器地址，更改程序部分框架，增加preference选择项，新增lrc歌词的显示效果和相
-		关功能等。去除庞大外部支持库，改为JNI调用。更改主界面使其更简洁，修正部分bug<br>
-	<li>V2.4 2011-11-15
-		新增网络支持模块，支持歌手图片下载，支持歌手传记下载，支持歌曲信息网络适配，改善快速搜歌性能。列
-		表支持批量删除。增加从歌曲tag中获取专辑图片、歌词功能。<br>
-	<li>2011-10-17 解决上次没解决的问题。新增甩歌功能。<br>
-	<li>2011-10-01 继续优化界面，新增动画效果，新增设置选项，但未利用，下一次更新解决。歌曲列表改在单独界面显示，为以后加
-		入其他列表做准备；歌词显示由交叉双行改为全部显示，并实现了滚动效果；又将歌词服务器从百度变为搜搜，下载速度更快，歌词质量变优；修复若干潜在bug；优化代码等。<br>
-	<li>V2.3 2011-09-23
-		修复原来那个性能很差的歌词解析器，兼容性得到极大提高，增加联网下载歌词功能，增加歌曲列表搜索功能，优化
-		界面，采用类似于桌面滑屏的界面效果，新增睡眠定时等；修复bug<br>
-	<li>2011-08-09 摒弃以前的设计风格，继续美化界面，提高操作体验，优化代码，修复若干潜在bug<br>
-	<li>2011-08-01
-		加入歌词双行显示（算法不太完善）；加入专辑图片显示；歌曲列表改由右侧隐藏，并可以随时拉出；修复其他bug<br>
-	<li>2011-07-28 歌曲列表加入图标、艺术家、时间信息；左键菜单加入图标；歌曲不再由程序负责扫描，从系统数据库直接获得<br>
-	<li>2011-07-26 播放线程放到后台以服务形式进行；修复bug等；V1.1beta完成<br>
-	<li>2011-07-21 加入随机播放、睡眠定时功能<br>
-	<li>2011-07-20 V1.0基础功能写完
+<li>V2.7.1 2012-10-19 优化歌曲信息修改界面，支持内嵌ID3V2.3信息，读取ID3V1信息；用C++重写用到jni的本地代码,修复了其中若干Bug;优化歌曲信息查看界面;新增柱状频谱显示功能(测试阶段);修复视频播放崩溃的BUG，视频播放更改成横屏模式；修复随机播放状态下,点播歌曲出错的Bug；新增列表视图中当前歌曲位置高亮功能；修复频谱显示在无声或低声状态不显示的Bug;新增对预置均衡器更改的支持;更改歌曲信息来源：豆瓣网+Last.Fm;去除自动下载歌曲信息功能,改为用户主动要求加载；歌曲信息存放处从内置数据库改为SD卡，以防程序卸载后丢失<br>
+<li>V2.7.0 2012-10-13 更新播放界面布局，部分采用MIUI播放器的元素；修复桌面widget首次不更新的Bug;修复ID3tag的内嵌图片解析Bug,修改歌词服务器，歌词模糊搜索可以返回多条结果待选；新增APP升级提示操作界面，界面更加优美。<br>
+<li>V2.6.7 2012-10-11 修复上一版本中service无法超时销毁的bug，修复歌曲断点问题；修复点击桌面widget进入程序导致崩溃的bug;从此版本将使用android系统Actionbar，不再使用SherlockActionbar，因此程序最低版本改为sdkver=11，即仅支持android 3.0+，低版本将不再更新。<br>
+<li>V2.6.6 2012-09-29 修复对媒体键的支持，兼容MIUI的锁屏音乐控制功能；修复拔出耳机程序自启动的问题；去除一些繁琐的非必要的功能(如横屏功能等)；调整程序的大部分结构(对面向对象编程有了进一步认识，工作仍在继续...)<br>
+<li>V2.6.5 2012-06-01 增加视频列表及播放界面支持；新增桌面歌词;列表更改为win8 metro风格，播放界面提供更多简洁菜单（此 版本未发布，仅提供初期预览）<br>
+<li>V2.6.4 2012-05-06 修复preference中个别选项改变后没有效果的bug（如wifi选项）;新增"最近添加"列表;个人列表数量降至4 个;封装Lrcview和ListProvider两个类，内部逻辑更加清晰;更改历史列表位置到系统数据库；新增收藏列表及设置铃声功能；重新整理了其他处代码;修改随机列表的实现逻辑;修复上版修改过程中的逻辑错误（如歌手信息的下载与存贮）；修复由于旋转屏幕偶尔发生的崩溃现象；修复其他个别问题<br>
+<li>V2.6.3 2012-04-24 仿ttpod的列表基本完成，个别地方功能未完成；修复睡眠定时功能;改善UI；更新桌面Widget;从此版开始依赖actionbarsherlock项目支持<br>
+<li>V2.6.2 2012-04-19 新增语音搜索支持，优化模糊搜歌性能(未发布)<br>
+<li>V2.6.1 2012-04-13 高仿天天动听歌曲列表，工作半途中，期待。。。（未发布）<br>
+<li>V2.6.0 2012-04-01 主界面增加抽屉效果;设置里增加wifi支持选项;歌曲列表可左右滑屏翻页（此版未发布，作废）<br>
+<li>V2.5.91 2012-03-24 修改定时功能：提前30秒提示，亦可中断定时;修复恢复歌曲最后断点而偶尔出现的内存溢出问题，修复修改完歌曲信息后不更新的问题；增加“屏幕旋转”可选选项（此版仍在自测，未发布）<br>
+<li>V2.5.9 2012-03-20 增加一些小功能：点击列表会自动跳转到正在播放的列表视图；专辑、艺术家、个人列表视图中可以长按该条目来播放一组歌曲；程序检查更新时会显示最新版本的特性；修复歌词渐变时，歌词颜色不响应颜色设置里的颜色变化；修复歌曲播放完毕后自动切换偶尔带来的内存溢出问题；完善歌曲断点记忆功能;<br>
+<li>v2.5.8 2012-03-15 改变横屏布局。<br>
+<li>V2.5.7 2012-03-03 升级列表，增加艺术家和专辑列表以及个人列表，优化内存占用，修复歌曲信息网络匹配时出现的崩溃问题；解决多屏幕尺寸的适配问题，现在支持各屏幕尺寸了；重写屏幕旋转代码。<br>
+<li>V2.5.4 增加桌面widget支持，新增版本检查和更新，修正若干潜在错误。<br>
+<li>V2.5 春节版 2012-01-12~01-28 更换歌词服务器地址，更改程序部分框架，增加preference选择项，新增lrc歌词的显示效果和相关功能等。去除庞大外部支持库，改为JNI调用。更改主界面使其更简洁，修正部分bug<br>
+<li>V2.4 2011-11-15 新增网络支持模块，支持歌手图片下载，支持歌手传记下载，支持歌曲信息网络适配，改善快速搜歌性能。列表支持批量删除。增加从歌曲tag中获取专辑图片、歌词功能。<br>
+<li>2011-10-17 解决上次没解决的问题。新增甩歌功能。<br>
+<li>2011-10-01 继续优化界面，新增动画效果，新增设置选项，但未利用，下一次更新解决。歌曲列表改在单独界面显示，为以后加入其他列表做准备；歌词显示由交叉双行改为全部显示，并实现了滚动效果；又将歌词服务器从百度变为搜搜，下载速度更快，歌词质量变优；修复若干潜在bug；优化代码等。<br>
+<li>V2.3 2011-09-23 修复原来那个性能很差的歌词解析器，兼容性得到极大提高，增加联网下载歌词功能，增加歌曲列表搜索功能，优化界面，采用类似于桌面滑屏的界面效果，新增睡眠定时等；修复bug<br>
+<li>2011-08-09 摒弃以前的设计风格，继续美化界面，提高操作体验，优化代码，修复若干潜在bug<br>
+<li>2011-08-01 加入歌词双行显示（算法不太完善）；加入专辑图片显示；歌曲列表改由右侧隐藏，并可以随时拉出；修复其他bug<br>
+<li>2011-07-28 歌曲列表加入图标、艺术家、时间信息；左键菜单加入图标；歌曲不再由程序负责扫描，从系统数据库直接获得<br>
+<li>2011-07-26 播放线程放到后台以服务形式进行；修复bug等；V1.1beta完成<br>
+<li>2011-07-21 加入随机播放、睡眠定时功能<br>
+<li>2011-07-20 V1.0基础功能写完
 </ul>
 <p>
-	<i>Copyright QYLK 2008-2012</i>
+<i>Copyright QYLK 2008-2012</i>
 </p>
-<p>This program is free software: you can redistribute it and/or
-	modify it under the terms of the GNU General Public License as
-	published by the Free Software Foundation, either version 3 of the
-	License, or (at your option) any later version.</p>
-<p>This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License
-	along with this program. If not, see http://www.gnu.org/licenses/.</p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.</p>
 <p>
-	Get a copy at Google Code Page:<a title=""
-		href="http://code.google.com/p/qylk2011/"><strong>http://code.google.com/p/qylk2011/</strong></a>
+Get a copy at Google Code Page:<a title="" href="http://code.google.com/p/qylk2011/"><strong>http://code.google.com/p/qylk2011/</strong></a>
 </p>
+<p>Visit my Blog Page for more:<a title="" href="http://www.qylk.blog.163.com/"><b>http://www.qylk.blog.163.com</b></a></p>
+<p>This player is for Android 2.2+,and it's compiled under android API level-15.Now it is still on its middle stage and not that stable on all devices,but this developer will try to make it more compatible、functional and beautiful as well.</p>
+<p>if you have tried ttpod music player,you will find this player is so similar with it.That's correct,this developer just imitates that appearance,but it's code may not similar with that as this developer;can not acess to ttpod resource.</p>
+<p>this project starts on 2011-07-15 approximately,when this developer knew nothing about android and java.But with great interest and confidence,the developer started this discovery jounery .This project just indicates the developer's process and progress of learning.</p>
+<p>As this project is not for commercial,but studying android application programming,so how the app looks like is not that important.</p>
 <p>
-	Visit my Blog Page for more:<a title=""
-		href="http://www.qylk.blog.163.com/"><b>http://www.qylk.blog.163.com</b></a>
-</p>
-<p>This player is for Android 2.2+,and it's compiled under android
-	API level-15.Now it is still on its middle stage and not that stable on
-	all devices,but this developer will try to make it more
-	compatible、functional and beautiful as well.</p>
-<p>if you have tried ttpod music player,you will find this player is
-	so similar with it.That's correct,this developer just imitates that
-	appearance,but it's code may not similar with that as this
-	developer;can not acess to ttpod resource.</p>
-<p>this project starts on 2011-07-15 approximately,when this
-	developer knew nothing about android and java.But with great interest
-	and confidence,the developer started this discovery jounery .This
-	project just indicates the developer's process and progress of
-	learning.</p>
-<p>As this project is not for commercial,but studying android
-	application programming,so how the app looks like is not that
-	important.</p>
-<p>
-	<strong>features:</strong>
+<strong>features:</strong>
 </p>
 <ul>
-	<li>similar to miui mediaplayer</li>
-	<li>HD album pictures and lyrics</li>
-	<li>support voice search</li>
-	<li>faster than most other players in the same level</li>
+<li>similar to miui mediaplayer</li>
+<li>HD album pictures and lyrics</li>
+<li>support voice search</li>
+<li>faster than most other players in the same level</li>
 </ul>
-<p><i><font color="#ff0000">Tips: while playing,downloading
-			high definition album pictures may consumes much data and if you use
-			2G network,this will partly affect the performance;</font></i></p>
+<p><i><font color="#ff0000">Tips: while playing,downloading high definition album pictures may consumes much data and if you use GSM network,this will partly affect the performance;</font></i></p>

@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import cn.qylk.app.APP;
 import cn.qylk.app.TrackInfo;
 import cn.qylk.database.DataBaseService;
+import cn.qylk.douban.douban;
 import cn.qylk.utils.BitmapUtils;
 import cn.qylk.utils.SDFileWriter;
 import cn.qylk.utils.StringUtils;
@@ -25,8 +26,21 @@ import cn.qylk.utils.WebUtils;
 public class ArtistInfo {
 	public native static boolean ApicFromTag(String artist, String path);// 从tag标签中获取歌词（JNI调用）
 
-	public static String GetInfoFromDatabase(String artist) {
-		return DataBaseService.GetArtistInfo(artist);
+	private static String fetchSummary(TrackInfo track) {
+		try {
+			String id = douban.TrackSearch(track.artist, track.title);
+			if (id != null) {
+				String smy = douban.LoadSummary(id);
+				StringUtils.WriteStringToDisk(smy,
+						StringUtils.GetInfosPath(track.title));
+				return smy;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -35,24 +49,33 @@ public class ArtistInfo {
 	 * @param artist
 	 * @return
 	 */
-	public static boolean TryToGetInfo(String artist) {
-		if (artist.contains("unknow"))
-			return false;
-		int resultcode = DataBaseService.BIOHistoryQuery(artist);
-		if (resultcode == DataBaseService.BIO_UNSET
-				&& APP.Config.BioDownloadEnable) {
-			try {
-				String info = JsonParser.ParseInfo(
-						Lastfm.ArtistInfoSearch(artist), artist);
-				DataBaseService.RecordBio(artist, info, true);
-				return true;
-			} catch (JSONException e0) {// 解析异常
-				// 记录异常，下次不再尝试
-				DataBaseService.RecordBio(artist, null, false);
-			} catch (IOException e) {
-			}
+	public static String TryToGetInfo(TrackInfo track) {
+		if (track.artist.contains("unknow"))
+			return "未知";
+		File summaryfile = StringUtils.GetInfosPath(track.title);
+		File summaryfile2 = StringUtils.GetInfosPath(track.artist);
+		if (summaryfile.exists()) {
+			return StringUtils.ReadFileContent(summaryfile);
+		} else if (summaryfile2.exists()) {
+			return StringUtils.ReadFileContent(summaryfile2);
+		} else {
+			String sumary = fetchSummary(track);
+			if (sumary != null)
+				return sumary;
+			else
+				try {
+					sumary = JsonParser
+							.ParseInfo(Lastfm.ArtistInfoSearch(track.artist),
+									track.artist);
+					StringUtils.WriteStringToDisk(sumary,
+							StringUtils.GetInfosPath(track.artist));
+					return sumary;
+				} catch (JSONException e0) {// 解析异常
+				} catch (IOException e) {
+					return "错误";
+				}
 		}
-		return resultcode == DataBaseService.BIO_SUC;
+		return "无";
 	}
 
 	/**

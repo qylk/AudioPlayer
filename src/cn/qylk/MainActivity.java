@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,6 +40,7 @@ import cn.qylk.app.MyAction;
 import cn.qylk.app.PlayList;
 import cn.qylk.app.SensorTest;
 import cn.qylk.app.Tasks;
+import cn.qylk.app.Tasks.onPostInfo;
 import cn.qylk.app.Tasks.onPostLrc;
 import cn.qylk.app.Tasks.onPostPic;
 import cn.qylk.app.TrackInfo;
@@ -51,7 +51,6 @@ import cn.qylk.fragment.Fragment_MusicControls;
 import cn.qylk.lrc.LRCbean;
 import cn.qylk.lrc.MediaLyric;
 import cn.qylk.lrc.ModifyLyric;
-import cn.qylk.media.ArtistInfo;
 import cn.qylk.myview.LrcPackage;
 import cn.qylk.myview.LrcView;
 import cn.qylk.myview.VisualizerView;
@@ -67,7 +66,7 @@ import cn.qylk.utils.SendAction.ServiceControl;
  *         all rights resolved
  */
 public class MainActivity extends Activity implements View.OnClickListener,
-		onPostPic, onPostLrc {
+		onPostPic, onPostLrc, onPostInfo {
 	private class Receiver extends BroadcastReceiver {// 当后台播放下一首歌后，通知UI
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -126,7 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		updateUI();
 		StartLoad(-1);
 		tasks.startPicTask(this, false);
-		lrcview.clearView();	
+		lrcview.clearView();
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	 */
 	public void StartLoad(int id) {
 		SetTitle();
-		tasks.startInfoTask();
+		// tasks.startInfoTask();
 		tasks.startLrcTask(this, id);
 	}
 
@@ -232,7 +231,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void onBackPressed() {
 		if (panelopened)
-			showInfo();
+			showInfo2();
 		else
 			super.onBackPressed();
 	}
@@ -322,7 +321,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			menuview.startAnimation(animationdown);
 		} else {
 			if (panelopened)
-				showInfo();
+				showInfo2();
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			Fragment_Menus me = new Fragment_Menus();
 			ft.setCustomAnimations(R.anim.intest, R.anim.outtest);
@@ -347,9 +346,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	public void setupVisualizerFxAndUi() {
-		int id=Service.getAudioSessionId();
-		Log.i("TEST", id+"--------");
-		mVisualizer = new Visualizer(id);
+		mVisualizer = new Visualizer(Service.getAudioSessionId());
 		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 		mVisualizer.setDataCaptureListener(new OnDataCaptureListener() {
 			@Override
@@ -443,12 +440,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			SensorTest.getInstance().StopService();// 暂停服务
 	}
 
-	/**
-	 * 显示歌曲信息板
-	 */
-	public void showInfo() {
+	public void showInfo2() {
 		final View v = findViewById(R.id.infoarea);
-		final TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
 		panelopened = !panelopened;
 		if (!panelopened) {
 			Animation animation = AnimationUtils.loadAnimation(this,
@@ -458,6 +451,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					v.setVisibility(View.INVISIBLE);
+					TextView infoText = (TextView) findViewById(R.id.trackinfo);
+					infoText.setText("");
+					TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
 					artistinfo.setText("");
 				}
 
@@ -472,18 +468,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			v.startAnimation(animation);
 			return;
 		} else {
-			artistinfo.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					showInfo();
-				}
-			});
 			Animation animation = AnimationUtils.loadAnimation(this,
 					R.anim.show);
 			v.setVisibility(View.VISIBLE);
 			v.startAnimation(animation);
 		}
+		TextView infoText = (TextView) findViewById(R.id.trackinfo);
 		StringBuilder sb = new StringBuilder();
 		String trackinfo = String.format(
 				"曲名:%s\n艺术家:%s\n专辑:%s\n类型:%s\n大小:%.1f MB\n发行期:%s\n路径:%s\n",
@@ -494,9 +484,71 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		sb.append("\r\n\r\n【");
 		sb.append(trackentity.artist);
 		sb.append("信息】\r\n");
-		sb.append(ArtistInfo.GetInfoFromDatabase(trackentity.artist));
-		artistinfo.setText(sb.toString());
+		infoText.setText(sb.toString());
+		findViewById(R.id.waitposbar).setVisibility(View.VISIBLE);
+		tasks.startInfoTask2(this);
 	}
+
+	private void showInfo3(String info) {
+		findViewById(R.id.waitposbar).setVisibility(View.GONE);
+		TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
+		artistinfo.setText(info);
+	}
+
+	// /**
+	// * 显示歌曲信息板
+	// */
+	// public void showInfo() {
+	// final View v = findViewById(R.id.infoarea);
+	// final TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
+	// panelopened = !panelopened;
+	// if (!panelopened) {
+	// Animation animation = AnimationUtils.loadAnimation(this,
+	// R.anim.hide);
+	// animation.setAnimationListener(new AnimationListener() {
+	//
+	// @Override
+	// public void onAnimationEnd(Animation animation) {
+	// v.setVisibility(View.INVISIBLE);
+	// artistinfo.setText("");
+	// }
+	//
+	// @Override
+	// public void onAnimationRepeat(Animation animation) {
+	// }
+	//
+	// @Override
+	// public void onAnimationStart(Animation animation) {
+	// }
+	// });
+	// v.startAnimation(animation);
+	// return;
+	// } else {
+	// artistinfo.setOnClickListener(new View.OnClickListener() {
+	//
+	// @Override
+	// public void onClick(View v) {
+	// showInfo();
+	// }
+	// });
+	// Animation animation = AnimationUtils.loadAnimation(this,
+	// R.anim.show);
+	// v.setVisibility(View.VISIBLE);
+	// v.startAnimation(animation);
+	// }
+	// StringBuilder sb = new StringBuilder();
+	// String trackinfo = String.format(
+	// "曲名:%s\n艺术家:%s\n专辑:%s\n类型:%s\n大小:%.1f MB\n发行期:%s\n路径:%s\n",
+	// trackentity.title, trackentity.artist, trackentity.album,
+	// trackentity.mimetype, 1.0f * trackentity.size / 1024 / 1024,
+	// trackentity.year, trackentity.path);
+	// sb.append(trackinfo);
+	// sb.append("\r\n\r\n【");
+	// sb.append(trackentity.artist);
+	// sb.append("信息】\r\n");
+	// sb.append(ArtistInfo.GetInfoFromDatabase(trackentity.artist));
+	// artistinfo.setText(sb.toString());
+	// }
 
 	public void showLrcAdjustbtns() {
 		if (haslrc)
@@ -549,5 +601,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		controls.updateViewElements(duration);
 		nexttitle.setText(list.getNextTitle());// 下一曲:
 		picshow.setImageResource(R.drawable.loading);// 显示加载图标
+	}
+
+	@Override
+	public void onInfoGot(String info) {
+		showInfo3(info);
 	}
 }

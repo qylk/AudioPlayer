@@ -52,13 +52,6 @@
         </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="@string/pk_bio"
-            android:summaryOff="@string/ps_bio"
-            android:summaryOn="@string/ps_bio"
-            android:title="@string/pt_bio" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
             android:key="@string/pk_eqpanel"
             android:summaryOff="@string/ps_eqpanel"
             android:summaryOn="@string/ps_eqpanel"

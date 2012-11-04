@@ -10,20 +10,30 @@ import cn.qylk.lrc.MediaLyric;
 import cn.qylk.media.ArtistInfo;
 
 public class Tasks {
+	private boolean isacting;
 
-	private class InfoTask extends AsyncTask<Void, Void, Void> {
+	private class InfoTask2 extends AsyncTask<Void, Void, String> {
 
 		@Override
-		protected Void doInBackground(Void... params) {
-			ArtistInfo.TryToGetInfo(APP.list.getTrackEntity().artist);
-			return null;
+		protected String doInBackground(Void... params) {
+			return ArtistInfo.TryToGetInfo(APP.list.getTrackEntity());
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (postinfo != null)
+				postinfo.onInfoGot(result);
+			isacting = false;
+			super.onPostExecute(result);
 		}
 	}
+
 	private class LocalLrcTask extends AsyncTask<Integer, Void, List<LRCbean>> {
 		private boolean usedweb;
+
 		@Override
 		protected List<LRCbean> doInBackground(Integer... params) {
-			usedweb=(params[0]>=0);
+			usedweb = (params[0] >= 0);
 			return MediaLyric.FetchLyric(APP.list.getTrackEntity(), params[0]);
 		}
 
@@ -31,9 +41,10 @@ public class Tasks {
 		protected void onPostExecute(List<LRCbean> result) {
 			super.onPostExecute(result);
 			if (postlrc != null)
-				postlrc.onLrcGot(result,usedweb);
+				postlrc.onLrcGot(result, usedweb);
 		}
 	}
+
 	private class LrcSearchTask extends
 			AsyncTask<Boolean, Void, List<LyricResults>> {
 
@@ -51,7 +62,11 @@ public class Tasks {
 	}
 
 	public interface onPostLrc {
-		public void onLrcGot(List<LRCbean> lrc,boolean usedweb);
+		public void onLrcGot(List<LRCbean> lrc, boolean usedweb);
+	}
+
+	public interface onPostInfo {
+		public void onInfoGot(String info);
 	}
 
 	public interface onPostLrcItems {
@@ -77,13 +92,17 @@ public class Tasks {
 	}
 
 	private onPostLrc postlrc;
-
+	private onPostInfo postinfo;
 	private onPostLrcItems postlrcsearch;
 
 	private onPostPic postpic;
 
-	public void startInfoTask() {
-		new InfoTask().execute();
+	public void startInfoTask2(onPostInfo pi) {
+		if (isacting)
+			return;
+		postinfo = pi;
+		isacting = true;
+		new InfoTask2().execute();
 	}
 
 	public void startLrcSearchTask(onPostLrcItems pls) {

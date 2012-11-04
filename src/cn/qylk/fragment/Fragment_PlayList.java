@@ -128,25 +128,16 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 		return MediaDatabase.GetCursor(ListInfo);
 	}
 
-	/**
-	 * 取得列表
-	 * 
-	 * @param inflater
-	 */
-	private void GetList(LayoutInflater inflater) {
-		adapter = new MusicListAdapter(inflater, getCursor());// 适配器
-		musiclist.setAdapter(adapter);// 绑定
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.listview, null);
 		musiclist = (ListView) view.findViewById(R.id.mlt);
-		GetList(inflater);
+		adapter = new MusicListAdapter(inflater, getCursor());// 适配器
+		musiclist.setAdapter(adapter);// 绑定
 		musiclist.setOnItemClickListener(this);
 		musiclist.setOnItemLongClickListener(this);
-		musiclist.setSelectionFromTop(APP.list.getIndex(), 150);
+		
 		handler = new Handler() {
 
 			@Override
@@ -155,7 +146,14 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 				super.handleMessage(msg);
 			}
 		};
+		UpdateList();
+		musiclist.setSelectionFromTop(APP.list.getIndex(), 150);
 		return view;
+	}
+
+	public void UpdateList() {
+		adapter.setCurId(APP.list.getId());
+		adapter.notifyDataSetInvalidated();
 	}
 
 	@Override

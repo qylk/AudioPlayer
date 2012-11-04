@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -84,14 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	private Visualizer mVisualizer;
 	private Fragment_MusicControls controls;
 	private TextView ctitle, artist, nexttitle, nolrctip;
-	private Handler handler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			DealNew();
-			super.handleMessage(msg);
-		}
-	};
+	private Handler handler;
 	private boolean haslrc;
 	private PlayList list;
 	private LinearLayout lrcadj;
@@ -132,8 +126,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		updateUI();
 		StartLoad(-1);
 		tasks.startPicTask(this, false);
-		lrcview.clearView();
-
+		lrcview.clearView();	
 	}
 
 	/**
@@ -168,6 +161,14 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		controls = new Fragment_MusicControls();
 		transcation.replace(R.id.content, controls);
 		transcation.commit();
+		handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				DealNew();
+				super.handleMessage(msg);
+			}
+		};
 	}
 
 	private void LoadConfig() {
@@ -346,10 +347,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	public void setupVisualizerFxAndUi() {
-		mVisualizer = new Visualizer(Service.getplayer().getAudioSessionId());
-		// 参数内必须是2的位
-		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
-		// 设置允许波形表示，并且捕获它
+		int id=Service.getAudioSessionId();
+		Log.i("TEST", id+"--------");
+		mVisualizer = new Visualizer(id);
+		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 		mVisualizer.setDataCaptureListener(new OnDataCaptureListener() {
 			@Override
 			public void onWaveFormDataCapture(Visualizer visualizer,

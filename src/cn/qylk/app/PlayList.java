@@ -85,10 +85,13 @@ public class PlayList implements IPlayList, Serializable {
 	}
 
 	public void setListType(ListTypeInfo info) {
-		if (typeinfo == null || !info.para.equals(typeinfo.para)) {
+		if (mode == PlayMode.Shuffle)//当前正处于随机播放中，当用户从列表界面选择歌曲时，需要更改为顺序播放。
+			setMode(PlayMode.Normal);
+		if (typeinfo == null || !info.para.equals(typeinfo.para)) {// 条件1：typeinfo==null,即初次建表，条件2：列表参数不同
 			this.ids = MediaDatabase.getIDS(info);
 			sum = ids.size();
 			this.typeinfo = info;
+			mode = PlayMode.Normal;
 		} else
 			typeinfo.pos = info.pos;
 		if (info.pos >= sum)

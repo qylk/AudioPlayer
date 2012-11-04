@@ -27,6 +27,12 @@
             android:layout_weight="1"
             android:src="@drawable/tool_favorite_off" />
         <ImageView
+            android:id="@+id/seteq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/tool_equalizer_on" />
+        <ImageView
             android:id="@+id/openinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

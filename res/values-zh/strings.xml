@@ -14,7 +14,7 @@
     <string name="quicksearch">点播</string>
     <string name="readtag1">尝试ID3V1</string>
      <string name="pk_eqpanel">eqpanel</string>
-     <string name="pt_eqpanel">波形图</string>
+     <string name="pt_eqpanel">音乐频谱</string>
     <string name="sleep">睡眠定时</string>
      <string name="writetag">信息嵌入文件</string>
     <string name="adjustlrc">调整歌词</string>
@@ -35,7 +35,7 @@
     <string name="pt_bio">自动加载艺术家信息</string>
     <string name="ps_bio">消耗不了多少流量，播放界面点击【i按钮】查看信息， 源自LAST.FM音乐服务</string>
     <string name="nolibrary">没检测到数据库存在</string>
-    <string name="ps_eqpanel">在播放界面显示歌曲声音波形，这暂时只是个测试，点此关闭此功能</string>
+    <string name="ps_eqpanel">在播放界面显示歌曲频谱，此功能暂时处于测试阶段，点此关闭此功能</string>
     <string name="pt_lrc_shadow">歌词卡拉OK效果</string>
     <string name="ps_lrc_shadow">这个可以试试看哦</string>
     <string name="pt_lrc_color">歌词高亮颜色</string>

@@ -77,7 +77,7 @@ public class Fragment_ArtistAlbumList extends Fragment implements
 				.getFragmentManager().beginTransaction();
 		fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
 		fragmentTransaction.replace(R.id.realtabcontent,
-				new Fragment_PlayList(new ListTypeInfo(type, adapter.getCursor().getString(0))));
+				new Fragment_PlayList(new ListTypeInfo(type, adapter.getCursor().getString(0))),"list");
 		 fragmentTransaction
 		 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		fragmentTransaction.addToBackStack(null);

@@ -25,7 +25,7 @@ public class Fragment_ListCategory extends Fragment implements
 		case R.id.lib:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.ALLSONGS,
-							"all")));
+							"all")), "list");
 			break;
 		case R.id.artists:
 			fragmentTransaction.replace(R.id.realtabcontent,
@@ -38,22 +38,22 @@ public class Fragment_ListCategory extends Fragment implements
 		case R.id.fav:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.LOVE,
-							String.valueOf(-1))));
+							String.valueOf(-1))), "list");
 			break;
 		case R.id.newadd:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.RECENTADD,
-							"rec")));
+							"rec")), "list");
 			break;
 		case R.id.history:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.HISTORY,
-							"his")));
+							"his")), "list");
 			break;
 		case R.id.searchopen:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(
-							new ListTypeInfo(ListType.SEARCH, "?")));
+							new ListTypeInfo(ListType.SEARCH, "?")), "list");
 			break;
 		default:
 			break;

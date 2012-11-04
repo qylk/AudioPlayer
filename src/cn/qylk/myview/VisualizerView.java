@@ -55,7 +55,7 @@ public class VisualizerView extends View {
 
 	public void updateVisualizer(byte[] fft) {
 		// FFT数据详见public int getFft (byte[] fft)方法解释;
-		// 以下做了非标准FFT显示处理.只是为了达到较佳的效果
+		// 以下做了非标准FFT显示处理.只是为了达到较佳的显示效果
 		for (int i = 0, j = 0; j < mSpectrumNum; j++) {
 			mBytes[j] = (byte) ((Math.hypot(fft[i], fft[i + 1]) / scalefit));
 			i += 1;
@@ -86,8 +86,8 @@ public class VisualizerView extends View {
 				toppoint[i] += 4;
 			if (toppoint[i] > height - 4)
 				toppoint[i] = height - 4;
-			canvas.drawRect(xi - 3, toppoint[i], xi + 3,
-					toppoint[i] + 2, poPaint);
+			canvas.drawRect(xi - 3, toppoint[i], xi + 3, toppoint[i] + 2,
+					poPaint);
 		}
 		canvas.drawLines(mPoints, mForePaint);
 	}

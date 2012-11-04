@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.media.audiofx.Equalizer;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -88,7 +89,7 @@ public class LocalService extends Service { // 服务
 		public void ontimeout(int pos);
 	}
 
-	private static final int NOTIFICATION_ID = -1;
+	private static final int NOTIFICATION_ID = 4332;
 	private MyBinder binder = new MyBinder();
 	/**
 	 * 播放远程控制
@@ -139,6 +140,7 @@ public class LocalService extends Service { // 服务
 	private TrackInfo track;
 	private WakeLock wakeLock;// 用于阻止睡眠的锁
 	private boolean flag;
+	private Equalizer eq;
 
 	/**
 	 * 调整音量
@@ -147,9 +149,8 @@ public class LocalService extends Service { // 服务
 	 *            ：(以100为最大值)
 	 */
 	public void AdjVolume(int value) {
-		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);// 音频服务
-		am.setStreamVolume(AudioManager.STREAM_MUSIC, (int) SysMaxVolume
-				* value / 100, 0);
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+				(int) SysMaxVolume * value / 100, 0);
 	}
 
 	private void cancelNotification() {
@@ -182,21 +183,20 @@ public class LocalService extends Service { // 服务
 	}
 
 	private int getSysMaxVolume() {
-		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);// 音频服务
-		return am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);// 系统音量最大值，并非100
+		return mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);// 系统音量最大值，并非100
 	}
 
 	/**
 	 * 获取音频流音量，已换算成百分制，以100为最大音量
 	 */
 	public int getVolume() {
-		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);// 音频服务
-		return (int) am.getStreamVolume(AudioManager.STREAM_MUSIC) * 100
-				/ SysMaxVolume;
+		return (int) mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+				* 100 / SysMaxVolume;
 	}
 
-	public MediaPlayer getplayer() {
-		return mPlayer;
+	public int getAudioSessionId() {
+
+		return mPlayer.getAudioSessionId();
 	}
 
 	/**
@@ -287,7 +287,6 @@ public class LocalService extends Service { // 服务
 		filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 		registerReceiver(Control, filter);// 注册广播接收器
 
-		SysMaxVolume = getSysMaxVolume();
 		TelephonyManager manager = (TelephonyManager) this
 				.getSystemService(TELEPHONY_SERVICE);
 		manager.listen(new T_Receiver(), PhoneStateListener.LISTEN_CALL_STATE);// 监听电话状态
@@ -307,10 +306,13 @@ public class LocalService extends Service { // 服务
 			}
 		});
 		InitMediaStatus();
+		eq = new Equalizer(0, getAudioSessionId());
+		eq.setEnabled(true);// 启用均衡器
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mbCN = new ComponentName(getPackageName(),
 				PublicReceiver.class.getName());
 		mAudioManager.registerMediaButtonEventReceiver(mbCN);// 注册一个MedioButtonReceiver广播监听
+		SysMaxVolume = getSysMaxVolume();
 		startTimer();
 		Log.v("TEST", "Service Created");
 	}
@@ -320,8 +322,8 @@ public class LocalService extends Service { // 服务
 		super.onDestroy();
 		timercancel();
 		cancelNotification();
-		SleepTimer.getInstance().cancel();
-		APP.Config.StoreLast(GetMediaPos());
+		SleepTimer.getInstance().cancel();// 取消睡眠定时器
+		APP.Config.StoreLast(GetMediaPos());// 存储断点
 		SendStatusChanged(false);
 		if (wakeLock != null) {
 			wakeLock.release();// 释放睡眠锁
@@ -331,8 +333,8 @@ public class LocalService extends Service { // 服务
 		mPlayer.release();
 		mAudioManager.unregisterMediaButtonEventReceiver(mbCN);
 		unregisterReceiver(Control);// 解注册
-		DesktopLrc(false);
-		SensorTest.getInstance().StopService();
+		DesktopLrc(false);// 关闭桌面歌词
+		SensorTest.getInstance().StopService();// 关闭感应器
 		Log.v("TEST", "Service Destory");
 	}
 
@@ -340,15 +342,6 @@ public class LocalService extends Service { // 服务
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		return START_NOT_STICKY;// 非粘滞
 	}
-
-	// public void effect() {
-	// Equalizer mEqualizer = new Equalizer(0, mPlayer.getAudioSessionId());
-	// mEqualizer.setEnabled(true);
-	// short bands = mEqualizer.getNumberOfBands();
-	// short minEQLevel = mEqualizer.getBandLevelRange()[0];
-	// short maxEQLevel = mEqualizer.getBandLevelRange()[1];
-	// mEqualizer.setBandLevel(band, (short) data);
-	// }
 
 	/**
 	 * 暂停或继续
@@ -391,6 +384,11 @@ public class LocalService extends Service { // 服务
 		play();
 	}
 
+	/**
+	 * 播发歌曲进度
+	 * 
+	 * @param pos
+	 */
 	private void sendPosition(int pos) {
 		i = 0;
 		Intent intent = new Intent(MyAction.INTENT_POSITION);
@@ -423,6 +421,25 @@ public class LocalService extends Service { // 服务
 		timer.schedule(new task(), 0, 100);
 	}
 
+	/**
+	 * 获取当前的预置EQ
+	 * 
+	 * @return
+	 */
+	public short getEQ() {
+		return eq.getCurrentPreset();
+	}
+
+	/**
+	 * 设置预置EQ
+	 * 
+	 * @param preset
+	 *            :The valid range is [0, 9]
+	 */
+	public void setEQ(short preset) {
+		eq.usePreset(preset);
+	}
+
 	public void timercancel() {
 		if (timer != null) {
 			timer.cancel();
@@ -431,6 +448,12 @@ public class LocalService extends Service { // 服务
 		}
 	}
 
+	/**
+	 * 设置更改ID3V2的消息标志，此动作将在歌曲播放完以后执行
+	 * 
+	 * @param rw
+	 *            ：false to cancel this msg
+	 */
 	public void setRWFlag(boolean rw) {
 		this.flag = rw;
 	}

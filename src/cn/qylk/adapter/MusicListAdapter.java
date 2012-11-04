@@ -3,6 +3,7 @@ package cn.qylk.adapter;
 import java.util.HashSet;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class MusicListAdapter extends BaseAdapter {
 	private Cursor myCur;
 	private boolean OnActionMode;
 	private HashSet<Integer> selectedlist;
+	private int curID;
 
 	public MusicListAdapter(LayoutInflater Inflater, Cursor cur) {
 		myCur = cur;
@@ -85,6 +87,7 @@ public class MusicListAdapter extends BaseAdapter {
 
 	/**
 	 * 是否处于ActionMode状态
+	 * 
 	 * @return
 	 */
 	public boolean getState() {
@@ -111,7 +114,15 @@ public class MusicListAdapter extends BaseAdapter {
 				.append('.').append(myCur.getString(TITLE).trim());// 序号加标题
 		holder.show.setImageResource(R.drawable.songimage);// 歌曲图标
 		holder.title.setText(sb.toString());// 标题
+		int id = myCur.getInt(_ID);
 		holder.artist.setText(myCur.getString(ARTIST));// 艺术家显示
+		if (curID == id) {
+			holder.title.setTextColor(Color.BLUE);
+			holder.artist.setTextColor(Color.BLUE);
+		} else {
+			holder.title.setTextColor(Color.WHITE);
+			holder.artist.setTextColor(Color.WHITE);
+		}
 		holder.Cbox
 				.setBackgroundResource(innerList.get(position) ? R.drawable.checkbox_checked
 						: R.drawable.checkbox_unchecked);
@@ -120,6 +131,7 @@ public class MusicListAdapter extends BaseAdapter {
 
 	/**
 	 * 开启、关闭列表选择模式
+	 * 
 	 * @param true：ON<br>
 	 *        false:OFF
 	 * @param initpos
@@ -144,11 +156,13 @@ public class MusicListAdapter extends BaseAdapter {
 
 	/**
 	 * 切换ActionMode下的选择项
-	 * @param position 切换状态的位置
+	 * 
+	 * @param position
+	 *            切换状态的位置
 	 */
 	public void ToggleSelection(int position) {
 		myCur.moveToPosition(position);
-		int id=myCur.getInt(_ID);
+		int id = myCur.getInt(_ID);
 		if (innerList.get(position)) {
 			selectedlist.remove(id);
 			innerList.put(position, false);
@@ -157,5 +171,9 @@ public class MusicListAdapter extends BaseAdapter {
 			innerList.put(position, true);
 		}
 		notifyDataSetChanged();
+	}
+
+	public void setCurId(int id) {
+		curID = id;
 	}
 }

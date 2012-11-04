@@ -108,7 +108,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 			stopService(new Intent(MyAction.INTENT_START_SERVICE));
 		if (APP.Config.desklrc)
 			Service.DesktopLrc(true);
-		unbindService(ServiceConnector);// 解绑定	
+		unbindService(ServiceConnector);// 解绑定
 		Service = null;
 		finish();
 	}
@@ -250,7 +250,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 			getFragmentManager().popBackStack();
 		Fragment fragment = Fragment.instantiate(this,
 				((Class<?>) tab.getTag()).getName(), null);
-		ft.replace(R.id.realtabcontent, fragment);
+		ft.replace(R.id.realtabcontent, fragment, tab.getTag().toString());
 	}
 
 	@Override
@@ -283,5 +283,8 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 				.setImageResource(Service.IsPlaying() ? R.drawable.btn_pause_bg
 						: R.drawable.btn_play_bg);
 		new Tasks().startPicTask(ListUI.this, true);
+		Fragment plist = getFragmentManager().findFragmentByTag("list");
+		if (plist != null)
+			((Fragment_PlayList) plist).UpdateList();
 	}
 }

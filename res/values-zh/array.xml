@@ -3,8 +3,8 @@
     <string-array name="menu_item_name">
         <item>设置</item>
         <item>睡眠定时</item>
-        <item>搜索歌词</item>
-        <item>调整歌词</item>
+                <item>搜索歌词</item>
+                <item>调整歌词</item>
         <item>删除歌词</item>
         <item>刷新曲库</item>
  </string-array>
@@ -13,6 +13,18 @@
         <item>info</item>
         <item>remove</item>
         <item>share</item>
+    </string-array>
+    <string-array name="eqpresets">
+        <item>无效果</item>
+        <item>普通</item>
+        <item>古典</item>
+        <item>舞曲</item>
+        <item>民谣</item>
+        <item>重金属</item>
+        <item>嘻哈</item>
+        <item>爵士</item>
+        <item>流行</item>
+        <item>摇滚</item>
     </string-array>
     <string-array name="tab">
         <item>本地音乐</item>

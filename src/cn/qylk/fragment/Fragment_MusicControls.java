@@ -1,8 +1,10 @@
 package cn.qylk.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -43,8 +45,8 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 	private SeekBar posbar;
 	private PosReceiver posreceiver;
 	private LocalService Service = ListUI.Service;
-
-	private ImageView voicesearch, info, playorpause, love, next, pre, mode;
+	private ImageView voicesearch, info, playorpause, love, next, pre, mode,
+			eq;
 
 	private void InitView(View root) {
 		voicesearch = (ImageView) root.findViewById(R.id.voicesearch);
@@ -56,6 +58,7 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 		next = (ImageView) root.findViewById(R.id.next);
 		pre = (ImageView) root.findViewById(R.id.pre);
 		mode = (ImageView) root.findViewById(R.id.mode);
+		eq = (ImageView) root.findViewById(R.id.seteq);
 		posbar = (SeekBar) root.findViewById(R.id.progressbar);
 		info.setOnClickListener(this);
 		playorpause.setOnClickListener(this);
@@ -64,7 +67,7 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 		next.setOnClickListener(this);
 		pre.setOnClickListener(this);
 		love.setOnClickListener(this);
-
+		eq.setOnClickListener(this);
 		posreceiver = new PosReceiver();
 		IntentFilter filter = new IntentFilter();// 过滤器
 		filter.addAction(MyAction.INTENT_POSITION);
@@ -115,6 +118,21 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 			break;
 		case R.id.openinfo:// 显示歌手信息
 			((MainActivity) getActivity()).showInfo();
+			break;
+		case R.id.seteq:
+			CharSequence[] presets = getResources().getStringArray(
+					R.array.eqpresets);
+			new AlertDialog.Builder(getActivity())
+					.setTitle("均衡器设置")
+					.setSingleChoiceItems(presets, Service.getEQ(),
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									Service.setEQ((short) which);
+								}
+							}).show();
 			break;
 		case R.id.voicesearch:
 			((MainActivity) getActivity()).startVoiceRecognition();

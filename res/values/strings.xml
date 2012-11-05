@@ -14,12 +14,14 @@
     <string name="readtag1">READ ID3V1</string>
     <string name="writetag">APPLY TO FILE TAG</string>
     <string name="search">SEARCH</string>
+     <string name="feedbackhint">在这里填写你对本程序的意见</string>
     <string name="pk_eqpanel">eqpanel</string>
     <string name="scanmusic">扫描歌曲</string>
     <string name="adjustlrc">调整歌词</string>
     <string name="quicksearch">点播</string>
     <string name="sleep">睡眠定时</string>
     <string name="musicalbum">ALBUM:</string>
+    <string name="submit">SUBMIT</string>
     <string name="exit">退出</string>
     <string name="tobackground">后台</string>
     <string name="play">PLAY</string>

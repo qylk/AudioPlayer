@@ -82,6 +82,11 @@
         </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="about" >
+        <PreferenceScreen android:title="意见反馈" >
+            <intent
+                android:targetClass="cn.qylk.FeedBackUI"
+                android:targetPackage="cn.qylk" />
+        </PreferenceScreen>
         <PreferenceScreen android:title="QYLK2012" >
             <intent
                 android:targetClass="cn.qylk.About"

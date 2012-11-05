@@ -4,6 +4,8 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 ##编译目标
 LOCAL_MODULE := tagjni
+##支持异常处理
+##LOCAL_CPPFLAGS += -fexceptions
 ##要编译的源文件
 LOCAL_SRC_FILES := Utils.cpp\
 		   APIC.cpp\
@@ -19,4 +21,11 @@ LOCAL_MODULE := ID3rw
 LOCAL_SRC_FILES := reWriteID3.cpp\
 		   Utils.cpp
 LOCAL_LDLIBS += -llog		
+include $(BUILD_SHARED_LIBRARY)
+
+##第三个
+include $(CLEAR_VARS)
+LOCAL_MODULE := feedback
+LOCAL_SRC_FILES := feedback.cpp
+LOCAL_LDLIBS += -llog	
 include $(BUILD_SHARED_LIBRARY)

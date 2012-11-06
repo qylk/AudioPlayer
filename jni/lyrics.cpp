@@ -17,7 +17,7 @@ JNIEXPORT jboolean JNICALL Java_cn_qylk_lrc_MediaLyric_LyricFromTag(JNIEnv *env,
 	fseek(fp,-137,SEEK_END);//定位到文件尾倒数第137个字节
 	char identifer[9];//标识
 	fread(identifer,1,sizeof(identifer),fp);//读入LYRICS200标识
-	if(ArrayEqual(identifer,"LYRICS200",sizeof(identifer))){//对比标志
+if(ArrayEqual(identifer,"LYRICS200",sizeof(identifer))){//对比标志
 	fseek(fp,-141,SEEK_END);//定位到文件尾倒数第141个字节
 	int i=getInt(fp)-30;//读取歌词长度，30是固定的
 	if(i<50){fclose(fp);return JNI_FALSE;}//长度太短，一般不是歌词
@@ -41,7 +41,11 @@ JNIEXPORT jboolean JNICALL Java_cn_qylk_lrc_MediaLyric_LyricFromTag(JNIEnv *env,
 	env->ReleaseStringUTFChars(title, file);
 	delete[] lrc;//释放堆上资源
 	delete[] pathto;
-}
 	fclose(fp);
 	return JNI_TRUE;
+}else{
+	fclose(fp);
+	return JNI_FALSE;
+}
+	
 }

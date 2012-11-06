@@ -37,6 +37,11 @@ public class DataBaseService {
 		int picflag = PIC_UNSET;
 		if (cursor.moveToFirst()) {
 			picflag = cursor.getInt(0);
+		} else {
+			ContentValues cv = new ContentValues();
+			cv.put("artist", artist);
+			cv.put("pic_flag", PIC_UNSET);
+			db.insert("his", null, cv);
 		}
 		cursor.close();
 		return picflag == PIC_UNSET;
@@ -50,12 +55,7 @@ public class DataBaseService {
 	public static synchronized void RecordPICNULL(String artist) {
 		ContentValues cv = new ContentValues();
 		cv.put("pic_flag", PIC_NULL);
-		int affectredow = db.update("infos", cv, "artist=?",
-				new String[] { artist });
-		if (affectredow == 0) {
-			cv.put("artist", artist);
-			db.insert("infos", null, cv);
-		}
+		db.update("his", cv, "artist=?", new String[] { artist });
 	}
 
 	@Override

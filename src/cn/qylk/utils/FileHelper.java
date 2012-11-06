@@ -24,7 +24,7 @@ public class FileHelper {
 	 * @param path
 	 */
 	public void WriteFile(String str, File path) {
-		WriteFile(str, path, "gb1212");
+		WriteFile(str, path, "gb2312");
 	}
 
 	/**

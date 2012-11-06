@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import android.util.Log;
 
-import cn.qylk.utils.StringUtils;
+import android.util.Log;
 
 /**
  * @author qylk2012
@@ -27,9 +26,7 @@ public class LrcParser {
 	public static List<LRCbean> ParseLrc(File lrcpath) {
 		try {
 			FileInputStream lrcst = new FileInputStream(lrcpath);
-			String coding = StringUtils.CheckCoding(lrcst);// 检查编码类型
-			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst,
-					coding));
+			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst,"gb2312"));
 			String str;
 			int j;
 			int[] starttime = new int[20];// 设置最多支持20条歌词复用，否则将发生异常
@@ -80,6 +77,7 @@ public class LrcParser {
 			}
 			return lrclist;
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.e("QPLAY_ParseLrc", e.toString());
 		}
 		return null;

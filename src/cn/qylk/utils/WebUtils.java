@@ -15,6 +15,7 @@ public final class WebUtils {
 		URL aurl = new URL(url);
 		HttpURLConnection connection = (HttpURLConnection) aurl
 				.openConnection();
+		connection.setReadTimeout(5000);
 		connection.setRequestMethod("GET");
 		connection.setConnectTimeout(4000);
 		return connection.getInputStream();

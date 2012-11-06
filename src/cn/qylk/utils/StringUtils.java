@@ -18,6 +18,7 @@ public final class StringUtils {
 		try {
 			in.read(first3bytes, 0, 3);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if (first3bytes[0] == (byte) 0xEF && first3bytes[1] == (byte) 0xBB
 				&& first3bytes[2] == (byte) 0xBF)

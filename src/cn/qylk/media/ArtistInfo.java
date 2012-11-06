@@ -110,6 +110,7 @@ public class ArtistInfo {
 		} catch (JSONException e1) {
 			DataBaseService.RecordPICNULL(artist);
 		} catch (IOException e2) {
+			e2.printStackTrace();
 		}
 		return false;
 	}

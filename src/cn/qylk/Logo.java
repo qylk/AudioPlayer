@@ -9,18 +9,18 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import cn.qylk.app.APP;
-import cn.qylk.app.APPUtils;
-import cn.qylk.utils.Update;
+import cn.qylk.app.ScanMedia;
+import cn.qylk.app.Update;
 
-public class Logo extends Activity implements Callback{
+public class Logo extends Activity implements Callback {
 	private Handler handler = new Handler(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);// 显示欢迎画面
-		APPUtils.ScanSD(false);
-		new Update().start(this);
+		if (System.currentTimeMillis() - APP.Config.lastcheck > 7 * 24 * 3600)
+			new Update().start(this);
 		if (!APP.Config.sdplunged || !APP.Config.Library) {// 是否加载sd卡
 			new AlertDialog.Builder(this)
 					.setMessage(R.string.nolibrary)
@@ -34,7 +34,7 @@ public class Logo extends Activity implements Callback{
 							}).setCancelable(false).show();
 			return;
 		}
-		APPUtils.ScanSD(false);
+		new ScanMedia().ScanSD(false);
 		handler.sendEmptyMessageDelayed(0, 3000);
 	}
 

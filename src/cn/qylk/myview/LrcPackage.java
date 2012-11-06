@@ -3,9 +3,9 @@ package cn.qylk.myview;
 import java.io.File;
 import java.util.List;
 
-import cn.qylk.app.APP;
 import cn.qylk.app.TrackInfo;
 import cn.qylk.lrc.LRCbean;
+import cn.qylk.utils.StringUtils;
 
 public class LrcPackage {
 	public int duration;
@@ -17,10 +17,10 @@ public class LrcPackage {
 		this.list = list;
 		this.title = track.title;
 		this.duration = track.duration;
-		this.path=new File(APP.LRCPATH+title+".lrc");
+		this.path = StringUtils.GetLyricPath(title);
 	}
-	
-	public int getSum(){
+
+	public int getSum() {
 		return list.size();
 	}
 }

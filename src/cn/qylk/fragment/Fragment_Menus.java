@@ -17,7 +17,7 @@ import android.widget.GridView;
 import cn.qylk.MainActivity;
 import cn.qylk.R;
 import cn.qylk.adapter.MenuGridViewAdapter;
-import cn.qylk.app.APPUtils;
+import cn.qylk.app.ScanMedia;
 import cn.qylk.app.SleepTimer;
 import cn.qylk.utils.SendAction;
 
@@ -56,7 +56,6 @@ public class Fragment_Menus extends Fragment implements OnItemClickListener {
 
 	private void InitView(View root) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class Fragment_Menus extends Fragment implements OnItemClickListener {
 			dtimer();// 设置对话框显示及定时器开启
 			break;
 		case 2:// 歌曲搜索
-			((MainActivity) getActivity()).SearchLrc();
+			((MainActivity) getActivity()).QuickPlay();
 			break;
 		case 3:// 调整歌词
 			((MainActivity) getActivity()).showLrcAdjustbtns();
@@ -95,7 +94,7 @@ public class Fragment_Menus extends Fragment implements OnItemClickListener {
 			((MainActivity) getActivity()).delLyric();
 			break;
 		case 5:// 扫描SD卡
-			APPUtils.ScanSD(true);
+			new ScanMedia().ScanSD(true);
 			break;
 		default:
 			break;

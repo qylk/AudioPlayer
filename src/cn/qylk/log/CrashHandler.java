@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.text.SimpleDateFormat;
+
 import cn.qylk.app.APP;
 
 /**
@@ -17,6 +19,7 @@ import cn.qylk.app.APP;
  */
 public class CrashHandler implements UncaughtExceptionHandler {
 	private static CrashHandler crashhandelr = new CrashHandler();
+
 	public static CrashHandler GetInstance() {
 		return crashhandelr;
 	}
@@ -24,7 +27,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	UncaughtExceptionHandler defaulthandler;
 
 	private boolean handleExption(Thread thread, Throwable ex) {
-		File logfile = new File(APP.LOGPATH + "log.txt");
+		File logfile = new File(APP.Config.LOGPATH + "log.txt");
 		try {
 			if (!logfile.exists())
 				logfile.createNewFile();
@@ -33,14 +36,19 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			PrintWriter pw = new PrintWriter(osw);
 			pw.println(ex.getLocalizedMessage());
 			StackTraceElement[] ste = ex.getStackTrace();
+			SimpleDateFormat sDateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd    hh:mm:ss");
+			String date = sDateFormat.format(new java.util.Date());
+			pw.println(date);
+			pw.println();
 			for (int i = 0; i < ste.length; i++) {
 				pw.println(ste[i].toString());
 			}
-			pw.println("\n\n\n");
+			pw.println();
+			pw.println();
 			pw.close();
 			osw.close();
 			fileoutstream.close();
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

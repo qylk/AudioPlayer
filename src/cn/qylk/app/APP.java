@@ -19,8 +19,43 @@ import cn.qylk.database.MediaDatabase;
  * 
  */
 public class APP extends Application {
+	private static APP instance;
+	public static PlayList list;
+
+	public static APP getInstance() {
+		return instance;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		instance = this;
+		Config.LoadConfig();
+		if (!Config.sdplunged || !Config.Library)
+			return;
+		list = new PlayList(Config.getLast());
+		startService(new Intent(MyAction.INTENT_START_SERVICE)); // 启动服务
+	}
+
 	public static class Config {
-		//public static boolean BioDownloadEnable;
+		public static final String SDDIR = Environment
+				.getExternalStorageDirectory().getPath();
+		/**
+		 * 日志
+		 */
+		public static final String LOGPATH = SDDIR + "/qylk/log/";
+
+		/**
+		 * APP自建歌词目录
+		 */
+		public static final String LRCPATH = SDDIR + "/qylk/lrc/";
+		/**
+		 * 歌手图片目录
+		 */
+		public static final String PICPATH = SDDIR + "/qylk/pic/";
+		public static final String INFOSPATH = SDDIR + "/qylk/infos/";
+
+		public static long lastcheck;
 		public static boolean desklrc;
 		public static int lastbarekpoint;
 		public static boolean Library;
@@ -79,12 +114,12 @@ public class APP extends Application {
 			unplunge = mPerferences.getBoolean("unpluge", true);
 			shake = mPerferences.getBoolean("shake", false);
 			PicDownloadEnable = mPerferences.getBoolean("pic", false);
-			onlywifi = mPerferences.getBoolean("wifimode", true);
+			onlywifi = mPerferences.getBoolean("wifimode", false);
 			desklrc = mPerferences.getBoolean("desklrc", false);
 			visualwave = mPerferences.getBoolean("eqpanel", true);
 			if (onlywifi)
 				PicDownloadEnable &= wifi;
-			//BioDownloadEnable = mPerferences.getBoolean("bio", true);
+			lastcheck = mPerferences.getLong("lastcheck", 0);
 			lrccolor = mPerferences.getInt("lrccolor", Color.GREEN);
 		}
 
@@ -106,41 +141,4 @@ public class APP extends Application {
 			editor.commit();
 		}
 	}
-
-	private static APP instance;
-	public static PlayList list;
-	public static final String SDDIR = Environment
-			.getExternalStorageDirectory().getPath();
-	/**
-	 * 日志
-	 */
-	public static final String LOGPATH = SDDIR + "/qylk/log/";
-
-	/**
-	 * APP自建歌词目录
-	 */
-	public static final String LRCPATH = SDDIR + "/qylk/lrc/";
-	/**
-	 * 歌手图片目录
-	 */
-	public static final String PICPATH = SDDIR + "/qylk/pic/";
-	public static final String INFOSPATH = SDDIR + "/qylk/infos/";
-
-	public static APP getInstance() {
-		return instance;
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		instance = this;
-		Config.LoadConfig();
-		if (!Config.sdplunged || !Config.Library)
-			return;
-		list = new PlayList(Config.getLast());
-		startService(new Intent(MyAction.INTENT_START_SERVICE)); // 启动服务
-		System.loadLibrary("tagjni");// 加载JNI链接库，jni文件夹下有C源代码及make文件参考
-		System.loadLibrary("ID3rw");
-	}
-
 }

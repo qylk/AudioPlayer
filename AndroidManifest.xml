@@ -97,7 +97,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".app.PublicReceiver" >
+        <receiver android:name=".app.MediaBtnReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.qylk.utils.Update;
+import cn.qylk.app.Update;
 
 /**
  * 关于界面
@@ -34,10 +34,6 @@ public class About extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Preference);
 		super.onCreate(savedInstanceState);
-		// 使用网页显示
-		// WebView aboutView = new WebView(this);
-		// aboutView.loadUrl("file:///android_asset/about.html");
-		// setContentView(aboutView);
 		setContentView(R.layout.aboutthis);
 		TextView update = (TextView) findViewById(R.id.btn_checknew);
 		update.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -46,7 +42,7 @@ public class About extends Activity implements OnClickListener {
 
 	@Override
 	protected void onPause() {
-		hasnew = true;
+		hasnew = true;// 很可能出现新版本，此时onpause
 		super.onPause();
 	}
 

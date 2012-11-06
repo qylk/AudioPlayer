@@ -29,10 +29,9 @@ import android.util.Log;
 import cn.qylk.ListUI;
 import cn.qylk.R;
 import cn.qylk.app.APP;
-import cn.qylk.app.APPUtils;
 import cn.qylk.app.IPlayList.PlayMode;
+import cn.qylk.app.MediaBtnReceiver;
 import cn.qylk.app.MyAction;
-import cn.qylk.app.PublicReceiver;
 import cn.qylk.app.SensorTest;
 import cn.qylk.app.SleepTimer;
 import cn.qylk.app.TrackInfo;
@@ -40,6 +39,7 @@ import cn.qylk.lrc.LRCbean;
 import cn.qylk.lrc.MediaLyric;
 import cn.qylk.myview.DesktopLrc;
 import cn.qylk.myview.LrcPackage;
+import cn.qylk.utils.ID3;
 import cn.qylk.utils.SendAction;
 import cn.qylk.utils.SendAction.ServiceControl;
 
@@ -224,7 +224,7 @@ public class LocalService extends Service { // 服务
 		if (flag) {
 			TrackInfo info = APP.list.getPreviousEntity();
 			if (info.id != track.id)
-				APPUtils.SaveId3v2(info);
+				new ID3().SaveId3v2(info);
 			flag = false;
 		}
 	}
@@ -310,7 +310,7 @@ public class LocalService extends Service { // 服务
 		eq.setEnabled(true);// 启用均衡器
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mbCN = new ComponentName(getPackageName(),
-				PublicReceiver.class.getName());
+				MediaBtnReceiver.class.getName());
 		mAudioManager.registerMediaButtonEventReceiver(mbCN);// 注册一个MedioButtonReceiver广播监听
 		SysMaxVolume = getSysMaxVolume();
 		startTimer();

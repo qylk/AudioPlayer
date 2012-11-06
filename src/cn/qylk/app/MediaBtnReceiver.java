@@ -7,7 +7,7 @@ import android.view.KeyEvent;
 import cn.qylk.utils.SendAction;
 import cn.qylk.utils.SendAction.ServiceControl;
 
-public class PublicReceiver extends BroadcastReceiver {
+public class MediaBtnReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

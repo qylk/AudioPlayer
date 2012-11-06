@@ -2,17 +2,17 @@ package cn.qylk.app;
 
 import java.util.List;
 
-import QianQianLyrics.LyricResults;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import cn.qylk.QianQianLyrics.LyricResults;
 import cn.qylk.lrc.LRCbean;
 import cn.qylk.lrc.MediaLyric;
 import cn.qylk.media.ArtistInfo;
 
 public class Tasks {
-	private boolean isacting;
+	private static boolean isacting;
 
-	private class InfoTask2 extends AsyncTask<Void, Void, String> {
+	static class InfoTask2 extends AsyncTask<Void, Void, String> {
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -28,7 +28,7 @@ public class Tasks {
 		}
 	}
 
-	private class LocalLrcTask extends AsyncTask<Integer, Void, List<LRCbean>> {
+	static class LocalLrcTask extends AsyncTask<Integer, Void, List<LRCbean>> {
 		private boolean usedweb;
 
 		@Override
@@ -45,7 +45,7 @@ public class Tasks {
 		}
 	}
 
-	private class LrcSearchTask extends
+	static class LrcSearchTask extends
 			AsyncTask<Boolean, Void, List<LyricResults>> {
 
 		@Override
@@ -77,7 +77,7 @@ public class Tasks {
 		public void onPicGot(Bitmap pic);
 	}
 
-	private class PicTask extends AsyncTask<Boolean, Void, Bitmap> {
+	static class PicTask extends AsyncTask<Boolean, Void, Bitmap> {
 
 		@Override
 		protected Bitmap doInBackground(Boolean... params) {
@@ -91,13 +91,17 @@ public class Tasks {
 		}
 	}
 
-	private onPostLrc postlrc;
-	private onPostInfo postinfo;
-	private onPostLrcItems postlrcsearch;
+	private static onPostLrc postlrc;
+	private static onPostInfo postinfo;
+	private static onPostLrcItems postlrcsearch;
+	private static onPostPic postpic;
 
-	private onPostPic postpic;
-
-	public void startInfoTask2(onPostInfo pi) {
+	/**
+	 * 开始执行获取艺术家信息的任务
+	 * 
+	 * @param pi
+	 */
+	public static void startInfoTask2(onPostInfo pi) {
 		if (isacting)
 			return;
 		postinfo = pi;
@@ -105,17 +109,35 @@ public class Tasks {
 		new InfoTask2().execute();
 	}
 
-	public void startLrcSearchTask(onPostLrcItems pls) {
+	/**
+	 * 开始执行搜索歌词的任务
+	 * 
+	 * @param pls
+	 */
+	public static void startLrcSearchTask(onPostLrcItems pls) {
 		postlrcsearch = pls;
 		new LrcSearchTask().execute();
 	}
 
-	public void startLrcTask(onPostLrc pl, int id) {
+	/**
+	 * 开始执行获取歌词的任务
+	 * 
+	 * @param pl
+	 * @param id
+	 *            千千歌词id，若还没有，置-1来计划下载
+	 */
+	public static void startLrcTask(onPostLrc pl, int id) {
 		postlrc = pl;
 		new LocalLrcTask().execute(id);
 	}
 
-	public void startPicTask(onPostPic pp, boolean icon) {
+	/**
+	 * 开始执行获取图片的任务
+	 * 
+	 * @param pp
+	 * @param icon
+	 */
+	public static void startPicTask(onPostPic pp, boolean icon) {
 		postpic = pp;
 		new PicTask().execute(icon);
 	}

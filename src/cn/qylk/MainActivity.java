@@ -19,6 +19,7 @@ import android.media.audiofx.Visualizer;
 import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
@@ -66,7 +67,7 @@ import cn.qylk.utils.SendAction.ServiceControl;
  *         all rights resolved
  */
 public class MainActivity extends Activity implements View.OnClickListener,
-		onPostPic, onPostLrc, onPostInfo {
+		onPostPic, onPostLrc, onPostInfo, Callback {
 	private class Receiver extends BroadcastReceiver {// 当后台播放下一首歌后，通知UI
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -93,7 +94,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	private ImageView picshow;
 	private Receiver receiver;// 消息接收器
 	public LocalService Service;
-	private Tasks tasks;
 	private VisualizerView visualizerview;
 	private TrackInfo trackentity;
 
@@ -101,7 +101,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	 * 处理设置
 	 */
 	private void Date_Service() {
-		tasks = new Tasks();
 		list = APP.list;
 		trackentity = list.getTrackEntity();
 		Service = ListUI.Service;
@@ -114,17 +113,17 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			}
 		});
 		LoadConfig();
-		handler.sendEmptyMessageDelayed(1, 300);
+		handler.sendEmptyMessageDelayed(0, 300);//计划初始化界面
 	}
 
 	/**
-	 * 所有UI更新从这开始的
+	 * UI更新从这开始的
 	 */
 	private void DealNew() {
 		haslrc = false;
 		updateUI();
 		StartLoad(-1);
-		tasks.startPicTask(this, false);
+		Tasks.startPicTask(this, false);
 		lrcview.clearView();
 	}
 
@@ -132,11 +131,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	 * 开始加载歌词，鉴于手动下载歌词可能会修改TAG信息，仍需要更新title显示，因而在这里 更新title显示，
 	 * 
 	 * @param id
+	 *            千千歌词id，若还没有，置-1来计划下载
 	 */
 	public void StartLoad(int id) {
 		SetTitle();
-		// tasks.startInfoTask();
-		tasks.startLrcTask(this, id);
+		Tasks.startLrcTask(this, id);
 	}
 
 	private void FindView() {
@@ -160,16 +159,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		controls = new Fragment_MusicControls();
 		transcation.replace(R.id.content, controls);
 		transcation.commit();
-		handler = new Handler() {
-
-			@Override
-			public void handleMessage(Message msg) {
-				DealNew();
-				super.handleMessage(msg);
-			}
-		};
+		handler = new Handler(this);
 	}
 
+	/**
+	 * 加载设置
+	 */
 	private void LoadConfig() {
 		SetSensor(APP.Config.shake);
 		SetLight(APP.Config.light);
@@ -397,7 +392,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
 					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
-	public void SearchLrc() {
+	/**
+	 * 快速找歌
+	 */
+	public void QuickPlay() {
 		final AutoCompleteTextView autv = new AutoCompleteTextView(this);
 		autv.setThreshold(1);
 		autv.setHint(R.string.searchtip);
@@ -440,6 +438,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			SensorTest.getInstance().StopService();// 暂停服务
 	}
 
+	/**
+	 * 打开\关闭歌曲信息显示窗口
+	 */
 	public void showInfo2() {
 		final View v = findViewById(R.id.infoarea);
 		panelopened = !panelopened;
@@ -486,80 +487,34 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		sb.append("信息】\r\n");
 		infoText.setText(sb.toString());
 		findViewById(R.id.waitposbar).setVisibility(View.VISIBLE);
-		tasks.startInfoTask2(this);
+		Tasks.startInfoTask2(this);
 	}
 
+	/**
+	 * 加载艺术家信息
+	 * @param info
+	 */
 	private void showInfo3(String info) {
 		findViewById(R.id.waitposbar).setVisibility(View.GONE);
 		TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
 		artistinfo.setText(info);
 	}
 
-	// /**
-	// * 显示歌曲信息板
-	// */
-	// public void showInfo() {
-	// final View v = findViewById(R.id.infoarea);
-	// final TextView artistinfo = (TextView) findViewById(R.id.artistinfo);
-	// panelopened = !panelopened;
-	// if (!panelopened) {
-	// Animation animation = AnimationUtils.loadAnimation(this,
-	// R.anim.hide);
-	// animation.setAnimationListener(new AnimationListener() {
-	//
-	// @Override
-	// public void onAnimationEnd(Animation animation) {
-	// v.setVisibility(View.INVISIBLE);
-	// artistinfo.setText("");
-	// }
-	//
-	// @Override
-	// public void onAnimationRepeat(Animation animation) {
-	// }
-	//
-	// @Override
-	// public void onAnimationStart(Animation animation) {
-	// }
-	// });
-	// v.startAnimation(animation);
-	// return;
-	// } else {
-	// artistinfo.setOnClickListener(new View.OnClickListener() {
-	//
-	// @Override
-	// public void onClick(View v) {
-	// showInfo();
-	// }
-	// });
-	// Animation animation = AnimationUtils.loadAnimation(this,
-	// R.anim.show);
-	// v.setVisibility(View.VISIBLE);
-	// v.startAnimation(animation);
-	// }
-	// StringBuilder sb = new StringBuilder();
-	// String trackinfo = String.format(
-	// "曲名:%s\n艺术家:%s\n专辑:%s\n类型:%s\n大小:%.1f MB\n发行期:%s\n路径:%s\n",
-	// trackentity.title, trackentity.artist, trackentity.album,
-	// trackentity.mimetype, 1.0f * trackentity.size / 1024 / 1024,
-	// trackentity.year, trackentity.path);
-	// sb.append(trackinfo);
-	// sb.append("\r\n\r\n【");
-	// sb.append(trackentity.artist);
-	// sb.append("信息】\r\n");
-	// sb.append(ArtistInfo.GetInfoFromDatabase(trackentity.artist));
-	// artistinfo.setText(sb.toString());
-	// }
-
+	/**
+	 * 显示调整歌词的三个按钮
+	 */
 	public void showLrcAdjustbtns() {
 		if (haslrc)
 			lrcadj.setVisibility(View.VISIBLE);
 	}
 
+	/**
+	 * 语音识别
+	 */
 	public void startVoiceRecognition() {
 		if (getPackageManager().queryIntentActivities(
 				new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0).size() == 0) {
-			Toast.makeText(MainActivity.this, "No Client", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "No Client", Toast.LENGTH_LONG).show();
 			return;
 		}
 		if (Service.IsPlaying())
@@ -567,6 +522,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		startVoiceRecognitionActivity();
 	}
 
+	/**
+	 * 删除歌词,这回停止歌词显示
+	 */
 	public void delLyric() {
 		if (!haslrc)
 			return;
@@ -577,7 +535,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
-	 * 启动语音识别
+	 * 启动语音识别界面
 	 */
 	private void startVoiceRecognitionActivity() {
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -588,6 +546,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
 	}
 
+	/**
+	 * 刷新歌词显示
+	 * @param pos
+	 */
 	public void updateLrcPos(int pos) {
 		if (haslrc)
 			lrcview.initLrcIndex(pos); // 歌词进度调整
@@ -606,5 +568,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void onInfoGot(String info) {
 		showInfo3(info);
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		DealNew();
+		return true;
 	}
 }

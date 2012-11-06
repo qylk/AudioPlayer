@@ -26,9 +26,10 @@ public class LrcParser {
 	 */
 	public static List<LRCbean> ParseLrc(File lrcpath) {
 		try {
-			String coding = StringUtils.CheckCoding(lrcpath);// 检查编码类型
 			FileInputStream lrcst = new FileInputStream(lrcpath);
-			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst, coding));
+			String coding = StringUtils.CheckCoding(lrcst);// 检查编码类型
+			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst,
+					coding));
 			String str;
 			int j;
 			int[] starttime = new int[20];// 设置最多支持20条歌词复用，否则将发生异常
@@ -54,8 +55,8 @@ public class LrcParser {
 					lrc.beginTime = starttime[i];
 					if (TimeNum < str1.length) { // 如果有歌词正文
 						lrc.lrcBody = str1[str1.length - 1]; // str1[]中最后一个就是歌词句了。
-					}
-					 else lrc.lrcBody="***";// 空歌词行，自己加上一句
+					} else
+						lrc.lrcBody = "***";// 空歌词行，自己加上一句
 					lrclist.add(lrc); // 装载入歌词表
 				}
 			}
@@ -79,9 +80,9 @@ public class LrcParser {
 			}
 			return lrclist;
 		} catch (Exception e) {
-			Log.v("TEST", e.toString());
-			return null;
+			Log.e("QPLAY_ParseLrc", e.toString());
 		}
+		return null;
 	}
 
 	/**
@@ -93,7 +94,7 @@ public class LrcParser {
 	 */
 	private static int Timeparse(String string) throws NumberFormatException { //
 		String str[] = string.split(":|\\."); // 分离时间：分、秒、毫秒
-		if (str.length <= 1 || str.length > 3)//2012-10-12修复为<=1,原为=1，导致当string为"..."报错
+		if (str.length <= 1 || str.length > 3)// 2012-10-12修复为<=1,原为=1，导致当string为"..."报错
 			return -1;// 歌词时间标签至少有两部分构成
 		char c = str[0].charAt(0);// 取第一个字符
 		if (c < '0' || c > '9')

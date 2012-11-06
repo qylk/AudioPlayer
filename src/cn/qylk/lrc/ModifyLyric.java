@@ -1,7 +1,7 @@
 package cn.qylk.lrc;
 
 import cn.qylk.myview.LrcPackage;
-import cn.qylk.utils.SDFileWriter;
+import cn.qylk.utils.FileHelper;
 
 /**
  * 修改歌词
@@ -39,7 +39,7 @@ public class ModifyLyric {
 	 * 开始修改并写回SD卡
 	 */
 	public void ModifyandSave(LrcPackage pac) {
-		SDFileWriter.writeString(pac.path,lrcParse(pac).toString());
+		new FileHelper().WriteFile(lrcParse(pac).toString(), pac.path);
 	}
 
 	/**

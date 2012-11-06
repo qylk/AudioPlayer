@@ -43,6 +43,9 @@ import cn.qylk.utils.SendAction.ServiceControl;
  */
 public class ListUI extends Activity implements OnClickListener, onPostPic,
 		TabListener {
+	static {
+		System.loadLibrary("tagjni");// 加载JNI链接库，jni文件夹下有C源代码及make文件参考
+	}
 	public static LocalService Service;
 	private ProgressBar pbar;
 	private ImageView playorpause, next, icon;
@@ -282,7 +285,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 		playorpause
 				.setImageResource(Service.IsPlaying() ? R.drawable.btn_pause_bg
 						: R.drawable.btn_play_bg);
-		new Tasks().startPicTask(ListUI.this, true);
+		Tasks.startPicTask(ListUI.this, true);
 		Fragment plist = getFragmentManager().findFragmentByTag("list");
 		if (plist != null)
 			((Fragment_PlayList) plist).UpdateList();

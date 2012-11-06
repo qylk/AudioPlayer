@@ -1,10 +1,10 @@
-package QianQianLyrics;
+package cn.qylk.QianQianLyrics;
 
 import java.io.UnsupportedEncodingException;
 
 public class QianQianEncoding {
 
-	public static long Conv(int i) {
+	public long Conv(int i) {
 		long r = i % 4294967296l;
 		if (i >= 0 && r > 2147483648l)
 			r = r - 4294967296l;
@@ -14,13 +14,13 @@ public class QianQianEncoding {
 		return r;
 	}
 
-	/**获取code
+	/**根据参数，获取访问所必需的code
 	 * @param singer
 	 * @param title
 	 * @param lrcId
 	 * @return
 	 */
-	public static String CreateQianQianCode(String singer, String title,
+	public String CreateQianQianCode(String singer, String title,
 			int lrcId) {
 		String qqHexStr = null;
 		qqHexStr = str2HexStr(singer + title,"UTF-8");
@@ -77,7 +77,7 @@ public class QianQianEncoding {
 		return String.valueOf(t5);
 	}
 
-	public static String str2HexStr(String str,String encode) {
+	public  String str2HexStr(String str,String encode) {
 		char[] chars = "0123456789ABCDEF".toCharArray();
 		StringBuilder sb = new StringBuilder("");
 		byte[] bs = null;

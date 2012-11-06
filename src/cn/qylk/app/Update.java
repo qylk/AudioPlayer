@@ -1,18 +1,27 @@
-package cn.qylk.utils;
+package cn.qylk.app;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 import cn.qylk.R;
 import cn.qylk.UpdateApkWindow;
-import cn.qylk.app.APP;
+import cn.qylk.utils.WebUtils;
 
+/**
+ * 检查更新
+ * 
+ * @author qylk2012<br>
+ * 
+ */
 public class Update implements Callback {
 
 	static final byte NEED = 1, NONEED = 0, FAIL = -1;
@@ -35,16 +44,22 @@ public class Update implements Callback {
 	 * 处理检查结果
 	 */
 	public void DisplayMsg() {
-		if (code == NONEED)
+		if (code == NONEED) {
 			Toast.makeText(APP.getInstance(), R.string.noupdate,
 					Toast.LENGTH_LONG).show();
-		else if (code == FAIL)
+			SharedPreferences mPerferences = PreferenceManager
+					.getDefaultSharedPreferences(APP.getInstance());
+			Editor editor = mPerferences.edit();
+			editor.putLong("lastcheck", System.currentTimeMillis());
+			editor.commit();
+		} else if (code == FAIL)
 			Toast.makeText(APP.getInstance(), R.string.networkfail,
 					Toast.LENGTH_LONG).show();
 		else
 			APP.getInstance().startActivity(
 					new Intent(APP.getInstance(), UpdateApkWindow.class)
-							.putExtra("ver", ver).putExtra("info", info).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+							.putExtra("ver", ver).putExtra("info", info)
+							.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 	}
 
 	/**
@@ -89,6 +104,10 @@ public class Update implements Callback {
 		return ver;
 	}
 
+	/**
+	 * start a thread
+	 * @param context
+	 */
 	public void start(Context context) {
 		localver = context.getResources().getString(R.string.version);
 		CheckUpdateThread.start();

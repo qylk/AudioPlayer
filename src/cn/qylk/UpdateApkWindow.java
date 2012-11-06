@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import cn.qylk.utils.UpdateApk;
+import cn.qylk.app.UpdateApk;
 
 public class UpdateApkWindow extends Activity implements OnClickListener {
 

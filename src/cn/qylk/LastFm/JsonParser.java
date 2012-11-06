@@ -1,4 +1,4 @@
-package LastFm;
+package cn.qylk.LastFm;
 
 import org.json.JSONArray;
 import org.json.JSONException;

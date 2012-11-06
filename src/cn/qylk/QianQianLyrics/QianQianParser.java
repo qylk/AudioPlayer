@@ -1,4 +1,4 @@
-package QianQianLyrics;
+package cn.qylk.QianQianLyrics;
 
 import java.io.IOException;
 import java.io.StringReader;

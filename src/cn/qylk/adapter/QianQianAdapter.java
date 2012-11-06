@@ -3,7 +3,7 @@ package cn.qylk.adapter;
 import java.util.List;
 
 import cn.qylk.R;
-import QianQianLyrics.LyricResults;
+import cn.qylk.QianQianLyrics.LyricResults;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

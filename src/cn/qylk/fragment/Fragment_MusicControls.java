@@ -179,6 +179,11 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 		list.setMode(mode2);
 	}
 
+	/**
+	 * 更新控制区显示
+	 * 
+	 * @param dur 歌曲时长
+	 */
 	public void updateViewElements(int dur) {
 		posbar.setMax(dur);// 设置进度条最大值
 		posbar.setProgress(0);

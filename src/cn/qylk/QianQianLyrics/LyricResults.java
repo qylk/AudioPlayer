@@ -1,4 +1,4 @@
-package QianQianLyrics;
+package cn.qylk.QianQianLyrics;
 
 public class LyricResults {
 	public String artist, track;

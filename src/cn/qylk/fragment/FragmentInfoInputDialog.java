@@ -1,7 +1,7 @@
 package cn.qylk.fragment;
 
 import java.util.List;
-import QianQianLyrics.LyricResults;
+
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -22,12 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import cn.qylk.MainActivity;
 import cn.qylk.R;
+import cn.qylk.QianQianLyrics.LyricResults;
 import cn.qylk.adapter.QianQianAdapter;
-import cn.qylk.app.APPUtils;
 import cn.qylk.app.Tasks;
 import cn.qylk.app.Tasks.onPostLrcItems;
 import cn.qylk.app.TrackInfo;
 import cn.qylk.database.MediaDatabase;
+import cn.qylk.utils.ID3;
 
 public class FragmentInfoInputDialog extends DialogFragment implements
 		OnClickListener, onPostLrcItems, OnCheckedChangeListener {
@@ -90,19 +91,21 @@ public class FragmentInfoInputDialog extends DialogFragment implements
 			getText();
 			if (tagflag.isChecked())
 				MediaDatabase.updateTrackInfo(info);
-			new Tasks().startLrcSearchTask(this);
+			Tasks.startLrcSearchTask(this);
 			break;
 		case R.id.negitivebtn:
 			this.dismiss();
 			break;
 		case R.id.additionbtn:
-			String[] ID3 = APPUtils.getID3v1(info.path);
-			if (ID3 != null) {
+			String[] ID3 = new String[3];
+			boolean suc = new ID3().getID3v1(info.path, ID3);
+			if (suc) {
 				title.setText(ID3[0]);
 				artist.setText(ID3[1]);
 				album.setText(ID3[2]);
 			} else
-				Toast.makeText(getActivity(), "找不到ID3v1", 1).show();
+				Toast.makeText(getActivity(), "找不到ID3v1", Toast.LENGTH_SHORT)
+						.show();
 			break;
 		}
 	}

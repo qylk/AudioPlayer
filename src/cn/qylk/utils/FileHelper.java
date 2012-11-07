@@ -18,13 +18,13 @@ import java.io.OutputStreamWriter;
 public class FileHelper {
 
 	/**
-	 * default coding is "gb2312";
+	 * default coding is "UTF-8";
 	 * 
 	 * @param str
 	 * @param path
 	 */
 	public void WriteFile(String str, File path) {
-		WriteFile(str, path, "gb2312");
+		WriteFile(str, path, "GB2312");
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class FileHelper {
 		StringBuffer sb = new StringBuffer();
 		try {
 			FileInputStream info = new FileInputStream(file);
-			BufferedReader br = new BufferedReader(new InputStreamReader(info));
+			BufferedReader br = new BufferedReader(new InputStreamReader(info, "gb2312"));
 			String str;
 			while ((str = br.readLine()) != null) {
 				sb.append(str).append("\r\n");

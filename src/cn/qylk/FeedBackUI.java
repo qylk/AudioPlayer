@@ -32,7 +32,7 @@ public class FeedBackUI extends Activity implements OnClickListener, Callback {
 	@Override
 	public void onClick(View v) {
 		if (content.getText().length() < 50) {
-			Toast.makeText(this, "字数不够,请详述", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "至少50字,请详述", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		new Thread(new Runnable() {
@@ -62,7 +62,7 @@ public class FeedBackUI extends Activity implements OnClickListener, Callback {
 	public boolean handleMessage(Message msg) {
 		posdlg.dismiss();
 		if (msg.what == 0)
-			Toast.makeText(FeedBackUI.this, "提交错误", Toast.LENGTH_LONG).show();
+			Toast.makeText(FeedBackUI.this, "提交失败了", Toast.LENGTH_LONG).show();
 		else
 			Toast.makeText(FeedBackUI.this, "提交成功,感谢您的支持!", Toast.LENGTH_LONG)
 					.show();

@@ -79,6 +79,7 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 		}
 		index = i - 1;
 		updatedata();
+		updateView(curpos);
 	}
 
 	@Override

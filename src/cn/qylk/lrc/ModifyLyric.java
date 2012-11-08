@@ -39,7 +39,7 @@ public class ModifyLyric {
 	 * 开始修改并写回SD卡
 	 */
 	public void ModifyandSave(LrcPackage pac) {
-		new FileHelper().WriteFile(lrcParse(pac).toString(), pac.path);
+		new FileHelper().WriteFile(lrcParse(pac).toString(), pac.path,"GB2312");
 	}
 
 	/**

@@ -70,7 +70,7 @@ public class MediaLyric {
 	 * @return maybe null
 	 */
 	public static List<LRCbean> downLoadLyric(TrackInfo entry, File path, int id) {
-		new FileHelper().WriteFile(new QianQianLyrics().fetch(entry, id), path);
+		new FileHelper().WriteFile(new QianQianLyrics().fetch(entry, id), path,"GB2312");
 		return LrcParser.ParseLrc(path);
 	}
 }

@@ -35,6 +35,8 @@ public class APP extends Application {
 			return;
 		list = new PlayList(Config.getLast());
 		startService(new Intent(MyAction.INTENT_START_SERVICE)); // 启动服务
+		if (System.currentTimeMillis() - APP.Config.lastcheck > 7 * 24 * 3600*1000)
+			new Update().start(this);
 	}
 
 	public static class Config {

@@ -33,6 +33,7 @@ import cn.qylk.app.TrackInfo;
 import cn.qylk.fragment.Fragment_ListCategory;
 import cn.qylk.fragment.Fragment_PlayList;
 import cn.qylk.fragment.Fragment_VideoList;
+import cn.qylk.log.CrashHandler;
 import cn.qylk.service.LocalService;
 import cn.qylk.utils.SendAction;
 import cn.qylk.utils.SendAction.ServiceControl;
@@ -173,7 +174,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(android.R.style.Theme_Holo);
 		super.onCreate(savedInstanceState);
-		// CrashHandler.GetInstance().init();// 注册异常捕获
+		CrashHandler.GetInstance().init();// 注册异常捕获
 		setContentView(R.layout.listui);
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayShowHomeEnabled(false);// 不显示主界面按钮

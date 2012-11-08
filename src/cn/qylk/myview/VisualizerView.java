@@ -81,7 +81,7 @@ public class VisualizerView extends View {
 			mPoints[i * 4 + 2] = xi;
 			mPoints[i * 4 + 3] = height - mBytes[i] + 3;
 			if (mPoints[i * 4 + 3] < toppoint[i])
-				toppoint[i] = height - mBytes[i];
+				toppoint[i] = mPoints[i * 4 + 3];
 			else
 				toppoint[i] += 4;
 			if (toppoint[i] > height - 4)

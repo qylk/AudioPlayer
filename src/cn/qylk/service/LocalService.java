@@ -49,6 +49,7 @@ import cn.qylk.utils.SendAction.ServiceControl;
  * @author qylk2011 all rights resolved
  */
 public class LocalService extends Service { // 服务
+	private static final String TAG="Q_LocalService";
 	public class MyBinder extends Binder {
 		public LocalService getService() {
 			return LocalService.this;
@@ -210,9 +211,9 @@ public class LocalService extends Service { // 服务
 			mPlayer.pause();
 			SendStatusChanged(false);
 		} catch (IOException e) {
-			Log.v("TEST", "IOException in init mediaplayer");
+			Log.v(TAG, "IOException in init MediaPlayer");
 		} catch (IllegalArgumentException e) {
-			Log.v("TEST", "IllegalArgumentException in init mediaplayer");
+			Log.v(TAG, "IllegalArgumentException in init MediaPlayer");
 		}
 	}
 
@@ -270,13 +271,13 @@ public class LocalService extends Service { // 服务
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.v("TEST", "OnBind");
+		Log.v(TAG, "OnBind");
 		return binder;
 	}
 
 	@Override
 	public void onCreate() {
-		Log.v("TEST", "Service Creating");
+		Log.v(TAG, "Service Creating");
 		PowerManager pm = (PowerManager) getApplicationContext()
 				.getSystemService(Context.POWER_SERVICE);
 		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Service");
@@ -298,7 +299,6 @@ public class LocalService extends Service { // 服务
 		mPlayer.setOnCompletionListener(new OnCompletionListener() {// 一曲完成，自动播放下一曲
 			@Override
 			public void onCompletion(MediaPlayer mp) {
-				Log.i("TEST", "onCompletion");
 				if (APP.list.getMode() != PlayMode.Repeat_One) {
 					next();
 				} else
@@ -314,7 +314,7 @@ public class LocalService extends Service { // 服务
 		mAudioManager.registerMediaButtonEventReceiver(mbCN);// 注册一个MedioButtonReceiver广播监听
 		SysMaxVolume = getSysMaxVolume();
 		startTimer();
-		Log.v("TEST", "Service Created");
+		Log.v(TAG, "Service Created");
 	}
 
 	@Override
@@ -335,7 +335,7 @@ public class LocalService extends Service { // 服务
 		unregisterReceiver(Control);// 解注册
 		DesktopLrc(false);// 关闭桌面歌词
 		SensorTest.getInstance().StopService();// 关闭感应器
-		Log.v("TEST", "Service Destory");
+		Log.v(TAG, "Service Destory");
 	}
 
 	@Override
@@ -372,7 +372,7 @@ public class LocalService extends Service { // 服务
 			if (deslrc != null)
 				dealDeskLrc();
 		} catch (Exception e) {
-			Log.e("TEST", "ERROR IN PLAY()");
+			Log.e(TAG, "ERROR IN PLAY()");
 		}
 	}
 

@@ -26,7 +26,7 @@ public class LrcParser {
 	public static List<LRCbean> ParseLrc(File lrcpath) {
 		try {
 			FileInputStream lrcst = new FileInputStream(lrcpath);
-			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst,"gb2312"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(lrcst,"GB2312"));
 			String str;
 			int j;
 			int[] starttime = new int[20];// 设置最多支持20条歌词复用，否则将发生异常

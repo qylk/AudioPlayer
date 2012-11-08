@@ -18,15 +18,22 @@ import java.io.OutputStreamWriter;
 public class FileHelper {
 
 	/**
-	 * default coding is "UTF-8";
+	 * default coding is "utf-8";
 	 * 
 	 * @param str
 	 * @param path
 	 */
 	public void WriteFile(String str, File path) {
-		WriteFile(str, path, "GB2312");
+		WriteFile(str, path, "UTF-8");
 	}
-
+	/**
+	 * default coding is "utf-8";
+	 * @param file
+	 * @return
+	 */
+	public String ReadFile(File file) {
+		return ReadFile(file,"UTF-8");
+	}
 	/**
 	 * 从磁盘读文件内容并返回
 	 * 
@@ -34,11 +41,11 @@ public class FileHelper {
 	 *            file content should not be large
 	 * @return maybe ""
 	 */
-	public String ReadFile(File file) {
+	public String ReadFile(File file,String enc) {
 		StringBuffer sb = new StringBuffer();
 		try {
 			FileInputStream info = new FileInputStream(file);
-			BufferedReader br = new BufferedReader(new InputStreamReader(info, "gb2312"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(info, enc));
 			String str;
 			while ((str = br.readLine()) != null) {
 				sb.append(str).append("\r\n");

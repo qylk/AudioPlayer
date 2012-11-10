@@ -16,9 +16,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 
-public class UpdateApk {
+public class UpdateApk implements Callback{
 	private final static String apkname = "qylk.apk";
 	/**
 	 * apk升级地址
@@ -86,13 +87,7 @@ public class UpdateApk {
 					}
 				});
 		pbar.show();
-		handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				pbar.setProgress(percent);
-				super.handleMessage(msg);
-			}
-		};
+		handler = new Handler(this);
 		return this;
 	}
 
@@ -125,5 +120,11 @@ public class UpdateApk {
 				}
 			}
 		}).start();
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		pbar.setProgress(percent);
+		return true;
 	}
 }

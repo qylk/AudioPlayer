@@ -8,10 +8,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 
-public class SensorTest {
-	private class SensorListenerImpl implements SensorEventListener {// 监听类
+public class SensorTest implements Callback {
+	private class SensorListenerImpl implements SensorEventListener{// 监听类
 
 		@Override
 		public void onAccuracyChanged(android.hardware.Sensor sensor,
@@ -46,24 +47,22 @@ public class SensorTest {
 			}
 		}
 	}
+
 	private static SensorTest sensor = new SensorTest();
 	private static final int SHAKE_THRESHOLD = 5000; // 越小越灵敏
+
 	public static SensorTest getInstance() {
 		return sensor;
 	}
+
 	private Context context = APP.getInstance();
 	private long lastUpdate;
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			SendAction.SendControlMsg(ServiceControl.NEXT);// 换下一首歌
-			super.handleMessage(msg);
-		}
-	};
+	private Handler mHandler = new Handler(this);
 	private SensorManager mSensorManager;
 	private SensorListenerImpl SensorListenerImpl;
 	private boolean started;
 	private float x, y, z, last_x, last_y, last_z;
+
 	public SensorTest() {
 		SensorListenerImpl = new SensorListenerImpl();
 	}
@@ -85,5 +84,11 @@ public class SensorTest {
 			mSensorManager.unregisterListener(SensorListenerImpl);
 			started = false;
 		}
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		SendAction.SendControlMsg(ServiceControl.NEXT);// 换下一首歌
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
     android:id="@+id/menuGrid"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/buttombtns_bg"
+    android:background="@drawable/grid_bg"
     android:verticalSpacing="10dp"
     android:listSelector="@drawable/gridview_selector"
     android:numColumns="3"

@@ -32,20 +32,11 @@ public final class R {
         public static final int up=0x7f040014;
     }
     public static final class array {
-        public static final int eqpresets=0x7f060002;
+        public static final int eqpresets=0x7f060001;
         public static final int menu_item_name=0x7f060000;
-        public static final int popmenu=0x7f060001;
-        public static final int tab=0x7f060003;
+        public static final int tab=0x7f060002;
     }
     public static final class attr {
-        /** <p>Must be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int default_screen=0x7f010000;
     }
     public static final class color {
         public static final int alphawhite=0x7f07000c;
@@ -75,118 +66,101 @@ containing a value of this type.
     }
     public static final class drawable {
         public static final int album=0x7f020000;
-        public static final int album_list_default=0x7f020001;
-        public static final int album_main_mask=0x7f020002;
-        public static final int appwidget_icon_more_normal=0x7f020003;
-        public static final int appwidget_icon_more_pressed=0x7f020004;
-        public static final int artist=0x7f020005;
-        public static final int artistimage=0x7f020006;
-        public static final int audio_player_controller_bg=0x7f020007;
-        public static final int baidu=0x7f020008;
-        public static final int btn_advance=0x7f020009;
-        public static final int btn_advance_bg=0x7f02000a;
-        public static final int btn_advance_pressed=0x7f02000b;
-        public static final int btn_bg=0x7f02000c;
-        public static final int btn_delay=0x7f02000d;
-        public static final int btn_delay_bg=0x7f02000e;
-        public static final int btn_delay_pressed=0x7f02000f;
-        public static final int btn_info_bg=0x7f020010;
-        public static final int btn_more_bg=0x7f020011;
-        public static final int btn_next_bg=0x7f020012;
-        public static final int btn_ok=0x7f020013;
-        public static final int btn_pause_bg=0x7f020014;
-        public static final int btn_play_bg=0x7f020015;
-        public static final int btn_pre_bg=0x7f020016;
-        public static final int btn_video_next=0x7f020017;
-        public static final int btn_video_pause=0x7f020018;
-        public static final int btn_video_play=0x7f020019;
-        public static final int btn_video_pre=0x7f02001a;
-        public static final int buttombtns_bg=0x7f02001b;
-        public static final int button_background_normal=0x7f02001c;
-        public static final int button_background_pressed=0x7f02001d;
-        public static final int checkbox_checked=0x7f02001e;
-        public static final int checkbox_unchecked=0x7f02001f;
-        public static final int custom_button_background=0x7f020020;
-        public static final int default_icon=0x7f020021;
-        public static final int developer_small=0x7f020022;
-        public static final int dialog_bg=0x7f020023;
-        public static final int divideline=0x7f020024;
-        public static final int fav=0x7f020025;
-        public static final int grid_listselector=0x7f020026;
-        public static final int grid_mask=0x7f020027;
-        public static final int gridview_bg=0x7f020028;
-        public static final int gridview_selector=0x7f020029;
-        public static final int gridview_selector2=0x7f02002a;
-        public static final int hand_load=0x7f02002b;
-        public static final int history=0x7f02002c;
-        public static final int ic_launcher=0x7f02002d;
-        public static final int ic_search=0x7f02002e;
-        public static final int ic_search_inverse=0x7f02002f;
-        public static final int ic_voice_search=0x7f020030;
-        public static final int icon_delete=0x7f020031;
-        public static final int icon_pers=0x7f020032;
-        public static final int icon_random=0x7f020033;
-        public static final int icon_repeat=0x7f020034;
-        public static final int icon_repeat_single=0x7f020035;
-        public static final int icon_repeate_all=0x7f020036;
-        public static final int icon_search=0x7f020037;
-        public static final int icon_settings=0x7f020038;
-        public static final int icon_volume_big=0x7f020039;
-        public static final int icon_volume_small=0x7f02003a;
-        public static final int listuibg=0x7f02003b;
-        public static final int listview_selector=0x7f02003c;
-        public static final int loading=0x7f02003d;
-        public static final int logo=0x7f02003e;
-        public static final int main_next=0x7f02003f;
-        public static final int main_next_p=0x7f020040;
-        public static final int main_pause=0x7f020041;
-        public static final int main_pause_p=0x7f020042;
-        public static final int main_play=0x7f020043;
-        public static final int main_play_p=0x7f020044;
-        public static final int main_prev=0x7f020045;
-        public static final int main_prev_p=0x7f020046;
-        public static final int menu_delete=0x7f020047;
-        public static final int menu_modifylrc=0x7f020048;
-        public static final int menu_quickfind=0x7f020049;
-        public static final int menu_refresh_list=0x7f02004a;
-        public static final int menu_syssettings=0x7f02004b;
-        public static final int menu_test=0x7f02004c;
-        public static final int menu_timer=0x7f02004d;
-        public static final int middle_bg=0x7f02004e;
-        public static final int musiclib=0x7f02004f;
-        public static final int myicon=0x7f020050;
-        public static final int newadd=0x7f020051;
-        public static final int number_bg=0x7f020052;
-        public static final int panel_bg=0x7f020053;
-        public static final int popdialog_head_bg=0x7f020054;
-        public static final int qylk=0x7f020055;
-        public static final int roundconer_white_bg=0x7f020056;
-        public static final int seekbar_bg_grey=0x7f020057;
-        public static final int seekbar_layer=0x7f020058;
-        public static final int select=0x7f020059;
-        public static final int selector_checkbox=0x7f02005a;
-        public static final int selector_list=0x7f02005b;
-        public static final int selector_list_disable=0x7f02005c;
-        public static final int sliding_panel_visualization_bg=0x7f02005d;
-        public static final int smallicon_bg=0x7f02005e;
-        public static final int songimage=0x7f02005f;
-        public static final int thumb=0x7f020060;
-        public static final int thumbnull=0x7f020061;
-        public static final int time_indicator_progress=0x7f020062;
-        public static final int time_indicator_thumb_on=0x7f020063;
-        public static final int timer=0x7f020064;
-        public static final int tool_equalizer_on=0x7f020065;
-        public static final int tool_favorite_off=0x7f020066;
-        public static final int tool_favorite_on=0x7f020067;
-        public static final int tool_info=0x7f020068;
-        public static final int tool_info_on=0x7f020069;
-        public static final int tool_repeat_all=0x7f02006a;
-        public static final int tool_repeat_none=0x7f02006b;
-        public static final int tool_shuffle=0x7f02006c;
-        public static final int tool_shuffle_none=0x7f02006d;
-        public static final int topbg=0x7f02006e;
-        public static final int video=0x7f02006f;
-        public static final int voicesearch=0x7f020070;
+        public static final int album_main_mask=0x7f020001;
+        public static final int artist=0x7f020002;
+        public static final int artistimage=0x7f020003;
+        public static final int audio_player_controller_bg=0x7f020004;
+        public static final int audio_player_default_album=0x7f020005;
+        public static final int baidu=0x7f020006;
+        public static final int btn_advance=0x7f020007;
+        public static final int btn_advance_bg=0x7f020008;
+        public static final int btn_advance_pressed=0x7f020009;
+        public static final int btn_delay=0x7f02000a;
+        public static final int btn_delay_bg=0x7f02000b;
+        public static final int btn_delay_pressed=0x7f02000c;
+        public static final int btn_info_bg=0x7f02000d;
+        public static final int btn_next_bg=0x7f02000e;
+        public static final int btn_ok=0x7f02000f;
+        public static final int btn_pause_bg=0x7f020010;
+        public static final int btn_play_bg=0x7f020011;
+        public static final int btn_pre_bg=0x7f020012;
+        public static final int btn_video_next=0x7f020013;
+        public static final int btn_video_pause=0x7f020014;
+        public static final int btn_video_play=0x7f020015;
+        public static final int btn_video_pre=0x7f020016;
+        public static final int buttombtns_bg=0x7f020017;
+        public static final int button_background_normal=0x7f020018;
+        public static final int button_background_pressed=0x7f020019;
+        public static final int checkbox_checked=0x7f02001a;
+        public static final int checkbox_unchecked=0x7f02001b;
+        public static final int controlpanel_bg=0x7f02001c;
+        public static final int custom_button_background=0x7f02001d;
+        public static final int default_icon=0x7f02001e;
+        public static final int developer_small=0x7f02001f;
+        public static final int dialog_bg=0x7f020020;
+        public static final int divideline=0x7f020021;
+        public static final int fav=0x7f020022;
+        public static final int grid_bg=0x7f020023;
+        public static final int grid_listselector=0x7f020024;
+        public static final int grid_mask=0x7f020025;
+        public static final int gridview_bg=0x7f020026;
+        public static final int gridview_selector=0x7f020027;
+        public static final int gridview_selector2=0x7f020028;
+        public static final int history=0x7f020029;
+        public static final int ic_launcher=0x7f02002a;
+        public static final int icon_delete=0x7f02002b;
+        public static final int listuibg=0x7f02002c;
+        public static final int listview_selector=0x7f02002d;
+        public static final int loading=0x7f02002e;
+        public static final int logo=0x7f02002f;
+        public static final int main_next=0x7f020030;
+        public static final int main_next_p=0x7f020031;
+        public static final int main_pause=0x7f020032;
+        public static final int main_pause_p=0x7f020033;
+        public static final int main_play=0x7f020034;
+        public static final int main_play_p=0x7f020035;
+        public static final int main_prev=0x7f020036;
+        public static final int main_prev_p=0x7f020037;
+        public static final int menu_delete=0x7f020038;
+        public static final int menu_modifylrc=0x7f020039;
+        public static final int menu_quickfind=0x7f02003a;
+        public static final int menu_refresh_list=0x7f02003b;
+        public static final int menu_syssettings=0x7f02003c;
+        public static final int menu_test=0x7f02003d;
+        public static final int menu_timer=0x7f02003e;
+        public static final int middle_bg=0x7f02003f;
+        public static final int music_bottom_playback_bg=0x7f020040;
+        public static final int musiclib=0x7f020041;
+        public static final int myicon=0x7f020042;
+        public static final int newadd=0x7f020043;
+        public static final int number_bg=0x7f020044;
+        public static final int panel_bg=0x7f020045;
+        public static final int popdialog_head_bg=0x7f020046;
+        public static final int qylk=0x7f020047;
+        public static final int roundconer_white_bg=0x7f020048;
+        public static final int seekbar_layer=0x7f020049;
+        public static final int select=0x7f02004a;
+        public static final int selector_checkbox=0x7f02004b;
+        public static final int selector_list=0x7f02004c;
+        public static final int selector_list_disable=0x7f02004d;
+        public static final int sliding_panel_visualization_bg=0x7f02004e;
+        public static final int smallicon_bg=0x7f02004f;
+        public static final int songimage=0x7f020050;
+        public static final int thumb=0x7f020051;
+        public static final int thumbnull=0x7f020052;
+        public static final int time_indicator_thumb_on=0x7f020053;
+        public static final int tool_equalizer_on=0x7f020054;
+        public static final int tool_favorite_off=0x7f020055;
+        public static final int tool_favorite_on=0x7f020056;
+        public static final int tool_info=0x7f020057;
+        public static final int tool_info_on=0x7f020058;
+        public static final int tool_repeat_all=0x7f020059;
+        public static final int tool_repeat_none=0x7f02005a;
+        public static final int tool_shuffle=0x7f02005b;
+        public static final int tool_shuffle_none=0x7f02005c;
+        public static final int topbg=0x7f02005d;
+        public static final int video=0x7f02005e;
+        public static final int voicesearch=0x7f02005f;
     }
     public static final class id {
         public static final int additionbtn=0x7f0a0027;
@@ -194,14 +168,14 @@ containing a value of this type.
         public static final int albumpic=0x7f0a003f;
         public static final int albums=0x7f0a001d;
         public static final int artist4this=0x7f0a0003;
-        public static final int artistdis=0x7f0a0053;
+        public static final int artistdis=0x7f0a004f;
         public static final int artistinfo=0x7f0a0045;
         public static final int artists=0x7f0a001c;
         public static final int baidu=0x7f0a004a;
         public static final int btn_checknew=0x7f0a0000;
         public static final int checkBox=0x7f0a0049;
         public static final int content=0x7f0a003b;
-        public static final int controller=0x7f0a005b;
+        public static final int controller=0x7f0a0057;
         public static final int delay=0x7f0a0038;
         public static final int dura=0x7f0a000b;
         public static final int et_album=0x7f0a0024;
@@ -211,7 +185,6 @@ containing a value of this type.
         public static final int etv2=0x7f0a0015;
         public static final int fav=0x7f0a001e;
         public static final int feedbackcontent=0x7f0a0016;
-        public static final int fire=0x7f0a004f;
         public static final int fm=0x7f0a004c;
         public static final int google=0x7f0a004b;
         public static final int headinfo=0x7f0a0040;
@@ -224,7 +197,7 @@ containing a value of this type.
         public static final int lartist=0x7f0a0048;
         public static final int lib=0x7f0a001b;
         public static final int listitem=0x7f0a0002;
-        public static final int logo=0x7f0a0065;
+        public static final int logo=0x7f0a0061;
         public static final int love=0x7f0a0007;
         public static final int lrcadj=0x7f0a0037;
         public static final int lrcaero=0x7f0a0034;
@@ -239,13 +212,13 @@ containing a value of this type.
         public static final int mlt=0x7f0a0033;
         public static final int mode=0x7f0a0006;
         public static final int music=0x7f0a0046;
-        public static final int musicinfo=0x7f0a0067;
-        public static final int musictitle=0x7f0a0066;
+        public static final int musicinfo=0x7f0a0063;
+        public static final int musictitle=0x7f0a0062;
         public static final int name=0x7f0a004d;
         public static final int negitivebtn=0x7f0a0028;
         public static final int newadd=0x7f0a0020;
         public static final int next=0x7f0a000f;
-        public static final int nextmusic=0x7f0a0054;
+        public static final int nextmusic=0x7f0a0050;
         public static final int ok=0x7f0a0039;
         public static final int openinfo=0x7f0a0009;
         public static final int panel=0x7f0a002b;
@@ -257,7 +230,6 @@ containing a value of this type.
         public static final int preview=0x7f0a0011;
         public static final int progressbar=0x7f0a000c;
         public static final int realtabcontent=0x7f0a0032;
-        public static final int searchbox=0x7f0a004e;
         public static final int searchopen=0x7f0a0021;
         public static final int seteq=0x7f0a0008;
         public static final int startist=0x7f0a0030;
@@ -267,35 +239,33 @@ containing a value of this type.
         public static final int sttitle=0x7f0a002f;
         public static final int submitfeedback=0x7f0a0017;
         public static final int sum=0x7f0a0004;
-        public static final int surface=0x7f0a005a;
+        public static final int surface=0x7f0a0056;
         public static final int tagoption=0x7f0a0025;
         public static final int textview=0x7f0a0019;
-        public static final int titledisplay=0x7f0a0052;
+        public static final int titledisplay=0x7f0a004e;
         public static final int titles=0x7f0a0010;
-        public static final int topadj=0x7f0a0050;
-        public static final int toptip=0x7f0a0055;
+        public static final int toptip=0x7f0a0051;
         public static final int trackinfo=0x7f0a0043;
-        public static final int updatelater=0x7f0a0058;
-        public static final int updatenow=0x7f0a0057;
-        public static final int versumary=0x7f0a0056;
-        public static final int videobar=0x7f0a005e;
-        public static final int videodura=0x7f0a005d;
-        public static final int videoduration=0x7f0a0064;
-        public static final int videoicon=0x7f0a0062;
-        public static final int videonext=0x7f0a0061;
-        public static final int videoplay=0x7f0a0060;
-        public static final int videopos=0x7f0a005c;
-        public static final int videopre=0x7f0a005f;
-        public static final int videotitle=0x7f0a0059;
-        public static final int videotype=0x7f0a0063;
+        public static final int updatelater=0x7f0a0054;
+        public static final int updatenow=0x7f0a0053;
+        public static final int versumary=0x7f0a0052;
+        public static final int videobar=0x7f0a005a;
+        public static final int videodura=0x7f0a0059;
+        public static final int videoduration=0x7f0a0060;
+        public static final int videoicon=0x7f0a005e;
+        public static final int videonext=0x7f0a005d;
+        public static final int videoplay=0x7f0a005c;
+        public static final int videopos=0x7f0a0058;
+        public static final int videopre=0x7f0a005b;
+        public static final int videotitle=0x7f0a0055;
+        public static final int videotype=0x7f0a005f;
         public static final int visualizer=0x7f0a0041;
         public static final int voicesearch=0x7f0a0005;
-        public static final int volumebar=0x7f0a0051;
         public static final int waitingbar=0x7f0a0029;
         public static final int waitposbar=0x7f0a0044;
-        public static final int widgetnext=0x7f0a006a;
-        public static final int widgetplaypause=0x7f0a0069;
-        public static final int widgetpre=0x7f0a0068;
+        public static final int widgetnext=0x7f0a0066;
+        public static final int widgetplaypause=0x7f0a0065;
+        public static final int widgetpre=0x7f0a0064;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -324,15 +294,13 @@ containing a value of this type.
         public static final int onlinemusic=0x7f030017;
         public static final int options=0x7f030018;
         public static final int popmenu_item_list=0x7f030019;
-        public static final int search_box=0x7f03001a;
-        public static final int simple_gridview=0x7f03001b;
-        public static final int top_control_panel=0x7f03001c;
-        public static final int top_info=0x7f03001d;
-        public static final int updatewindow=0x7f03001e;
-        public static final int video=0x7f03001f;
-        public static final int video_list=0x7f030020;
-        public static final int welcome=0x7f030021;
-        public static final int widget=0x7f030022;
+        public static final int simple_gridview=0x7f03001a;
+        public static final int top_info=0x7f03001b;
+        public static final int updatewindow=0x7f03001c;
+        public static final int video=0x7f03001d;
+        public static final int video_list=0x7f03001e;
+        public static final int welcome=0x7f03001f;
+        public static final int widget=0x7f030020;
     }
     public static final class string {
         public static final int adjustlrc=0x7f080011;
@@ -453,33 +421,4 @@ containing a value of this type.
     public static final class xml {
         public static final int appwidget_provider=0x7f050000;
     }
-    public static final class styleable {
-        /** Attributes that can be used with a MyScrollView.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #MyScrollView_default_screen cn.qylk:default_screen}</code></td><td></td></tr>
-           </table>
-           @see #MyScrollView_default_screen
-         */
-        public static final int[] MyScrollView = {
-            0x7f010000
-        };
-        /**
-          <p>This symbol is the offset where the {@link cn.qylk.R.attr#default_screen}
-          attribute's value can be found in the {@link #MyScrollView} array.
-
-
-          <p>Must be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:default_screen
-        */
-        public static final int MyScrollView_default_screen = 0;
-    };
 }

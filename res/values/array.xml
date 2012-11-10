@@ -8,12 +8,6 @@
         <item>DELLRC</item>
         <item>SCAN</item>
  </string-array>
-    <string-array name="popmenu">
-        <item>ringtone</item>
-        <item>info</item>
-        <item>remove</item>
-        <item>share</item>
-    </string-array>
     <string-array name="eqpresets">
         <item>无效果</item>
         <item>普通</item>

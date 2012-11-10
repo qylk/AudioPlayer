@@ -332,14 +332,20 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		if (pic != null)
 			picshow.setImageBitmap(pic);
 		else
-			picshow.setImageResource(R.drawable.album_list_default);
+			picshow.setImageResource(R.drawable.audio_player_default_album);
 	}
 
+	/**
+	 * 打开设置
+	 */
 	public void openPreference() {
 		Intent intent = new Intent(this, Preference.class);
 		startActivityForResult(intent, PREFERENCE_CODE);
 	}
 
+	/**
+	 * 初始化频谱显示
+	 */
 	public void setupVisualizerFxAndUi() {
 		mVisualizer = new Visualizer(Service.getAudioSessionId());
 		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);

@@ -13,7 +13,7 @@
     <string name="searchresult">搜索结果列表</string>
     <string name="quicksearch">点播</string>
     <string name="submit">提交</string>
-    <string name="feedbacktitle">Bug和建议反馈(限250字)</string>
+    <string name="feedbacktitle">Bug和建议反馈(限50~250字)</string>
     <string name="feedbackhint">建议最后附带您的联系方式</string>
     <string name="readtag1">尝试ID3V1</string>
      <string name="pk_eqpanel">eqpanel</string>

@@ -25,6 +25,19 @@ public class MediaLyric {
 	}
 
 	/**
+	 * 千千静听歌词下载 2012-06-06
+	 * 
+	 * @param entry
+	 * @param path
+	 * @param id
+	 * @return maybe null
+	 */
+	public static List<LRCbean> downLoadLyric(TrackInfo entry, File path, int id) {
+		new FileHelper().WriteFile(new QianQianLyrics().fetch(entry, id), path,"GB2312");
+		return LrcParser.ParseLrc(path);
+	}
+
+	/**
 	 * 利用三种方法获取歌词，一一尝试直到成功获取，它们是：本地sd卡、网络、歌曲文件tag
 	 * 
 	 * @param entry
@@ -59,18 +72,5 @@ public class MediaLyric {
 	 */
 	public static List<LyricResults> SearchLyrics(TrackInfo entry) {
 		return new QianQianLyrics().getList(entry);
-	}
-
-	/**
-	 * 千千静听歌词下载 2012-06-06
-	 * 
-	 * @param entry
-	 * @param path
-	 * @param id
-	 * @return maybe null
-	 */
-	public static List<LRCbean> downLoadLyric(TrackInfo entry, File path, int id) {
-		new FileHelper().WriteFile(new QianQianLyrics().fetch(entry, id), path,"GB2312");
-		return LrcParser.ParseLrc(path);
 	}
 }

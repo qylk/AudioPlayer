@@ -36,8 +36,8 @@ public class Update implements Callback {
 			ExameVerCode();
 		}
 	});
-	private Handler handler = new Handler(this);
 	private byte code;
+	private Handler handler = new Handler(this);
 	private String info, ver, localver;
 
 	/**
@@ -89,6 +89,12 @@ public class Update implements Callback {
 		}
 	}
 
+	@Override
+	public boolean handleMessage(Message msg) {
+		DisplayMsg();
+		return true;
+	}
+
 	/**
 	 * 解析新版本
 	 * 
@@ -111,11 +117,5 @@ public class Update implements Callback {
 	public void start(Context context) {
 		localver = context.getResources().getString(R.string.version);
 		CheckUpdateThread.start();
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		DisplayMsg();
-		return true;
 	}
 }

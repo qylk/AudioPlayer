@@ -15,6 +15,13 @@ public class Logo extends Activity implements Callback {
 	private Handler handler = new Handler(this);
 
 	@Override
+	public boolean handleMessage(Message msg) {
+		startActivity(new Intent(Logo.this, ListUI.class));
+		finish();
+		return true;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);// 显示欢迎画面
@@ -33,12 +40,5 @@ public class Logo extends Activity implements Callback {
 		}
 		new ScanMedia().ScanSD(false);
 		handler.sendEmptyMessageDelayed(0, 3000);
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		startActivity(new Intent(Logo.this, ListUI.class));
-		finish();
-		return true;
 	}
 }

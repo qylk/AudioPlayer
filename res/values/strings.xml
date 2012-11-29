@@ -19,6 +19,7 @@
     <string name="scanmusic">扫描歌曲</string>
     <string name="adjustlrc">调整歌词</string>
     <string name="quicksearch">点播</string>
+     <string name="mail">Email：xiaofang99@139.com</string>
     <string name="sleep">睡眠定时</string>
     <string name="musicalbum">ALBUM:</string>
     <string name="submit">SUBMIT</string>
@@ -43,7 +44,7 @@
     <string name="pt_lrc_color">LYRIC COLOR</string>
     <string name="ps_lrc_color">COLOR PREVIEW</string>
     <string name="pt_mediabutton">MEDIABUTTON</string>
-    <string name="version">2.7.1</string>
+    <string name="version">2.7.2</string>
     <string name="timercancel">SLEEP CANCELED</string>
     <string name="musictitle">TITLE:</string>
     <string name="musicartist">ARTIST:</string>
@@ -57,7 +58,7 @@
     <string name="newlist">NEW LIST</string>
     <string name="pt_wifimode">WIFI ONLY</string>
     <string name="delphy">删除SD卡上的文件</string>
-    <string name="updatetime">2012–09–27</string>
+    <string name="updatetime">2012–10–19</string>
     <string name="googlepage">GoogleCode Page\n http://code.google.com/p/qylk2011/</string>
     <string name="blogpage">Blog Page\n http://www.qylk.blog.163.com/</string>
     <string name="qq">QQ: 987395671</string>

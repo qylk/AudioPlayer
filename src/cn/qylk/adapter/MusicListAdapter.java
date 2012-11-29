@@ -1,5 +1,7 @@
 package cn.qylk.adapter;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.HashSet;
 
 import android.database.Cursor;
@@ -13,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.qylk.R;
+import cn.qylk.fragment.CommonAdapter;
 
 /**
  * 歌曲列表适配
@@ -20,7 +23,7 @@ import cn.qylk.R;
  * @author qylk2012
  * 
  */
-public class MusicListAdapter extends BaseAdapter {
+public class MusicListAdapter extends BaseAdapter implements Closeable,CommonAdapter {
 	class ViewHolder {
 		public TextView artist;
 		public ImageButton Cbox;
@@ -29,12 +32,12 @@ public class MusicListAdapter extends BaseAdapter {
 	}
 
 	final static int TITLE = 4, ARTIST = 2, _ID = 0;
+	private int curID;
 	private LayoutInflater Inflater;
 	private SparseBooleanArray innerList;
 	private Cursor myCur;
 	private boolean OnActionMode;
 	private HashSet<Integer> selectedlist;
-	private int curID;
 
 	public MusicListAdapter(LayoutInflater Inflater, Cursor cur) {
 		myCur = cur;
@@ -49,12 +52,13 @@ public class MusicListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getCount() {// 必须如实实现此方法，初始为return 0，没管他，结果列表中什么也没显示；
-		return myCur.getCount();
+	public void close() throws IOException {
+		myCur.close();
 	}
 
-	public Cursor GetCursor() {
-		return myCur;
+	@Override
+	public int getCount() {
+		return myCur.getCount();
 	}
 
 	@Override
@@ -149,11 +153,6 @@ public class MusicListAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void swapCursor(Cursor cursor) {
-		this.myCur = cursor;
-		notifyDataSetChanged();
-	}
-
 	/**
 	 * 切换ActionMode下的选择项
 	 * 
@@ -173,7 +172,25 @@ public class MusicListAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void setCurId(int id) {
+	@Override
+	public void setId(int id) {
 		curID = id;
+	}
+
+	@Override
+	public CharSequence getFirstChar(int position) {
+		myCur.moveToPosition(position);
+		return myCur.getString(TITLE).subSequence(0,1);
+	}
+
+	@Override
+	public void RefreshList(Cursor c) {
+		this.myCur = c;
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public Cursor getCursor() {
+		return myCur;
 	}
 }

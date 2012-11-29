@@ -7,6 +7,7 @@
     <color name="lightgray">#50000000</color>
     <color name="window_bg">#fff0f3f6</color>
     <color name="solid_dark">#555555</color>
+    <color name="light_dark">#55bbbbbb</color>
     <color name="dialog_bg">#bb555555</color>
     <color name="purered">#ff0000</color>
     <color name="green_dark">#7ba11d</color>

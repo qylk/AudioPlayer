@@ -2,14 +2,14 @@ package cn.qylk.adapter;
 
 import java.util.List;
 
-import cn.qylk.R;
-import cn.qylk.QianQianLyrics.LyricResults;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import cn.qylk.R;
+import cn.qylk.QianQianLyrics.LyricResults;
 
 public class QianQianAdapter extends BaseAdapter {
 	Context context;

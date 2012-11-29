@@ -1,12 +1,12 @@
 package cn.qylk.utils;
 
-import cn.qylk.app.APP;
-import cn.qylk.app.ListTypeInfo;
-import cn.qylk.app.MyAction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import cn.qylk.app.APP;
+import cn.qylk.app.ListTypeInfo;
+import cn.qylk.app.MyAction;
 
 /**
  * Send Broadcasts
@@ -16,7 +16,7 @@ import android.os.Message;
  */
 public final class SendAction {
 	public static enum ServiceControl {
-		PRE, NEXT, PAUSE_CONTINE, PAUSE, PLAYNEW
+		NEXT, PAUSE, PAUSE_CONTINE, PLAYNEW, PRE
 	}
 
 	private static Context ct = APP.getInstance();
@@ -46,6 +46,8 @@ public final class SendAction {
 	}
 
 	public static void SendListChangedSignal(ListTypeInfo info) {
+		if (info == null)
+			return;
 		Intent intent = new Intent(MyAction.INTENT_LISTCHANGED);
 		intent.putExtra("list", info.list);
 		intent.putExtra("para", info.para);

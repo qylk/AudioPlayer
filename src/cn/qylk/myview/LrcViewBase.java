@@ -14,9 +14,9 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 	protected int centerX, centerY;
 	protected Paint cPaint, ncPaint;
 	protected float fp;
+	protected int gap=0;
 	protected int index;
 	protected float len;
-	protected int gap=0;
 	protected LrcPackage lrcpac;
 	protected int lTime, cTime, sTime;
 	protected int nextpoint, offset;
@@ -83,12 +83,12 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 	}
 
 	@Override
-	public void setGap(int gap) {
-		this.gap = gap;
-	}
-
-	@Override
 	protected abstract void onDraw(Canvas canvas);
+
+	protected void OnNextLine() {
+		index++;
+		updatedata();
+	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int ow, int oh) {
@@ -102,13 +102,14 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 		cPaint.setColor(color);
 	}
 
-	public void setSecondColor(int color) {
-		ncPaint.setColor(color);
+	@Override
+	public void setGap(int gap) {
+		this.gap = gap;
 	}
 
-	public void setOffset(int offset) {
-		this.offset += offset;
-		nextpoint = lrcpac.list.get(index + 1).beginTime + offset;
+	public void setLrcTextSize(float size) {
+		float des = getResources().getDisplayMetrics().density;
+		TextSize = size * des;
 	}
 
 	public void setLyric(LrcPackage lrc) {
@@ -117,15 +118,19 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 		offset = 0;
 	}
 
+	public void setOffset(int offset) {
+		this.offset += offset;
+		nextpoint = lrcpac.list.get(index + 1).beginTime + offset;
+	}
+
+	public void setSecondColor(int color) {
+		ncPaint.setColor(color);
+	}
+
 	public void setShadow(boolean shadow) {
 		this.shadow = shadow;
 		if (!shadow)
 			cPaint.setShader(null);
-	}
-
-	public void setLrcTextSize(float size) {
-		float des = getResources().getDisplayMetrics().density;
-		TextSize = size * des;
 	}
 
 	protected void updatedata() {
@@ -142,11 +147,6 @@ public abstract class LrcViewBase extends TextView implements ILrcView {
 			lTime = lrcpac.list.get(index).lineTime;
 		}
 		len = this.getTextSize() * lrcpac.list.get(index).lrcBody.length();
-	}
-
-	protected void OnNextLine() {
-		index++;
-		updatedata();
 	}
 
 	public void updateView(int progress) {

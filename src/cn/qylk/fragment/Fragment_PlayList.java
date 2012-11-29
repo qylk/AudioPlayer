@@ -4,15 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,8 +35,8 @@ import cn.qylk.utils.SendAction.ServiceControl;
  * 
  * @author qylk 2012-04-01
  */
-public class Fragment_PlayList extends Fragment implements OnItemClickListener,
-		OnItemLongClickListener {
+public class Fragment_PlayList extends Fragment_ListFragmentBase implements
+		OnItemClickListener, OnItemLongClickListener{
 	private class AnActionModeOfEpicProportions implements ActionMode.Callback {
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
@@ -61,7 +58,7 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			adapter.OnActionMode(false, 0);
+			madapter.OnActionMode(false, 0);
 		}
 
 		@Override
@@ -70,17 +67,10 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 		}
 	}
 
-	public MusicListAdapter adapter;
-	private Handler handler;
-	private ListTypeInfo ListInfo;
-	public ListView musiclist;
+	private MusicListAdapter madapter;
 
 	public Fragment_PlayList(ListTypeInfo listInfo) {
-		ListInfo = listInfo;
-	}
-
-	@Deprecated
-	public Fragment_PlayList() {
+		super(listInfo);
 	}
 
 	private void AddToPersonalList(Integer[] ids) {
@@ -93,7 +83,7 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 	 * @param id
 	 */
 	private void DispatchMenuClick(int id) {
-		Integer[] ids = adapter.GetSelectedList();// 已选列表
+		Integer[] ids = madapter.GetSelectedList();// 已选列表
 		if (ids.length == 0)// 空列表
 			return;
 		switch (id) {
@@ -124,68 +114,42 @@ public class Fragment_PlayList extends Fragment implements OnItemClickListener,
 		SendAction.SendControlMsg(ServiceControl.PLAYNEW);
 	}
 
-	private Cursor getCursor() {
+	@Override
+	protected Cursor getCursor() {
 		return MediaDatabase.GetCursor(ListInfo);
 	}
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	protected View InitView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.listview, null);
-		musiclist = (ListView) view.findViewById(R.id.mlt);
-		adapter = new MusicListAdapter(inflater, getCursor());// 适配器
-		musiclist.setAdapter(adapter);// 绑定
-		musiclist.setOnItemClickListener(this);
-		musiclist.setOnItemLongClickListener(this);
-		
-		handler = new Handler() {
-
-			@Override
-			public void handleMessage(Message msg) {
-				ReFreshList();
-				super.handleMessage(msg);
-			}
-		};
-		UpdateList();
-		musiclist.setSelectionFromTop(APP.list.getIndex(), 150);
+		listview = (ListView) view.findViewById(R.id.mlt);
+		madapter = new MusicListAdapter(inflater, getCursor());// 适配器
+		adapter = madapter;
+		listview.setAdapter(adapter);// 绑定
+		listview.setOnItemClickListener(this);
+		listview.setOnItemLongClickListener(this);
+		listview.setSelectionFromTop(APP.list.getIndex(), 150);
 		return view;
-	}
-
-	public void UpdateList() {
-		adapter.setCurId(APP.list.getId());
-		adapter.notifyDataSetInvalidated();
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (!adapter.getState())
+		if (!madapter.getState())
 			DispatchMusicItemClick(position);
 		else {
-			adapter.ToggleSelection(position);
+			madapter.ToggleSelection(position);
 		}
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		if (adapter.getState())
+		if (madapter.getState())
 			return true;
 		getActivity().startActionMode(new AnActionModeOfEpicProportions());// 开启actionmode菜单
-		adapter.OnActionMode(true, position);
+		madapter.OnActionMode(true, position);
 		return true;
-	}
-
-	private void PostListChangedSignal() {
-		SendAction.SendListChangedSignal(ListInfo);
-	}
-
-	/**
-	 * 刷新列表
-	 */
-	private void ReFreshList() {
-		adapter.swapCursor(getCursor());
-		PostListChangedSignal();
 	}
 
 	/**

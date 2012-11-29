@@ -1,7 +1,5 @@
 package cn.qylk.app;
 
-import cn.qylk.utils.SendAction;
-import cn.qylk.utils.SendAction.ServiceControl;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,6 +8,8 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import cn.qylk.utils.SendAction;
+import cn.qylk.utils.SendAction.ServiceControl;
 
 public class SensorTest implements Callback {
 	private class SensorListenerImpl implements SensorEventListener{// 监听类
@@ -67,6 +67,12 @@ public class SensorTest implements Callback {
 		SensorListenerImpl = new SensorListenerImpl();
 	}
 
+	@Override
+	public boolean handleMessage(Message msg) {
+		SendAction.SendControlMsg(ServiceControl.NEXT);// 换下一首歌
+		return true;
+	}
+
 	public void StartService() {// 启动服务
 		if (started)
 			return;
@@ -84,11 +90,5 @@ public class SensorTest implements Callback {
 			mSensorManager.unregisterListener(SensorListenerImpl);
 			started = false;
 		}
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		SendAction.SendControlMsg(ServiceControl.NEXT);// 换下一首歌
-		return true;
 	}
 }

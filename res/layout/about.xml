@@ -6,6 +6,5 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/logo" />
+        android:scaleType="fitXY" />
 </LinearLayout>

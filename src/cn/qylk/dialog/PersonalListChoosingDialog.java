@@ -1,9 +1,9 @@
 package cn.qylk.dialog;
 
-import cn.qylk.database.MediaDatabase;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import cn.qylk.database.MediaDatabase;
 
 public class PersonalListChoosingDialog extends AlertDialog implements
 		DialogInterface.OnClickListener {
@@ -19,9 +19,9 @@ public class PersonalListChoosingDialog extends AlertDialog implements
 	public Builder Build(Integer[] ids) {
 		this.ids = ids;
 		list = MediaDatabase.GetPersonalListUsingList(); // 读取所有列表
-		list[list.length - 1] = "[NEW]";
+		list[list.length - 1] = "[新建]";
 		Builder builder = new Builder(context);
-		builder.setTitle("Choose").setItems(list, this);
+		builder.setTitle("选择").setItems(list, this);
 		return builder;
 	}
 

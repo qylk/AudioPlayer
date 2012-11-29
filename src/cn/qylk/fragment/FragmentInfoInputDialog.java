@@ -32,13 +32,13 @@ import cn.qylk.utils.ID3;
 
 public class FragmentInfoInputDialog extends DialogFragment implements
 		OnClickListener, onPostLrcItems, OnCheckedChangeListener {
-	private EditText title, artist, album;
-	private Button positive, negitive, readtag1;
 	private String dialogtitle;
 	private TrackInfo info;
 	private ListView lrclist;
-	private ProgressBar waitingbar;
+	private Button positive, negitive, readtag1;
 	private CheckBox tagflag;
+	private EditText title, artist, album;
+	private ProgressBar waitingbar;
 
 	public FragmentInfoInputDialog(TrackInfo info, String title) {
 		this.dialogtitle = title;
@@ -47,34 +47,15 @@ public class FragmentInfoInputDialog extends DialogFragment implements
 				android.R.style.Theme_Holo_DialogWhenLarge);
 	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		getDialog().setTitle(dialogtitle);
-		View dialog = inflater.inflate(R.layout.infodialog, container, false);
-		title = (EditText) dialog.findViewById(R.id.et_title);
-		title.setText(info.title);
-		lrclist = (ListView) dialog.findViewById(R.id.lrclist);
-		artist = (EditText) dialog.findViewById(R.id.et_artist);
-		artist.setText(info.artist);
-		album = (EditText) dialog.findViewById(R.id.et_album);
-		album.setText(info.album);
-		readtag1 = (Button) dialog.findViewById(R.id.additionbtn);
-		readtag1.setOnClickListener(this);
-		tagflag = (CheckBox) dialog.findViewById(R.id.tagoption);
-		tagflag.setOnCheckedChangeListener(this);
-		positive = (Button) dialog.findViewById(R.id.positivebtn);
-		negitive = (Button) dialog.findViewById(R.id.negitivebtn);
-		waitingbar = (ProgressBar) dialog.findViewById(R.id.waitingbar);
-		positive.setOnClickListener(this);
-		negitive.setOnClickListener(this);
-		return dialog;
-	}
-
 	private void getText() {
 		info.title = title.getText().toString();
 		info.artist = artist.getText().toString();
 		info.album = album.getText().toString();
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		((MainActivity) getActivity()).Service.setRWFlag(isChecked);
 	}
 
 	@Override
@@ -111,6 +92,30 @@ public class FragmentInfoInputDialog extends DialogFragment implements
 	}
 
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		getDialog().setTitle(dialogtitle);
+		View dialog = inflater.inflate(R.layout.infodialog, container, false);
+		title = (EditText) dialog.findViewById(R.id.et_title);
+		title.setText(info.title);
+		lrclist = (ListView) dialog.findViewById(R.id.lrclist);
+		artist = (EditText) dialog.findViewById(R.id.et_artist);
+		artist.setText(info.artist);
+		album = (EditText) dialog.findViewById(R.id.et_album);
+		album.setText(info.album);
+		readtag1 = (Button) dialog.findViewById(R.id.additionbtn);
+		readtag1.setOnClickListener(this);
+		tagflag = (CheckBox) dialog.findViewById(R.id.tagoption);
+		tagflag.setOnCheckedChangeListener(this);
+		positive = (Button) dialog.findViewById(R.id.positivebtn);
+		negitive = (Button) dialog.findViewById(R.id.negitivebtn);
+		waitingbar = (ProgressBar) dialog.findViewById(R.id.waitingbar);
+		positive.setOnClickListener(this);
+		negitive.setOnClickListener(this);
+		return dialog;
+	}
+
+	@Override
 	public void onLrcSearchDone(List<LyricResults> items) {
 		waitingbar.setVisibility(View.GONE);
 		negitive.setEnabled(true);
@@ -133,10 +138,5 @@ public class FragmentInfoInputDialog extends DialogFragment implements
 			});
 		} else
 			Toast.makeText(getActivity(), "没有找到歌词", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		((MainActivity) getActivity()).Service.setRWFlag(isChecked);
 	}
 }

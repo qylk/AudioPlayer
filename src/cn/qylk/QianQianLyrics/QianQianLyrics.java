@@ -2,13 +2,14 @@ package cn.qylk.QianQianLyrics;
 
 import java.io.IOException;
 import java.util.List;
+
 import cn.qylk.app.TrackInfo;
 import cn.qylk.utils.WebUtils;
 
 public class QianQianLyrics {
 	private static String DownloadUrl = "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?dl?Id=%s&Code=%s";
-	private QianQianEncoding coding;
 	private static String SearchUrl = "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?sh?Artist=%s&Title=%s&Flags=0";
+	private QianQianEncoding coding;
 
 	public QianQianLyrics() {
 		coding = new QianQianEncoding();

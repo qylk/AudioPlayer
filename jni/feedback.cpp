@@ -64,11 +64,11 @@ char* jstringTostring(JNIEnv* env, jstring jstr)
 JNIEXPORT jboolean JNICALL Java_cn_qylk_FeedBackUI_FeedBack(JNIEnv *env, jclass obj, jstring content)
 {
 const char *host_id="smtp.139.com";//ESMTP server
-const char *from_id="15891751769@139.com";//sender email address   
+const char *from_id="xiaofang99@139.com";//sender email address   
 const char *to_id=from_id;//receiver email address
 const char *sub="QPlayer的反馈意见";
 char cc[]={0x3f,0x3d,0x21,0x11,0x4f,0x6a,0x40,0x7b,0x3e,0x2e,0x2a,0x02,0x5b,0x77,0x3c,0x3f,0x00};//根据我的密钥加密算出的读不懂的密码
-const char key[]={/**/};//8位密钥，自己填   
+const char key[]={};//8位密钥，自己填   
 
 struct sockaddr_in server;
 /*=====Create Socket=====*/

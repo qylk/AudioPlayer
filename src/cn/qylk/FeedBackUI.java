@@ -22,12 +22,23 @@ public class FeedBackUI extends Activity implements OnClickListener, Callback {
 	static {
 		System.loadLibrary("feedback");
 	}
-	private EditText content;
-	private ProgressDialog posdlg;
-
 	private static native boolean FeedBack(String content);
+	private EditText content;
 
 	private Handler handler;
+
+	private ProgressDialog posdlg;
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		posdlg.dismiss();
+		if (msg.what == 0)
+			Toast.makeText(FeedBackUI.this, "提交失败了", Toast.LENGTH_LONG).show();
+		else
+			Toast.makeText(FeedBackUI.this, "提交成功,感谢您的支持!", Toast.LENGTH_LONG)
+					.show();
+		return true;
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -56,16 +67,5 @@ public class FeedBackUI extends Activity implements OnClickListener, Callback {
 		Button submit = (Button) findViewById(R.id.submitfeedback);
 		submit.setOnClickListener(this);
 		handler = new Handler(this);
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		posdlg.dismiss();
-		if (msg.what == 0)
-			Toast.makeText(FeedBackUI.this, "提交失败了", Toast.LENGTH_LONG).show();
-		else
-			Toast.makeText(FeedBackUI.this, "提交成功,感谢您的支持!", Toast.LENGTH_LONG)
-					.show();
-		return true;
 	}
 }

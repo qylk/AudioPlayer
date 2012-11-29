@@ -1,11 +1,5 @@
 package cn.qylk.widget;
 
-import cn.qylk.ListUI;
-import cn.qylk.R;
-import cn.qylk.app.APP;
-import cn.qylk.app.MyAction;
-import cn.qylk.utils.SendAction;
-import cn.qylk.utils.SendAction.ServiceControl;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -16,6 +10,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.RemoteViews;
+import cn.qylk.ListUI;
+import cn.qylk.R;
+import cn.qylk.app.APP;
+import cn.qylk.app.MyAction;
+import cn.qylk.utils.SendAction;
+import cn.qylk.utils.SendAction.ServiceControl;
 
 /**
  * @author qylk2012

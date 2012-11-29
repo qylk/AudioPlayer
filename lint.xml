@@ -6,7 +6,10 @@
     </issue>
     <issue id="HandlerLeak">
         <ignore path="src\cn\qylk\VideoActivity.java" />
+        <ignore path="src\cn\qylk\fragment\Fragment_ListFragmentBase.java" />
         <ignore path="src\cn\qylk\fragment\Fragment_PlayList.java" />
     </issue>
+    <issue id="HardcodedText" severity="ignore" />
     <issue id="TextFields" severity="ignore" />
+    <issue id="ValidFragment" severity="ignore" />
 </lint>

@@ -4,32 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_gravity="center_horizontal"
+        android:padding="4dp"
         android:src="@drawable/qylk" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10.0dp"
         android:background="@drawable/roundconer_white_bg"
         android:orientation="vertical" >
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="Build Ver:"
                 android:textSize="19sp" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,24 +34,20 @@
                 android:text="@string/version"
                 android:textSize="19sp" />
         </LinearLayout>
-
         <View
             android:layout_width="fill_parent"
             android:layout_height="1.0px"
             android:background="@drawable/divideline" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="Build time:"
                 android:textSize="19sp" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,12 +56,10 @@
                 android:text="@string/updatetime"
                 android:textSize="19sp" />
         </LinearLayout>
-
         <View
             android:layout_width="fill_parent"
             android:layout_height="1.0px"
             android:background="@drawable/divideline" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,26 +67,22 @@
             android:text="@string/versionsumary"
             android:textSize="16sp" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10.0dp"
         android:background="@drawable/roundconer_white_bg"
         android:orientation="vertical" >
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"
             android:padding="6dp"
             android:text="@string/googlepage" />
-
         <View
             android:layout_width="fill_parent"
             android:layout_height="1.0px"
             android:background="@drawable/divideline" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,12 +90,10 @@
             android:padding="6dp"
             android:text="@string/blogpage" >
         </TextView>
-
         <View
             android:layout_width="fill_parent"
             android:layout_height="1.0px"
             android:background="@drawable/divideline" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,26 +103,23 @@
             android:layout_width="fill_parent"
             android:layout_height="1.0px"
             android:background="@drawable/divideline" />
-
         <TextView
             android:id="@+id/btn_checknew"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:textColor="#0000FF"
-            android:text="@string/checknew" />
+            android:autoLink="email"
+            android:text="@string/mail" />
     </LinearLayout>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/author" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/authorsummary" />
-</LinearLayout>
+</LinearLayout>

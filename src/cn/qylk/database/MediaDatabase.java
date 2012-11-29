@@ -2,7 +2,6 @@ package cn.qylk.database;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -30,7 +29,7 @@ public class MediaDatabase {
 		return resolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
 				new String[] { MediaStore.Audio.Albums.ALBUM,
 						MediaStore.Audio.Albums.NUMBER_OF_SONGS,
-						MediaStore.Audio.Albums.ARTIST }, null, null, null);
+						MediaStore.Audio.Albums.ARTIST ,MediaStore.Audio.Artists._ID}, null, null, null);
 	}
 
 	/**
@@ -42,7 +41,7 @@ public class MediaDatabase {
 		return resolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
 				new String[] { MediaStore.Audio.Artists.ARTIST,
 						MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
-						MediaStore.Audio.Artists.ARTIST }, null, null, null);
+						MediaStore.Audio.Artists.ARTIST,MediaStore.Audio.Artists._ID }, null, null, null);
 	}
 
 	public static Cursor GetCursor(ListTypeInfo type) {
@@ -51,28 +50,33 @@ public class MediaDatabase {
 		String[] args = null;
 		switch (type.list) {
 		case ALLSONGS:
+			sortorder = "title ASC";
 			break;
 		case ARTIST:
-			selection = "artist=?";
-			args = new String[] { type.para };
+			selection = "artist_id=?";
+			args = new String[] { String.valueOf(type.para) };
+			sortorder = "artist ASC";
 			break;
 		case ALBUM:
-			selection = "album=?";
-			args = new String[] { type.para };
+			selection = "album_id=?";
+			args = new String[] { String.valueOf(type.para) };
+			sortorder = "album ASC";
 			break;
 		case PERSONAL:
 			selection = MediaStore.Audio.Media._ID + " in ("
-					+ PersonalListIDS(Integer.valueOf(type.para)) + ")";
+					+ PersonalListIDS(type.para) + ")";
+			sortorder = "title ASC";
 			break;
 		case SEARCH:
-			selection = "title LIKE '%" + type.para + "%' OR artist LIKE '%"
-					+ type.para + "%'";
+			selection = "title LIKE '%" + type.keyword + "%' OR artist LIKE '%"
+					+ type.keyword + "%'";
 			break;
 		case HISTORY:
 			sortorder = "date_modified DESC LIMIT 10";// 取历史记录10条
 			break;
 		case LOVE:
 			selection = "bookmark=1";
+			sortorder = "title ASC";
 			break;
 		case RECENTADD:
 			selection = "date_added >"
@@ -120,9 +124,9 @@ public class MediaDatabase {
 	 * @param type
 	 * @return
 	 */
-	public static List<Integer> getIDS(ListTypeInfo type) {
+	public static ArrayList<Integer> getIDS(ListTypeInfo type) {
 		Cursor c = GetCursor(type);
-		List<Integer> ids = new ArrayList<Integer>(c.getCount());
+		ArrayList<Integer> ids = new ArrayList<Integer>(c.getCount());
 		while (c.moveToNext())
 			ids.add(c.getInt(0));
 		c.close();
@@ -181,15 +185,12 @@ public class MediaDatabase {
 	 * 获取所有私有列表名称
 	 */
 	public static CharSequence[] GetPersonalListUsingList() {
-		Cursor c = resolver.query(
-				MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
-				new String[] { MediaStore.Audio.Playlists.NAME }, null, null,
-				null);
+		Cursor c = GetPersonalListUsingCursor();
 		int sum = c.getCount();
 		CharSequence[] list = new CharSequence[sum + 1];
 		int i = 0;
 		while (c.moveToNext()) {
-			list[i++] = c.getString(0);
+			list[i++] = c.getString(1);
 		}
 		c.close();
 		return list;

@@ -1,17 +1,15 @@
 package cn.qylk.app;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import cn.qylk.database.MediaDatabase;
 
-public class PlayList implements IPlayList, Serializable {
-	private static final long serialVersionUID = 5825205493228075325L;
-	private List<Integer> ids;
+public class PlayList implements IPlayList {
+	private ArrayList<Integer> ids;
+	private int lastId;
 	private PlayMode mode = PlayMode.Normal;
 	private int sum;
-	private int lastId;
 	private TrackInfo track = new TrackInfo();
 	private ListTypeInfo typeinfo;
 
@@ -37,6 +35,11 @@ public class PlayList implements IPlayList, Serializable {
 	public String getNextTitle() {
 		return MediaDatabase.getTrackInfo(ids.get((typeinfo.pos + 1) % sum),
 				null).title;
+	}
+
+	@Override
+	public TrackInfo getPreviousEntity() {
+		return MediaDatabase.getTrackInfo(lastId, null);
 	}
 
 	@Override
@@ -85,9 +88,10 @@ public class PlayList implements IPlayList, Serializable {
 	}
 
 	public void setListType(ListTypeInfo info) {
-		if (mode == PlayMode.Shuffle)//当前正处于随机播放中，当用户从列表界面选择歌曲时，需要更改为顺序播放。
+		if (mode == PlayMode.Shuffle)// 当前正处于随机播放中，当用户从列表界面选择歌曲时，需要更改为顺序播放。
 			setMode(PlayMode.Normal);
-		if (typeinfo == null || !info.para.equals(typeinfo.para)) {// 条件1：typeinfo==null,即初次建表，条件2：列表参数不同
+		if (typeinfo == null || info.para != typeinfo.para
+				|| info.list != typeinfo.list) {// 条件1：typeinfo==null,即初次建表，条件2：列表不同
 			this.ids = MediaDatabase.getIDS(info);
 			sum = ids.size();
 			this.typeinfo = info;
@@ -96,8 +100,7 @@ public class PlayList implements IPlayList, Serializable {
 			typeinfo.pos = info.pos;
 		if (info.pos >= sum)
 			info.pos = 0;
-		if (sum != 0)
-			MediaDatabase.getTrackInfo(getId(), track);
+		MediaDatabase.getTrackInfo(getId(), track);
 	}
 
 	@Override
@@ -107,10 +110,5 @@ public class PlayList implements IPlayList, Serializable {
 			Collections.shuffle(ids);
 		else if (mode == PlayMode.Normal)
 			Collections.sort(ids);
-	}
-
-	@Override
-	public TrackInfo getPreviousEntity() {
-		return MediaDatabase.getTrackInfo(lastId, null);
 	}
 }

@@ -1,11 +1,11 @@
 package cn.qylk.dialog;
 
-import cn.qylk.R;
-import cn.qylk.database.MediaDatabase;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
+import cn.qylk.R;
+import cn.qylk.database.MediaDatabase;
 
 public class NewPersonalListDialog extends AlertDialog {
 	private Context context;
@@ -24,7 +24,7 @@ public class NewPersonalListDialog extends AlertDialog {
 	public Builder Build() {
 		final EditText inputbox = new EditText(context);
 		inputbox.setSingleLine(true);
-		inputbox.setText("NEW LIST");
+		inputbox.setText("MYLIST");
 		Builder builder = new Builder(context);
 		builder.setTitle(R.string.newlist).setView(inputbox)
 				.setPositiveButton(R.string.build, new OnClickListener() {

@@ -44,7 +44,7 @@
     <string name="pt_lrc_color">歌词高亮颜色</string>
     <string name="ps_lrc_color">颜色预览</string>
     <string name="pt_mediabutton">媒体键支持</string>
-    <string name="version">2.7.1</string>
+    <string name="version">2.7.2</string>
     <string name="timercancel">取消睡眠</string>
     <string name="musictitle">标题:</string>
     <string name="musicartist">艺术家:</string>
@@ -60,11 +60,11 @@
     <string name="pt_wifimode">仅wifi可用时</string>
     <string name="ps_wifi">当wifi可用时，才允许播放器联网下载高清专辑图片</string>
     <string name="delphy">删除SD卡上的文件</string>
-    <string name="updatetime">2012–10–17</string>
+    <string name="updatetime">2012–10–19</string>
     <string name="googlepage">GoogleCode Page\n http://code.google.com/p/qylk2011/</string>
     <string name="blogpage">博客主页\n http://www.qylk.blog.163.com/</string>
     <string name="qq">秋秋: 987395671</string>
-    <string name="checknew">点击以检测新版本</string>
+    <string name="checknew">检测新版</string>
     <string name="build">新建</string>
     <string name="pt_desklrc">桌面歌词</string>
     <string name="ps_desklrc">退出程序界面后，在桌面显示双行歌词</string>
@@ -82,6 +82,7 @@
     <string name="pk_desklrc">desklrc</string>
     <string name="pk_about">about</string>
     <string name="author">QYLK 2008–2012</string>
+     <string name="mail">Email:xiaofang99@139.com</string>
     <string name="updatenow">现在更新</string>
     <string name="updatelater">稍后再说</string>
     <string name="authorsummary">西安电子科技大学电子工程学院</string>

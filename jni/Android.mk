@@ -6,6 +6,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := tagjni
 ##支持异常处理
 ##LOCAL_CPPFLAGS += -fexceptions
+#设置wchar为2字节,默认为4字节
+LOCAL_CFLAGS :=-fshort-wchar
 ##要编译的源文件
 LOCAL_SRC_FILES := Utils.cpp\
 		   APIC.cpp\

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listitem"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:drawableLeft="@drawable/category_playlist"
+    android:drawablePadding="10dp"
+    android:singleLine="true"
+    android:text="title"
+    android:gravity="center_vertical"
+    android:textAppearance="@android:style/TextAppearance.Large" /> <!-- 名称 -->

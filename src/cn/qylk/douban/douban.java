@@ -18,6 +18,14 @@ public class douban {
 	private static final String SEARCH = "https://api.douban.com/v2/music/search?";
 	private static final String SUMMARY = "https://api.douban.com/v2/music/";
 
+	private String BuildSearchUrl(String art, String tra) {
+		return SEARCH + "&q=" + art + "%20" + tra + "&count=1";
+	}
+
+	private String BuildSummaryUrl(String id) {
+		return SUMMARY + id;
+	}
+
 	/**
 	 * 获取歌曲-艺术家信息,豆瓣网支持
 	 * 
@@ -43,6 +51,18 @@ public class douban {
 	}
 
 	/**
+	 * 返回解析结果
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	private String LoadSummary(String id) throws IOException, JSONException { // 访问api
+		String raw = WebUtils.GetContent(BuildSummaryUrl(id), "UTF-8");
+		return JsonParser.ParseSummary(raw);
+	}
+
+	/**
 	 * 信息检索
 	 * @param artist
 	 * @param track
@@ -56,25 +76,5 @@ public class douban {
 		String tra = URLEncoder.encode(track, "UTF-8");
 		String raw = WebUtils.GetContent(BuildSearchUrl(art, tra), "UTF-8");
 		return JsonParser.ParseId(raw, artist);
-	}
-
-	private String BuildSearchUrl(String art, String tra) {
-		return SEARCH + "&q=" + art + "%20" + tra + "&count=1";
-	}
-
-	private String BuildSummaryUrl(String id) {
-		return SUMMARY + id;
-	}
-
-	/**
-	 * 返回解析结果
-	 * @param id
-	 * @return
-	 * @throws IOException
-	 * @throws JSONException
-	 */
-	private String LoadSummary(String id) throws IOException, JSONException { // 访问api
-		String raw = WebUtils.GetContent(BuildSummaryUrl(id), "UTF-8");
-		return JsonParser.ParseSummary(raw);
 	}
 }

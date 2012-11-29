@@ -31,6 +31,7 @@ import cn.qylk.app.Tasks;
 import cn.qylk.app.Tasks.onPostPic;
 import cn.qylk.app.TrackInfo;
 import cn.qylk.fragment.Fragment_ListCategory;
+import cn.qylk.fragment.Fragment_ListFragmentBase;
 import cn.qylk.fragment.Fragment_PlayList;
 import cn.qylk.fragment.Fragment_VideoList;
 import cn.qylk.log.CrashHandler;
@@ -44,13 +45,38 @@ import cn.qylk.utils.SendAction.ServiceControl;
  */
 public class ListUI extends Activity implements OnClickListener, onPostPic,
 		TabListener {
+	private class AnActionModeOfEpicProportions implements ActionMode.Callback {
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			mode.finish();
+			return true;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			menu.add("Search").setActionView(R.layout.edittext)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			return true;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return true;
+		}
+	}
+
+	public static LocalService Service;
 	static {
 		System.loadLibrary("tagjni");// 加载JNI链接库，jni文件夹下有C源代码及make文件参考
 	}
-	public static LocalService Service;
+	private boolean isVisible;
 	private ProgressBar pbar;
 	private ImageView playorpause, next, icon;
-	private boolean isVisible;
 	private BroadcastReceiver PosReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -59,6 +85,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 				pbar.setProgress(intent.getExtras().getInt("pos"));
 		}
 	};
+
 	private BroadcastReceiver Receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -90,12 +117,6 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 
 		}
 	};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("menu");
-		return super.onCreateOptionsMenu(menu);
-	}
 
 	private TextView title, artist;
 
@@ -145,31 +166,6 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 		}
 	}
 
-	private class AnActionModeOfEpicProportions implements ActionMode.Callback {
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			mode.finish();
-			return true;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			menu.add("Search").setActionView(R.layout.edittext)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			return true;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return true;
-		}
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(android.R.style.Theme_Holo);
@@ -215,16 +211,10 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 				ServiceConnector, Context.BIND_AUTO_CREATE); // 绑定后台服务
 	}
 
-	public void OpenSearch() {
-		FragmentTransaction fragmentTransaction = getFragmentManager()
-				.beginTransaction();
-		fragmentTransaction
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		fragmentTransaction.replace(R.id.realtabcontent, new Fragment_PlayList(
-				new ListTypeInfo(ListType.SEARCH, "?")));
-		fragmentTransaction.addToBackStack(null);// 无tag
-		fragmentTransaction.commit();
-		startActionMode(new AnActionModeOfEpicProportions());
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("menu");
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -234,11 +224,24 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 	}
 
 	@Override
+	protected void onPause() {
+		isVisible = false;
+		super.onPause();
+	}
+
+	@Override
 	public void onPicGot(Bitmap pic) {
 		if (pic == null)// 底部艺术家小图标
 			icon.setImageResource(R.drawable.default_icon);
 		else
 			icon.setImageBitmap(pic);
+	}
+
+	@Override
+	protected void onResume() {
+		isVisible = true;
+		UpdateUI();
+		super.onResume();
 	}
 
 	@Override
@@ -263,17 +266,16 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 
 	}
 
-	@Override
-	protected void onPause() {
-		isVisible = false;
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		isVisible = true;
-		UpdateUI();
-		super.onResume();
+	public void OpenSearch() {
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+		fragmentTransaction
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		fragmentTransaction.replace(R.id.realtabcontent, new Fragment_PlayList(
+				new ListTypeInfo(ListType.SEARCH, 0, "?")));
+		fragmentTransaction.addToBackStack(null);// 无tag
+		fragmentTransaction.commit();
+		startActionMode(new AnActionModeOfEpicProportions());
 	}
 
 	private void UpdateUI() {
@@ -288,7 +290,7 @@ public class ListUI extends Activity implements OnClickListener, onPostPic,
 						: R.drawable.btn_play_bg);
 		Tasks.startPicTask(ListUI.this, true);
 		Fragment plist = getFragmentManager().findFragmentByTag("list");
-		if (plist != null)
-			((Fragment_PlayList) plist).UpdateList();
+		if (plist instanceof Fragment_ListFragmentBase)
+			((Fragment_ListFragmentBase) plist).updateList();
 	}
 }

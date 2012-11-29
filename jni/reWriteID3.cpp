@@ -19,7 +19,7 @@
 // Parameter: char head[] 10个字节
 // Parameter: int id3size 标签大小
 //************************************
-void reCalculateID3Size(char head[],int id3size){
+void reCalculateID3Size(BYTE head[],int id3size){
 	head[6]=id3size/0x200000;
 	id3size-=head[6]*0x200000;
 	head[7]=id3size/0x4000;
@@ -39,7 +39,7 @@ void reCalculateID3Size(char head[],int id3size){
 // Parameter: char header[] 10个字节
 // Parameter: int size	帧大小
 //************************************
-void reCalculateHeaderSize(char header[],int size)
+void reCalculateHeaderSize(BYTE header[],int size)
 {								  
 	 header[4]=size/0x1000000;
 	 size-=header[4]*0x1000000;
@@ -59,7 +59,7 @@ void reCalculateHeaderSize(char header[],int size)
 // Parameter: FILE * fp
 // Parameter: char header[] 要写的标签头，10字节
 //************************************
-void writeHead(FILE *fp,char header[]){
+void writeHead(FILE *fp,BYTE header[]){
 	fwrite(header,10,1,fp);
 }
 
@@ -73,7 +73,7 @@ void writeHead(FILE *fp,char header[]){
 // Parameter: char frameheader[]帧头
 // Parameter: char * value 帧数据
 //************************************
-void writeFrame(FILE *fp,char frameheader[],char const *value){
+void writeFrame(FILE *fp,BYTE frameheader[],char const *value){
 	reCalculateHeaderSize(frameheader,strlen(value)+1);
 	fwrite(frameheader,10,1,fp);
 	fputc(0x03,fp);//使用UTF-8编码，编码表识0x03，某些软件不支持这种编码，比如Winamp,但Android支持就行了
@@ -90,7 +90,7 @@ void writeFrame(FILE *fp,char frameheader[],char const *value){
 // Parameter: char head[] 标签头/帧头
 // Parameter: const char * Id，比如"APIC"
 //************************************
-void writeID(char head[],const char *Id){
+void writeID(BYTE head[],const char *Id){
 	int len=strlen(Id);
 	for(int i=0;i<len;i++)
 	  head[i]=Id[i];
@@ -104,7 +104,7 @@ void writeID(char head[],const char *Id){
 // Parameter: char head[]
 // Parameter: const char * Id
 //************************************
-void writeID3Ver(char *head,char ver){
+void writeID3Ver(BYTE *head,const char ver){
 	head[3]=ver-'0';//版本
 	head[4]=0x00;//无标识
 	head[5]=0x00;
@@ -117,20 +117,20 @@ void writeID3Ver(char *head,char ver){
 // Qualifier: 写帧的标志位Flag
 // Parameter: char head[]
 //************************************
-void setFrameFlags(char head[]){
+void setFrameFlags(BYTE head[]){
 	head[8]=0x00;//Flag位为0
 	head[9]=0x00;
 }
 
-void JNICALL Java_cn_qylk_app_APPUtils_SaveToID3v2(JNIEnv *env, jobject obj, jstring title,jstring artist,jstring album,jstring mp3path){				     
+void JNICALL Java_cn_qylk_utils_ID3_SaveToID3v2(JNIEnv *env, jobject obj, jstring title,jstring artist,jstring album,jstring mp3path){				     
 	const char *mp3=env->GetStringUTFChars(mp3path, false);//jstring转UTF，UTF的中文字符占3字节
 	FILE * fp=fopen(mp3,"rb");//打开MP3文件
 	if(fp==NULL) {env->ReleaseStringUTFChars(mp3path, mp3);return;}//打开失败返回，记得释放内存
-	char head[10];//ID3标签头
+	BYTE head[10];//ID3标签头
 	fread(head,sizeof(head),1,fp);//读标签头
 	long id3size=getID3size(head);//读标签大小
 	int start=10;//copy默认起始位置，为标签头最后
-	if(!ArrayEqual(head,"ID3",3)) {//比较表示
+	if(!ArrayEqual(head,(const BYTE*)"ID3",3)) {//比较表示
 		id3size=0;
 		writeID(head,"ID3");//写标签标识
 		writeID3Ver(head,'3');//写版本号和标志位

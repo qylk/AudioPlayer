@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <string.H>
 //************************************
 //作者：清源林客2012 copyright
 //语言：C++
@@ -17,13 +18,18 @@
 // Parameter: char const *a2
 // Parameter: int len 比较的长度
 //************************************
-bool ArrayEqual(char *a1,char const *a2,int len){
-	int i; 
-	for(i=0;i<len;i++) 
-	   if(a1[i]!=a2[i]) 
-	  	return 0;
-	return  1;
+bool ArrayEqual(const BYTE *a1,const BYTE *a2,int len){
+	return ArrayEqual(a1,a2,0,len);
 }
+
+bool ArrayEqual(const BYTE *a1,const BYTE *a2,int start,int len){
+	for(int i=start;i<len+start;i++) {
+	   if(a1[i]!=a2[i-start])		
+	  	return false;
+}
+	return  true;
+}
+
 //************************************
 // Method:    getTagSize
 // FullName:  getTagSize
@@ -32,7 +38,7 @@ bool ArrayEqual(char *a1,char const *a2,int len){
 // Qualifier: 获取ID3标签大小
 // Parameter: char head[] 标签头
 //************************************
-int getID3size(char head[]){
+int getID3size(BYTE head[]){
 	return (head[6]&0x7F)*0x200000 +(head[7]&0x7F)*0x4000 +(head[8]&0x7F)*0x80 +(head[9]&0x7F);
 } 
 //************************************
@@ -43,7 +49,7 @@ int getID3size(char head[]){
 // Qualifier: 获取帧大小
 // Parameter: char size[]
 //************************************
-int getFramesize(char size[]){
+int getFramesize(BYTE size[]){
 	return size[0]*0x1000000+size[1]*0x10000+size[2]*0x100+size[3];
 }
 //************************************
@@ -85,7 +91,7 @@ long filesize(FILE *stream)
 // Parameter: int len 长度
 //************************************
 void copy(FILE *from,FILE* to,long len){
-	static unsigned char buffer[4096];
+	static BYTE buffer[4096];
 	int factread;//记录实际每次读的大小
 	long size=len;
 	for (factread=0;size>0;size-=factread)
@@ -93,4 +99,19 @@ void copy(FILE *from,FILE* to,long len){
         factread=fread(buffer,1,sizeof(buffer),from);
         fwrite(buffer,factread,1,to);
     }	
+}
+
+AUDIO checkExt(const char* path)
+{
+	int len=strlen(path);
+	BYTE tmp[3];
+	for(int i=0;i<3;i++){
+		tmp[i]=path[len-3+i];
+	}
+	if(ArrayEqual(tmp,(const BYTE*)"mp3",3)||ArrayEqual(tmp,(const BYTE*)"MP3",3)){
+		return MP3;
+	}
+	else if(ArrayEqual(tmp,(const BYTE*)"wma",3)||ArrayEqual(tmp,(const BYTE*)"WMA",3))
+		return WMA;
+	else return UNSUPPORT;
 }

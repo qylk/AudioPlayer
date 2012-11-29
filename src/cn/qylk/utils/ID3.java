@@ -10,32 +10,14 @@ import java.util.Arrays;
 import cn.qylk.app.TrackInfo;
 
 public class ID3 {
+	private static final byte[] TAG_ID = { (byte) 'T', (byte) 'A', (byte) 'G' };
+
 	static {
 		System.loadLibrary("ID3rw");
 	}
 
 	private native static void SaveToID3v2(String title, String artist,
 			String album, String path);
-
-	private static final byte[] TAG_ID = { (byte) 'T', (byte) 'A', (byte) 'G' };
-
-	public void SaveId3v2(final TrackInfo info) {
-		if (!info.path.endsWith("mp3"))
-			return;
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				SaveToID3v2(info.title, info.artist, info.album, info.path);
-			}
-		}).start();
-	}
-
-	private boolean seek(ByteBuffer buf) {
-		byte[] buffer = new byte[3];
-		buf.get(buffer, 0, 3);
-		return Arrays.equals(buffer, TAG_ID);
-	}
 
 	/**
 	 * @param file
@@ -64,5 +46,23 @@ public class ID3 {
 		} catch (IOException e) {
 		}
 		return false;
+	}
+
+	public void SaveId3v2(final TrackInfo info) {
+		if (!info.path.endsWith("mp3"))
+			return;
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				SaveToID3v2(info.title, info.artist, info.album, info.path);
+			}
+		}).start();
+	}
+
+	private boolean seek(ByteBuffer buf) {
+		byte[] buffer = new byte[3];
+		buf.get(buffer, 0, 3);
+		return Arrays.equals(buffer, TAG_ID);
 	}
 }

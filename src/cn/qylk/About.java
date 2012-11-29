@@ -1,10 +1,11 @@
 package cn.qylk;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.qylk.app.Update;
@@ -32,12 +33,17 @@ public class About extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setTheme(R.style.Theme_Preference);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.aboutthis);
-		TextView update = (TextView) findViewById(R.id.btn_checknew);
-		update.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-		update.setOnClickListener(this);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.titlebar);
+		TextView title = (TextView) findViewById(R.id.mytitle);
+		title.setText("清源林客");
+		Button btn = (Button) findViewById(R.id.titlebtn);
+		btn.setText(R.string.checknew);
+		btn.setOnClickListener(this);
 	}
 
 	@Override

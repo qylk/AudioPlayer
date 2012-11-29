@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,7 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -31,11 +32,26 @@ import cn.qylk.utils.StringUtils;
  * @author qylk2012
  * 
  */
-//TODO  按下home见后回来无法继续播放的问题
+// TODO 按下home见后回来无法继续播放的问题
 public class VideoActivity extends Activity implements OnClickListener {
-	private WakeLock wakeLock;
-	private int position;
+	private class OnDoubleClick extends GestureDetector.SimpleOnGestureListener {
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			surfaceView
+					.getHolder()
+					.setFixedSize(
+							(int) (height * (widescale ? scale_43 : scale_169)),
+							height);
+			widescale = !widescale;
+			return super.onDoubleTap(e);
+		}
 
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent e) {
+			showControls();
+			return super.onSingleTapConfirmed(e);
+		}
+	}
 	private final class SurfaceCallback implements SurfaceHolder.Callback {
 		@Override
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -74,6 +90,85 @@ public class VideoActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private static final float scale_169 = 16.0f / 9;// 16：9尺寸
+
+	private static final float scale_43 = 4.0f / 3;// 16：9尺寸
+
+	private RelativeLayout controller;
+	private Cursor cursor;
+	private GestureDetector gd;
+	private Handler handler;
+	private int height;
+	private MediaPlayer mediaPlayer;
+	private ImageView playButton;
+	private TextView pos, dura, title;
+	private int position;
+	private SurfaceView surfaceView;
+	private Timer timer;
+	private SeekBar videobar;
+	private WakeLock wakeLock;
+
+	private boolean widescale;
+
+	private void next() {
+		if (!cursor.moveToNext())
+			cursor.moveToFirst();
+		play(0);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.videoplay:
+			if (mediaPlayer.isPlaying())
+				mediaPlayer.pause();
+			else
+				mediaPlayer.start();
+			playButton
+					.setImageResource(mediaPlayer.isPlaying() ? R.drawable.btn_pause_bg
+							: R.drawable.btn_play_bg);
+			break;
+		case R.id.videopre:
+			pre();
+			break;
+		case R.id.videonext:
+			next();
+			break;
+		}
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.video);
+		int index;
+		if (savedInstanceState == null)
+			index = getIntent().getExtras().getInt("position");
+		else {
+			index = savedInstanceState.getInt("index");
+			position = savedInstanceState.getInt("pos");
+		}
+		playButton = (ImageView) this.findViewById(R.id.videoplay);
+		videobar = (SeekBar) findViewById(R.id.videobar);
+		title = (TextView) findViewById(R.id.videotitle);
+		pos = (TextView) findViewById(R.id.videopos);
+		dura = (TextView) findViewById(R.id.videodura);
+		controller = (RelativeLayout) findViewById(R.id.controller);
+		playButton.setOnClickListener(this);
+		this.findViewById(R.id.videonext).setOnClickListener(this);
+		this.findViewById(R.id.videopre).setOnClickListener(this);
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				videobar.setProgress(mediaPlayer.getCurrentPosition());
+				super.handleMessage(msg);
+			}
+		};
+		gd = new GestureDetector(this, new OnDoubleClick());
+		cursor = MediaDatabase.VideoCursor();
+		cursor.moveToPosition(index);
+		super.onCreate(savedInstanceState);
+	}
+
 	@Override
 	protected void onDestroy() {
 		if (wakeLock != null) {
@@ -83,29 +178,11 @@ public class VideoActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 	}
 
-	public static final float scale_169 = 9.0f / 16;// 16：9尺寸
-	public static final float scale_43 = 3.0f / 4;// 4:3尺寸
-	private LinearLayout controller;
-	private Cursor cursor;
-	private Handler handler;
-	private MediaPlayer mediaPlayer;
-	private ImageView playButton;
-	private TextView pos, dura, title;
-	private SurfaceView surfaceView;
-	private Timer timer;
-	private SeekBar videobar;
-
-	private void next() {
-		if (!cursor.moveToNext())
-			cursor.moveToFirst();
-		play(0);
-	}
-
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putInt("index", cursor.getPosition());
-		outState.putInt("pos", mediaPlayer.getCurrentPosition());
-		super.onSaveInstanceState(outState);
+	protected void onPause() {
+		mediaPlayer.pause();
+		timer.cancel();
+		super.onPause();
 	}
 
 	@Override
@@ -115,16 +192,13 @@ public class VideoActivity extends Activity implements OnClickListener {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				handler.removeMessages(1);
-				handler.sendEmptyMessageDelayed(1, 5 * 1000);
-				controller.setVisibility(View.VISIBLE);
+				gd.onTouchEvent(event);// 处理双击事件
 				return true;
 			}
 		});
 		mediaPlayer = new MediaPlayer();
-		int width = getWindowManager().getDefaultDisplay().getWidth();
 		SurfaceHolder holder = surfaceView.getHolder();
-		holder.setFixedSize(width, (int) (width * scale_169));
+		height = getWindowManager().getDefaultDisplay().getHeight();
 		holder.addCallback(new SurfaceCallback());
 		surfaceView.setFocusable(true);
 		surfaceView.requestFocus();
@@ -157,73 +231,10 @@ public class VideoActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.videoplay:
-			if (mediaPlayer.isPlaying())
-				mediaPlayer.pause();
-			else
-				mediaPlayer.start();
-			playButton
-					.setImageResource(mediaPlayer.isPlaying() ? R.drawable.btn_video_pause
-							: R.drawable.btn_video_play);
-			break;
-		case R.id.videopre:
-			pre();
-			break;
-		case R.id.videonext:
-			next();
-			break;
-		}
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.video);
-		int index;
-		if (savedInstanceState == null)
-			index = getIntent().getExtras().getInt("position");
-		else {
-			index = savedInstanceState.getInt("index");
-			position = savedInstanceState.getInt("pos");
-		}
-		playButton = (ImageView) this.findViewById(R.id.videoplay);
-		ImageView NextButton = (ImageView) this.findViewById(R.id.videonext);
-		ImageView PreButton = (ImageView) this.findViewById(R.id.videopre);
-		videobar = (SeekBar) findViewById(R.id.videobar);
-		title = (TextView) findViewById(R.id.videotitle);
-		pos = (TextView) findViewById(R.id.videopos);
-		dura = (TextView) findViewById(R.id.videodura);
-		controller = (LinearLayout) findViewById(R.id.controller);
-		playButton.setOnClickListener(this);
-		NextButton.setOnClickListener(this);
-		PreButton.setOnClickListener(this);
-		handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 0:
-					videobar.setProgress(mediaPlayer.getCurrentPosition());
-					break;
-				case 1:
-					controller.setVisibility(View.INVISIBLE);
-					break;
-				default:
-					break;
-				}
-				super.handleMessage(msg);
-			}
-		};
-		cursor = MediaDatabase.VideoCursor();
-		cursor.moveToPosition(index);
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	protected void onPause() {
-		mediaPlayer.pause();
-		timer.cancel();
-		super.onPause();
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt("index", cursor.getPosition());
+		outState.putInt("pos", mediaPlayer.getCurrentPosition());
+		super.onSaveInstanceState(outState);
 	}
 
 	public void play(int pos) {
@@ -240,7 +251,7 @@ public class VideoActivity extends Activity implements OnClickListener {
 			mediaPlayer.prepare();
 			mediaPlayer.seekTo(pos);
 			mediaPlayer.start();
-			handler.sendEmptyMessageDelayed(1, 5 * 1000);
+			setScale();
 		} catch (Exception e) {
 		}
 	}
@@ -249,5 +260,24 @@ public class VideoActivity extends Activity implements OnClickListener {
 		if (!cursor.moveToPrevious())
 			cursor.moveToLast();
 		play(0);
+	}
+
+	private void setScale() {
+		int w = mediaPlayer.getVideoWidth();
+		int h = mediaPlayer.getVideoHeight();
+		float wh = w * 1.0f / h;
+		if (wh - 1.3f < 0.2f)
+			widescale = false;
+		else
+			widescale = true;
+		surfaceView.getHolder().setFixedSize(
+				(int) (height * (widescale ? scale_169 : scale_43)), height);
+	}
+
+	private void showControls() {
+		if (controller.getVisibility() == View.INVISIBLE) {
+			controller.setVisibility(View.VISIBLE);
+		} else
+			controller.setVisibility(View.INVISIBLE);
 	}
 }

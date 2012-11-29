@@ -5,6 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@drawable/grid_bg"
     android:verticalSpacing="10dp"
-    android:listSelector="@drawable/gridview_selector"
     android:numColumns="3"
     android:paddingTop="10dp" />

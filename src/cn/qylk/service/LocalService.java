@@ -49,13 +49,11 @@ import cn.qylk.utils.SendAction.ServiceControl;
  * @author qylk2011 all rights resolved
  */
 public class LocalService extends Service { // 服务
-	private static final String TAG="Q_LocalService";
 	public class MyBinder extends Binder {
 		public LocalService getService() {
 			return LocalService.this;
 		}
 	}
-
 	/**
 	 * 因为本程序支持后台无界面播放，当前台UI销毁后，<br>
 	 * 考虑到如有电话接入，也必须停止或暂停播放，因此只能<br>
@@ -91,6 +89,8 @@ public class LocalService extends Service { // 服务
 	}
 
 	private static final int NOTIFICATION_ID = 4332;
+
+	private static final String TAG="Q_LocalService";
 	private MyBinder binder = new MyBinder();
 	/**
 	 * 播放远程控制
@@ -130,6 +130,8 @@ public class LocalService extends Service { // 服务
 		}
 	};
 	private DesktopLrc deslrc;
+	private Equalizer eq;
+	private boolean flag;
 	private int i;
 	private TimerOut listener;
 	private AudioManager mAudioManager;
@@ -140,8 +142,6 @@ public class LocalService extends Service { // 服务
 	private Timer timer;
 	private TrackInfo track;
 	private WakeLock wakeLock;// 用于阻止睡眠的锁
-	private boolean flag;
-	private Equalizer eq;
 
 	/**
 	 * 调整音量
@@ -176,6 +176,20 @@ public class LocalService extends Service { // 服务
 		}
 	}
 
+	public int getAudioSessionId() {
+
+		return mPlayer.getAudioSessionId();
+	}
+
+	/**
+	 * 获取当前的预置EQ
+	 * 
+	 * @return
+	 */
+	public short getEQ() {
+		return eq.getCurrentPreset();
+	}
+
 	/**
 	 * 获取播放实时位置
 	 */
@@ -193,11 +207,6 @@ public class LocalService extends Service { // 服务
 	public int getVolume() {
 		return (int) mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
 				* 100 / SysMaxVolume;
-	}
-
-	public int getAudioSessionId() {
-
-		return mPlayer.getAudioSessionId();
 	}
 
 	/**
@@ -406,10 +415,30 @@ public class LocalService extends Service { // 服务
 	}
 
 	/**
+	 * 设置预置EQ
+	 * 
+	 * @param preset
+	 *            :The valid range is [0, 9]
+	 */
+	public void setEQ(short preset) {
+		eq.usePreset(preset);
+	}
+
+	/**
 	 * 设置播放位置
 	 */
 	public void SetMediaPos(int pos) {
 		mPlayer.seekTo(pos);
+	}
+
+	/**
+	 * 设置更改ID3V2的消息标志，此动作将在歌曲播放完以后执行
+	 * 
+	 * @param rw
+	 *            ：false to cancel this msg
+	 */
+	public void setRWFlag(boolean rw) {
+		this.flag = rw;
 	}
 
 	public void setTimeOutListener(TimerOut listener) {
@@ -421,40 +450,11 @@ public class LocalService extends Service { // 服务
 		timer.schedule(new task(), 0, 100);
 	}
 
-	/**
-	 * 获取当前的预置EQ
-	 * 
-	 * @return
-	 */
-	public short getEQ() {
-		return eq.getCurrentPreset();
-	}
-
-	/**
-	 * 设置预置EQ
-	 * 
-	 * @param preset
-	 *            :The valid range is [0, 9]
-	 */
-	public void setEQ(short preset) {
-		eq.usePreset(preset);
-	}
-
 	public void timercancel() {
 		if (timer != null) {
 			timer.cancel();
 			timer.purge();
 			timer = null;
 		}
-	}
-
-	/**
-	 * 设置更改ID3V2的消息标志，此动作将在歌曲播放完以后执行
-	 * 
-	 * @param rw
-	 *            ：false to cancel this msg
-	 */
-	public void setRWFlag(boolean rw) {
-		this.flag = rw;
 	}
 }

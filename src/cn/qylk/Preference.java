@@ -1,6 +1,5 @@
 package cn.qylk;
 
-import cn.qylk.R;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

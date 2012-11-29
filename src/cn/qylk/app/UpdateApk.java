@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,7 +26,7 @@ public class UpdateApk implements Callback{
 	/**
 	 * apk升级地址
 	 */
-	private static final String APKURL = "http://qylk2011.googlecode.com/files/qplayer18.apk";
+	private static final String APKURL = "http://qylk2011.googlecode.com/files/qplayer19.apk";
 	private Context context;
 	private Handler handler;
 	private boolean kill;
@@ -70,6 +72,12 @@ public class UpdateApk implements Callback{
 			buf = null;
 			install();
 		}
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		pbar.setProgress(percent);
+		return true;
 	}
 
 	public UpdateApk init() {
@@ -120,11 +128,5 @@ public class UpdateApk implements Callback{
 				}
 			}
 		}).start();
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		pbar.setProgress(percent);
-		return true;
 	}
 }

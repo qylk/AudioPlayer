@@ -77,6 +77,13 @@ public class DesktopLrc extends LrcViewBase implements View.OnTouchListener {
 	}
 
 	@Override
+	protected void OnNextLine() {
+		super.OnNextLine();
+		paint[index % 2].setColor(cColor);
+		paint[(index + 1) % 2].setColor(ncColor);
+	}
+
+	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		float lastX = 0, lastY = 0;
 		int action = event.getAction();
@@ -91,12 +98,5 @@ public class DesktopLrc extends LrcViewBase implements View.OnTouchListener {
 			mWM.updateViewLayout(this, wmParams);
 		}
 		return true;
-	}
-
-	@Override
-	protected void OnNextLine() {
-		super.OnNextLine();
-		paint[index % 2].setColor(cColor);
-		paint[(index + 1) % 2].setColor(ncColor);
 	}
 }

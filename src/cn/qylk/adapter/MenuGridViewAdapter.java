@@ -1,12 +1,12 @@
 package cn.qylk.adapter;
 
-import cn.qylk.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cn.qylk.R;
 
 public class MenuGridViewAdapter extends BaseAdapter {
 	int[] imgs = new int[] { R.drawable.menu_syssettings,

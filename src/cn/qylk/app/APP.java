@@ -19,58 +19,39 @@ import cn.qylk.database.MediaDatabase;
  * 
  */
 public class APP extends Application {
-	private static APP instance;
-	public static PlayList list;
-
-	public static APP getInstance() {
-		return instance;
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		instance = this;
-		Config.LoadConfig();
-		if (!Config.sdplunged || !Config.Library)
-			return;
-		list = new PlayList(Config.getLast());
-		startService(new Intent(MyAction.INTENT_START_SERVICE)); // 启动服务
-		if (System.currentTimeMillis() - APP.Config.lastcheck > 7 * 24 * 3600*1000)
-			new Update().start(this);
-	}
-
 	public static class Config {
+		public static boolean desklrc;
 		public static final String SDDIR = Environment
 				.getExternalStorageDirectory().getPath();
+		public static final String INFOSPATH = SDDIR + "/qylk/infos/";
+
+		public static int lastbarekpoint;
+		public static long lastcheck;
+		public static boolean Library;
+
+		public static boolean light;
 		/**
 		 * 日志
 		 */
 		public static final String LOGPATH = SDDIR + "/qylk/log/";
-
+		public static int lrccolor;
+		public static boolean lrcDownloadEnable;
 		/**
 		 * APP自建歌词目录
 		 */
 		public static final String LRCPATH = SDDIR + "/qylk/lrc/";
+		public static boolean lrcshadow;
+		public static boolean onlywifi;
+		public static boolean PicDownloadEnable;
 		/**
 		 * 歌手图片目录
 		 */
 		public static final String PICPATH = SDDIR + "/qylk/pic/";
-		public static final String INFOSPATH = SDDIR + "/qylk/infos/";
-
-		public static long lastcheck;
-		public static boolean desklrc;
-		public static int lastbarekpoint;
-		public static boolean Library;
-		public static boolean light;
-		public static boolean visualwave;
-		public static int lrccolor;
-		public static boolean lrcDownloadEnable;
-		public static boolean lrcshadow;
-		public static boolean onlywifi;
-		public static boolean PicDownloadEnable;
+		
 		public static boolean sdplunged;
 		public static boolean shake;
 		public static boolean unplunge;
+		public static boolean visualwave;
 		public static boolean wifi;
 
 		/**
@@ -84,10 +65,10 @@ public class APP extends Application {
 			int type = mPerferences.getInt("lasttype",
 					ListType.ALLSONGS.ordinal());
 			ListType listtype = ListType.values()[type];
-			String para = mPerferences.getString("lastpara", "library");
+			int para = mPerferences.getInt("lastpara", -1);
 			int index = mPerferences.getInt("lastindex", 0);
 			lastbarekpoint = mPerferences.getInt("lastbreak", 0);
-			return new ListTypeInfo(listtype, para, index);
+			return new ListTypeInfo(listtype, para, null, index);
 		}
 
 		/**
@@ -139,8 +120,28 @@ public class APP extends Application {
 			editor.putInt("lastindex", info.pos);
 			editor.putInt("lastbreak", pos);
 			editor.putInt("lasttype", info.list.ordinal());
-			editor.putString("lastpara", info.para);
+			editor.putInt("lastpara", info.para);
 			editor.commit();
 		}
+	}
+	private static APP instance;
+
+	public static PlayList list;
+
+	public static APP getInstance() {
+		return instance;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		instance = this;
+		Config.LoadConfig();
+		if (!Config.sdplunged || !Config.Library)
+			return;
+		list = new PlayList(Config.getLast());
+		startService(new Intent(MyAction.INTENT_START_SERVICE)); // 启动服务
+		if (System.currentTimeMillis() - APP.Config.lastcheck > 7 * 24 * 3600 * 1000)
+			new Update().start(this);
 	}
 }

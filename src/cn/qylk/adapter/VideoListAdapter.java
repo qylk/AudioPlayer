@@ -1,14 +1,14 @@
 package cn.qylk.adapter;
 
 
-import cn.qylk.R;
-import cn.qylk.utils.StringUtils;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import cn.qylk.R;
+import cn.qylk.utils.StringUtils;
 
 /**
  * artist和album列表适配器

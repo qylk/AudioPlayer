@@ -25,35 +25,34 @@ public class Fragment_ListCategory extends Fragment implements
 		case R.id.lib:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.ALLSONGS,
-							"all")), "list");
+							-1)), "list");
 			break;
 		case R.id.artists:
 			fragmentTransaction.replace(R.id.realtabcontent,
-					new Fragment_ArtistAlbumList(ListType.ARTIST));
+					new Fragment_ArtistAlbumList(ListType.ARTIST), "list");
 			break;
 		case R.id.albums:
 			fragmentTransaction.replace(R.id.realtabcontent,
-					new Fragment_ArtistAlbumList(ListType.ALBUM));
+					new Fragment_ArtistAlbumList(ListType.ALBUM), "list");
 			break;
 		case R.id.fav:
 			fragmentTransaction.replace(R.id.realtabcontent,
-					new Fragment_PlayList(new ListTypeInfo(ListType.LOVE,
-							String.valueOf(-1))), "list");
+					new Fragment_PlayList(new ListTypeInfo(ListType.LOVE, -2)),
+					"list");
 			break;
 		case R.id.newadd:
 			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(new ListTypeInfo(ListType.RECENTADD,
-							"rec")), "list");
+							-3)), "list");
 			break;
 		case R.id.history:
 			fragmentTransaction.replace(R.id.realtabcontent,
-					new Fragment_PlayList(new ListTypeInfo(ListType.HISTORY,
-							"his")), "list");
-			break;
-		case R.id.searchopen:
-			fragmentTransaction.replace(R.id.realtabcontent,
 					new Fragment_PlayList(
-							new ListTypeInfo(ListType.SEARCH, "?")), "list");
+							new ListTypeInfo(ListType.HISTORY, -4)), "list");
+			break;
+		case R.id.per:
+			fragmentTransaction.replace(R.id.realtabcontent,
+					new Fragment_PersonalList(), "list");
 			break;
 		default:
 			break;
@@ -189,8 +188,7 @@ public class Fragment_ListCategory extends Fragment implements
 				.setOnClickIntent(this);
 		((MyImageView) ListGrid.findViewById(R.id.history))
 				.setOnClickIntent(this);
-		((MyImageView) ListGrid.findViewById(R.id.searchopen))
-				.setOnClickIntent(this);
+		((MyImageView) ListGrid.findViewById(R.id.per)).setOnClickIntent(this);
 		// mGridViewAdapter = new ListGridViewAdapter(inflater, itemData,
 		// R.layout.metroview, sum);
 		// ListGrid.setAdapter(mGridViewAdapter);

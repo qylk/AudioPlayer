@@ -2,6 +2,7 @@ package cn.qylk.utils;
 
 import java.io.File;
 import java.io.InputStream;
+
 import cn.qylk.app.APP;
 
 public final class StringUtils {
@@ -33,6 +34,14 @@ public final class StringUtils {
 			return "GB2312";
 	}
 
+	/**艺术家信息路径
+	 * @param track
+	 * @return
+	 */
+	public static final File GetInfosPath(String track) {
+		return new File(APP.Config.INFOSPATH + track);
+	}
+
 	/**
 	 * 歌词路径
 	 * @param title
@@ -48,14 +57,6 @@ public final class StringUtils {
 	 */
 	public static final File GetPICPath(String artist) {
 		return new File(APP.Config.PICPATH + artist + ".jpg");
-	}
-
-	/**艺术家信息路径
-	 * @param track
-	 * @return
-	 */
-	public static final File GetInfosPath(String track) {
-		return new File(APP.Config.INFOSPATH + track);
 	}
 
 

@@ -19,15 +19,6 @@ public class FileHelper {
 
 	/**
 	 * default coding is "utf-8";
-	 * 
-	 * @param str
-	 * @param path
-	 */
-	public void WriteFile(String str, File path) {
-		WriteFile(str, path, "UTF-8");
-	}
-	/**
-	 * default coding is "utf-8";
 	 * @param file
 	 * @return
 	 */
@@ -56,6 +47,25 @@ public class FileHelper {
 		}
 		return "";
 	}
+	public void WriteFile(InputStream instream, String path) throws IOException {
+		byte[] buffer = new byte[1024];
+		FileOutputStream outStream = new FileOutputStream(new File(path));// 写出图片到SD卡
+		int len;
+		while ((len = instream.read(buffer)) != -1)
+			outStream.write(buffer, 0, len);
+		outStream.close(); // 关闭
+		instream.close();
+	}
+
+	/**
+	 * default coding is "utf-8";
+	 * 
+	 * @param str
+	 * @param path
+	 */
+	public void WriteFile(String str, File path) {
+		WriteFile(str, path, "UTF-8");
+	}
 
 	public void WriteFile(String str, File path, String enc)
 			throws IllegalArgumentException {
@@ -70,15 +80,5 @@ public class FileHelper {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void WriteFile(InputStream instream, String path) throws IOException {
-		byte[] buffer = new byte[1024];
-		FileOutputStream outStream = new FileOutputStream(new File(path));// 写出图片到SD卡
-		int len;
-		while ((len = instream.read(buffer)) != -1)
-			outStream.write(buffer, 0, len);
-		outStream.close(); // 关闭
-		instream.close();
 	}
 }

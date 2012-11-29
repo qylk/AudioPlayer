@@ -10,8 +10,6 @@ import cn.qylk.lrc.MediaLyric;
 import cn.qylk.media.ArtistInfo;
 
 public class Tasks {
-	private static boolean isacting;
-
 	static class InfoTask2 extends AsyncTask<Void, Void, String> {
 
 		@Override
@@ -61,12 +59,12 @@ public class Tasks {
 		}
 	}
 
-	public interface onPostLrc {
-		public void onLrcGot(List<LRCbean> lrc, boolean usedweb);
-	}
-
 	public interface onPostInfo {
 		public void onInfoGot(String info);
+	}
+
+	public interface onPostLrc {
+		public void onLrcGot(List<LRCbean> lrc, boolean usedweb);
 	}
 
 	public interface onPostLrcItems {
@@ -91,8 +89,10 @@ public class Tasks {
 		}
 	}
 
-	private static onPostLrc postlrc;
+	private static boolean isacting;
+
 	private static onPostInfo postinfo;
+	private static onPostLrc postlrc;
 	private static onPostLrcItems postlrcsearch;
 	private static onPostPic postpic;
 

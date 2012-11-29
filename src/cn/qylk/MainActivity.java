@@ -82,7 +82,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	private static final int PREFERENCE_CODE = 1008;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 	private Animation animationdown;
-	private Visualizer mVisualizer;
 	private Fragment_MusicControls controls;
 	private TextView ctitle, artist, nexttitle, nolrctip;
 	private Handler handler;
@@ -90,12 +89,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	private PlayList list;
 	private LinearLayout lrcadj;
 	private LrcView lrcview;
+	private Visualizer mVisualizer;
 	private boolean panelopened, menuopend;
 	private ImageView picshow;
 	private Receiver receiver;// 消息接收器
 	public LocalService Service;
-	private VisualizerView visualizerview;
 	private TrackInfo trackentity;
+	private VisualizerView visualizerview;
 
 	/**
 	 * 处理设置
@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 			}
 		});
 		LoadConfig();
-		handler.sendEmptyMessageDelayed(0, 300);//计划初始化界面
+		handler.sendEmptyMessageDelayed(0, 300);// 计划初始化界面
 	}
 
 	/**
@@ -128,14 +128,15 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
-	 * 开始加载歌词，鉴于手动下载歌词可能会修改TAG信息，仍需要更新title显示，因而在这里 更新title显示，
-	 * 
-	 * @param id
-	 *            千千歌词id，若还没有，置-1来计划下载
+	 * 删除歌词,这回停止歌词显示
 	 */
-	public void StartLoad(int id) {
-		SetTitle();
-		Tasks.startLrcTask(this, id);
+	public void delLyric() {
+		if (!haslrc)
+			return;
+		haslrc = false;
+		lrcview.clearView();
+		MediaLyric.DelLrc(trackentity.title);
+		nolrctip.setVisibility(View.VISIBLE);
 	}
 
 	private void FindView() {
@@ -162,6 +163,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		handler = new Handler(this);
 	}
 
+	@Override
+	public boolean handleMessage(Message msg) {
+		DealNew();
+		return true;
+	}
+
 	/**
 	 * 加载设置
 	 */
@@ -171,18 +178,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		SetVisualizer(APP.Config.visualwave);
 		lrcview.setFirstColor(APP.Config.lrccolor);
 		lrcview.setShadow(APP.Config.lrcshadow);
-	}
-
-	private void SetVisualizer(boolean visual) {
-		if (visual && mVisualizer == null) {
-			setupVisualizerFxAndUi();
-			visualizerview.setUpView();
-		} else if (mVisualizer != null && !visual) {
-			mVisualizer.setEnabled(false);
-			mVisualizer.release();
-			visualizerview.ClearView();
-			mVisualizer = null;
-		}
 	}
 
 	/**
@@ -208,9 +203,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			for (String s : matches) {
 				if (MediaDatabase.GetCursor(
-						new ListTypeInfo(ListType.SEARCH, s)).moveToFirst()) {
+						new ListTypeInfo(ListType.SEARCH, 0, s)).moveToFirst()) {
 					Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-					list.setListType(new ListTypeInfo(ListType.SEARCH, s));
+					list.setListType(new ListTypeInfo(ListType.SEARCH, 0, s));
 					SendAction.SendControlMsg(ServiceControl.PLAYNEW);// 通知改变列表播放
 					return;
 				}
@@ -285,6 +280,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	@Override
+	public void onInfoGot(String info) {
+		showInfo3(info);
+	}
+
+	@Override
 	public void onLrcGot(List<LRCbean> lrc, boolean usedweb) {
 		if (lrc != null) {
 			lrcview.setLyric(new LrcPackage(lrc, list.getTrackEntity()));
@@ -336,35 +336,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
-	 * 打开设置
-	 */
-	public void openPreference() {
-		Intent intent = new Intent(this, Preference.class);
-		startActivityForResult(intent, PREFERENCE_CODE);
-	}
-
-	/**
-	 * 初始化频谱显示
-	 */
-	public void setupVisualizerFxAndUi() {
-		mVisualizer = new Visualizer(Service.getAudioSessionId());
-		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-		mVisualizer.setDataCaptureListener(new OnDataCaptureListener() {
-			@Override
-			public void onWaveFormDataCapture(Visualizer visualizer,
-					byte[] waveform, int samplingRate) {
-			}
-
-			@Override
-			public void onFftDataCapture(Visualizer visualizer, byte[] fft,
-					int samplingRate) {
-				visualizerview.updateVisualizer(fft);
-			}
-		}, Visualizer.getMaxCaptureRate() / 2, false, true);
-		mVisualizer.setEnabled(true);
-	}
-
-	/**
 	 * 歌词信息填写界面
 	 */
 	private void OpenInfoDialog() {
@@ -373,6 +344,40 @@ public class MainActivity extends Activity implements View.OnClickListener,
 				trackentity, "搜索歌词");
 		dialog.show(getFragmentManager(), "lrc");
 		ft.addToBackStack(null);
+	}
+
+	/**
+	 * 打开设置
+	 */
+	public void openPreference() {
+		Intent intent = new Intent(this, Preference.class);
+		startActivityForResult(intent, PREFERENCE_CODE);
+	}
+
+	/**
+	 * 快速找歌
+	 */
+	public void QuickPlay() {
+		final AutoCompleteTextView autv = new AutoCompleteTextView(this);
+		autv.setThreshold(1);
+		autv.setHint(R.string.searchtip);
+		autv.setCompletionHint("qylk2012 supported");
+		autv.setAdapter(new trainAdptertest(this, null));
+		new AlertDialog.Builder(this).setTitle("search").setView(autv)
+				.setPositiveButton(R.string.play, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String text = autv.getText().toString();
+						if (MediaDatabase.GetCursor(
+								new ListTypeInfo(ListType.SEARCH, 0, text))
+								.moveToFirst()) {
+							list.setListType(new ListTypeInfo(ListType.SEARCH,0, text));
+							SendAction.SendControlMsg(ServiceControl.PLAYNEW);
+						} else
+							Toast.makeText(MainActivity.this, "Nothing Found!",
+									Toast.LENGTH_LONG).show();
+					}
+				}).setNegativeButton(R.string.operation_cancel, null).show();
 	}
 
 	/**
@@ -399,30 +404,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
-	 * 快速找歌
+	 * 甩歌
 	 */
-	public void QuickPlay() {
-		final AutoCompleteTextView autv = new AutoCompleteTextView(this);
-		autv.setThreshold(1);
-		autv.setHint(R.string.searchtip);
-		autv.setCompletionHint("qylk2012 supported");
-		autv.setAdapter(new trainAdptertest(this, null));
-		new AlertDialog.Builder(this).setTitle("search").setView(autv)
-				.setPositiveButton(R.string.play, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String text = autv.getText().toString();
-						if (MediaDatabase.GetCursor(
-								new ListTypeInfo(ListType.SEARCH, text))
-								.moveToFirst()) {
-							list.setListType(new ListTypeInfo(ListType.SEARCH,
-									text));
-							SendAction.SendControlMsg(ServiceControl.PLAYNEW);
-						} else
-							Toast.makeText(MainActivity.this, "Nothing Found!",
-									Toast.LENGTH_LONG).show();
-					}
-				}).setNegativeButton(R.string.operation_cancel, null).show();
+	private void SetSensor(boolean shake) {
+		if (shake)
+			SensorTest.getInstance().StartService();// 服务实例化
+		else
+			SensorTest.getInstance().StopService();// 暂停服务
 	}
 
 	/**
@@ -435,13 +423,36 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
-	 * 甩歌
+	 * 初始化频谱显示
 	 */
-	private void SetSensor(boolean shake) {
-		if (shake)
-			SensorTest.getInstance().StartService();// 服务实例化
-		else
-			SensorTest.getInstance().StopService();// 暂停服务
+	public void setupVisualizerFxAndUi() {
+		mVisualizer = new Visualizer(Service.getAudioSessionId());
+		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+		mVisualizer.setDataCaptureListener(new OnDataCaptureListener() {
+			@Override
+			public void onFftDataCapture(Visualizer visualizer, byte[] fft,
+					int samplingRate) {
+				visualizerview.updateVisualizer(fft);
+			}
+
+			@Override
+			public void onWaveFormDataCapture(Visualizer visualizer,
+					byte[] waveform, int samplingRate) {
+			}
+		}, Visualizer.getMaxCaptureRate() / 2, false, true);
+		mVisualizer.setEnabled(true);
+	}
+
+	private void SetVisualizer(boolean visual) {
+		if (visual && mVisualizer == null) {
+			setupVisualizerFxAndUi();
+			visualizerview.setUpView();
+		} else if (mVisualizer != null && !visual) {
+			mVisualizer.setEnabled(false);
+			mVisualizer.release();
+			visualizerview.ClearView();
+			mVisualizer = null;
+		}
 	}
 
 	/**
@@ -498,6 +509,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
 	/**
 	 * 加载艺术家信息
+	 * 
 	 * @param info
 	 */
 	private void showInfo3(String info) {
@@ -515,6 +527,17 @@ public class MainActivity extends Activity implements View.OnClickListener,
 	}
 
 	/**
+	 * 开始加载歌词，鉴于手动下载歌词可能会修改TAG信息，仍需要更新title显示，因而在这里 更新title显示，
+	 * 
+	 * @param id
+	 *            千千歌词id，若还没有，置-1来计划下载
+	 */
+	public void StartLoad(int id) {
+		SetTitle();
+		Tasks.startLrcTask(this, id);
+	}
+
+	/**
 	 * 语音识别
 	 */
 	public void startVoiceRecognition() {
@@ -526,18 +549,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		if (Service.IsPlaying())
 			Service.PauseOrContinue(true);
 		startVoiceRecognitionActivity();
-	}
-
-	/**
-	 * 删除歌词,这回停止歌词显示
-	 */
-	public void delLyric() {
-		if (!haslrc)
-			return;
-		haslrc = false;
-		lrcview.clearView();
-		MediaLyric.DelLrc(trackentity.title);
-		nolrctip.setVisibility(View.VISIBLE);
 	}
 
 	/**
@@ -554,6 +565,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
 	/**
 	 * 刷新歌词显示
+	 * 
 	 * @param pos
 	 */
 	public void updateLrcPos(int pos) {
@@ -569,16 +581,5 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		controls.updateViewElements(duration);
 		nexttitle.setText(list.getNextTitle());// 下一曲:
 		picshow.setImageResource(R.drawable.loading);// 显示加载图标
-	}
-
-	@Override
-	public void onInfoGot(String info) {
-		showInfo3(info);
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		DealNew();
-		return true;
 	}
 }

@@ -1,6 +1,5 @@
 package cn.qylk.dialog;
 
-import cn.qylk.R;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.qylk.R;
 
 public class ColorPickerDialog extends DialogPreference {
 	private static class ColorPickerView extends View {

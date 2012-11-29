@@ -1,7 +1,6 @@
 package cn.qylk.adapter;
 
 
-import cn.qylk.R;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import cn.qylk.R;
 
 /**
  * edittext自动完成适配器

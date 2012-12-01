@@ -96,6 +96,9 @@ public class PlayList implements IPlayList {
 			sum = ids.size();
 			this.typeinfo = info;
 			mode = PlayMode.Normal;
+			if (sum == 0) {
+				setListType(new ListTypeInfo(ListType.ALLSONGS, 0));
+			}
 		} else
 			typeinfo.pos = info.pos;
 		if (info.pos >= sum)

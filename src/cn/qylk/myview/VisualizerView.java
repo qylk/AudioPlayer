@@ -35,7 +35,11 @@ public class VisualizerView extends View {
 	}
 
 	public void ClearView() {
-		setVisibility(View.INVISIBLE);
+		for (int i = 0; i < mSpectrumNum; i++) {
+			mBytes[i] = 0;
+			toppoint[i] = height;
+		}
+		invalidate();
 	}
 
 	private void init() {

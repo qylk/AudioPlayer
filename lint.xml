@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="ContentDescription" severity="ignore" />
+    <issue id="DefaultLocale">
+        <ignore path="src\cn\qylk\MainActivity.java" />
+    </issue>
     <issue id="DrawAllocation">
         <ignore path="src\cn\qylk\myview\DesktopLrc.java" />
     </issue>

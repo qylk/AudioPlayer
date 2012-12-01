@@ -1,6 +1,11 @@
 package cn.qylk.fragment;
 
+import java.io.File;
+
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -38,9 +43,29 @@ public class Fragment_ArtistAlbumList extends Fragment_ListFragmentBase
 		AdapterContextMenuInfo acmf = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		fetchCursor().moveToPosition(acmf.position);
-		APP.list.setListType(new ListTypeInfo(type, fetchCursor().getInt(3),
-				null, 0));
-		SendAction.SendControlMsg(ServiceControl.PLAYNEW);
+		final int id = fetchCursor().getInt(3);
+		if (item.getItemId() == 0) {
+			APP.list.setListType(new ListTypeInfo(type, id, null, 0));
+			SendAction.SendControlMsg(ServiceControl.PLAYNEW);
+		} else if (item.getItemId() == 1) {
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Delete this Artist or Album?")
+					.setPositiveButton("确定", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							File[] files = MediaDatabase.GetPaths(id,
+									type == ListType.ARTIST ? true : false);// 获取物理路径
+							for (File f : files) {
+								new File(f.getPath()).delete();// 删除SD卡上物理文件
+							}
+							MediaDatabase.removeArtistOrAlbum(id,
+									type == ListType.ARTIST ? true : false);
+							handler.sendEmptyMessage(0);
+						}
+					}).setNegativeButton(R.string.operation_cancel, null)
+					.show();
+		}
 		return super.onContextItemSelected(item);
 	}
 
@@ -73,6 +98,7 @@ public class Fragment_ArtistAlbumList extends Fragment_ListFragmentBase
 			public void onCreateContextMenu(ContextMenu menu, View v,
 					ContextMenuInfo menuInfo) {
 				menu.add(Menu.NONE, 0, 1, R.string.play);
+				menu.add(Menu.NONE, 1, 2, "移除");
 			}
 		});
 		listview.setOnItemClickListener(this);

@@ -216,7 +216,6 @@ public class LocalService extends Service { // 服务
 		try {
 			InitPlayer();
 			mPlayer.seekTo(APP.Config.lastbarekpoint);
-			mPlayer.start();
 			mPlayer.pause();
 			SendStatusChanged(false);
 		} catch (IOException e) {
@@ -231,6 +230,7 @@ public class LocalService extends Service { // 服务
 		mPlayer.reset();
 		mPlayer.setDataSource(track.path);
 		mPlayer.prepare();
+		mPlayer.start();
 		if (flag) {
 			TrackInfo info = APP.list.getPreviousEntity();
 			if (info.id != track.id)
@@ -275,7 +275,7 @@ public class LocalService extends Service { // 服务
 				.setWhen(System.currentTimeMillis()).setAutoCancel(false)
 				.setContentTitle("QMUSIC PLAYING").setContentText(msg)
 				.getNotification();
-		NM.notify(NOTIFICATION_ID, notification);
+		startForeground(NOTIFICATION_ID, notification);
 	}
 
 	@Override
@@ -317,6 +317,7 @@ public class LocalService extends Service { // 服务
 		InitMediaStatus();
 		eq = new Equalizer(0, getAudioSessionId());
 		eq.setEnabled(true);// 启用均衡器
+		setEQ(APP.Config.eq);//恢复上次EQ设置
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mbCN = new ComponentName(getPackageName(),
 				MediaBtnReceiver.class.getName());
@@ -362,10 +363,8 @@ public class LocalService extends Service { // 服务
 	public void PauseOrContinue(boolean pause) {// 暂停播放
 		if (pause) {
 			mPlayer.pause();
-			cancelNotification();
 		} else {
 			mPlayer.start();
-			Notification(track.title + "-->" + track.artist);
 		}
 		SendStatusChanged(!pause);
 	}
@@ -377,7 +376,6 @@ public class LocalService extends Service { // 服务
 		try {
 			Notification(track.title + "-->" + track.artist);
 			InitPlayer();
-			mPlayer.start();
 			if (deslrc != null)
 				dealDeskLrc();
 		} catch (Exception e) {
@@ -418,7 +416,7 @@ public class LocalService extends Service { // 服务
 	 * 设置预置EQ
 	 * 
 	 * @param preset
-	 *            :The valid range is [0, 9]
+	 *            :The valid range may be [0, 9]
 	 */
 	public void setEQ(short preset) {
 		eq.usePreset(preset);

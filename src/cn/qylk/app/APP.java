@@ -47,12 +47,13 @@ public class APP extends Application {
 		 * 歌手图片目录
 		 */
 		public static final String PICPATH = SDDIR + "/qylk/pic/";
-		
+
 		public static boolean sdplunged;
 		public static boolean shake;
 		public static boolean unplunge;
 		public static boolean visualwave;
 		public static boolean wifi;
+		public static short eq;
 
 		/**
 		 * 上一次的播放状态
@@ -65,7 +66,7 @@ public class APP extends Application {
 			int type = mPerferences.getInt("lasttype",
 					ListType.ALLSONGS.ordinal());
 			ListType listtype = ListType.values()[type];
-			int para = mPerferences.getInt("lastpara", -1);
+			int para = mPerferences.getInt("lastpara", 0);
 			int index = mPerferences.getInt("lastindex", 0);
 			lastbarekpoint = mPerferences.getInt("lastbreak", 0);
 			return new ListTypeInfo(listtype, para, null, index);
@@ -104,6 +105,7 @@ public class APP extends Application {
 				PicDownloadEnable &= wifi;
 			lastcheck = mPerferences.getLong("lastcheck", 0);
 			lrccolor = mPerferences.getInt("lrccolor", Color.GREEN);
+			eq=(short) mPerferences.getInt("eq", 0);
 		}
 
 		/**
@@ -124,6 +126,7 @@ public class APP extends Application {
 			editor.commit();
 		}
 	}
+
 	private static APP instance;
 
 	public static PlayList list;

@@ -47,11 +47,11 @@ public class Fragment_PlayList extends Fragment_ListFragmentBase implements
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			menu.add(Menu.NONE, 0, 1, "Share").setShowAsAction(
+			menu.add(Menu.NONE, 0, 1, "分享").setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add(Menu.NONE, 1, 2, "Add to..").setShowAsAction(
+			menu.add(Menu.NONE, 1, 2, "添加到").setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add(Menu.NONE, 2, 3, "Remove").setShowAsAction(
+			menu.add(Menu.NONE, 2, 3, "移除").setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
 			return true;
 		}

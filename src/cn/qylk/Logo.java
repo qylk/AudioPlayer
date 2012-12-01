@@ -25,6 +25,7 @@ public class Logo extends Activity implements Callback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);// 显示欢迎画面
+		new ScanMedia().ScanSD(false);
 		if (!APP.Config.sdplunged || !APP.Config.Library) {// 是否加载sd卡
 			new AlertDialog.Builder(this)
 					.setMessage(R.string.nolibrary)
@@ -38,7 +39,6 @@ public class Logo extends Activity implements Callback {
 							}).setCancelable(false).show();
 			return;
 		}
-		new ScanMedia().ScanSD(false);
 		handler.sendEmptyMessageDelayed(0, 3000);
 	}
 }

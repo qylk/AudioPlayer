@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,7 +77,7 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 		filter.addAction(MyAction.INTENT_STATUS);
 		getActivity().registerReceiver(posreceiver, filter);
 
-		posbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { // （随上面的线程每秒发生一次）
+		posbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
@@ -130,6 +133,12 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
+									SharedPreferences mPerferences = PreferenceManager
+											.getDefaultSharedPreferences(APP
+													.getInstance());
+									Editor editor = mPerferences.edit();
+									editor.putInt("eq", which);
+									editor.commit();
 									Service.setEQ((short) which);
 								}
 							}).show();
@@ -182,7 +191,8 @@ public class Fragment_MusicControls extends Fragment implements OnClickListener 
 	/**
 	 * 更新控制区显示
 	 * 
-	 * @param dur 歌曲时长
+	 * @param dur
+	 *            歌曲时长
 	 */
 	public void updateViewElements(int dur) {
 		posbar.setMax(dur);// 设置进度条最大值

@@ -2,6 +2,7 @@ package cn.qylk;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -371,7 +372,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 						if (MediaDatabase.GetCursor(
 								new ListTypeInfo(ListType.SEARCH, 0, text))
 								.moveToFirst()) {
-							list.setListType(new ListTypeInfo(ListType.SEARCH,0, text));
+							list.setListType(new ListTypeInfo(ListType.SEARCH,
+									0, text));
 							SendAction.SendControlMsg(ServiceControl.PLAYNEW);
 						} else
 							Toast.makeText(MainActivity.this, "Nothing Found!",
@@ -450,8 +452,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		} else if (mVisualizer != null && !visual) {
 			mVisualizer.setEnabled(false);
 			mVisualizer.release();
-			visualizerview.ClearView();
 			mVisualizer = null;
+			visualizerview.ClearView();
 		}
 	}
 
@@ -493,7 +495,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 		}
 		TextView infoText = (TextView) findViewById(R.id.trackinfo);
 		StringBuilder sb = new StringBuilder();
-		String trackinfo = String.format(
+		String trackinfo = String.format(Locale.CHINESE,
 				"曲名:%s\n艺术家:%s\n专辑:%s\n类型:%s\n大小:%.1f MB\n发行期:%s\n路径:%s\n",
 				trackentity.title, trackentity.artist, trackentity.album,
 				trackentity.mimetype, 1.0f * trackentity.size / 1024 / 1024,

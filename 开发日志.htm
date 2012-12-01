@@ -1,7 +1,7 @@
 开发日志
 <ul>
 	<li>V2.7.2 2012-10-27
-		增加对WMA歌曲的内置专辑图片及歌词的读取功能，更改视频播放界面尺寸,更换视频界面控制按钮，支持16:9和4:3框架调整。调整Fragments结构，歌曲列表增加首字提示功能<br>
+		增加对WMA歌曲的内置专辑图片及歌词的读取功能，更改视频播放界面尺寸,更换视频界面控制按钮，支持16:9和4:3框架调整。调整Fragments结构，歌曲列表增加首字提示功能,增加列表删除功能,修复频谱显示的问题<br>
 	<li>V2.7.1 2012-10-19
 		优化歌曲信息修改界面，支持内嵌ID3V2.3信息，读取ID3V1信息；用C++重写用到jni的本地代码,修复了其中若干Bug;优化歌曲信息查看界面;新增柱状频谱显示功能(测试阶段);修复视频播放崩溃的BUG，视频播放更改成横屏模式；修复随机播放状态下,点播歌曲出错的Bug；新增列表视图中当前歌曲位置高亮功能；修复频谱显示在无声或低声状态不显示的Bug;新增对预置均衡器更改的支持;更改歌曲信息来源：豆瓣网+Last.Fm;去除自动下载歌曲信息功能,改为用户主动要求加载；歌曲信息存放处从内置数据库改为SD卡，以防程序卸载后丢失；增加意见反馈功能。修正视频播放时屏幕会灭的Bug，改正读取内置歌词后的返回逻辑，最后整理了代码。<br>
 	<li>V2.7.0 2012-10-13
@@ -50,42 +50,23 @@
 <p>
 	<i>Copyright QYLK 2008-2012</i>
 </p>
-<p>This program is free software: you can redistribute it and/or
-	modify it under the terms of the GNU General Public License as
-	published by the Free Software Foundation, either version 3 of the
-	License, or (at your option) any later version.</p>
-<p>This program is distributed in the hope that it will be
-	useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License
-	along with this program. If not, see http://www.gnu.org/licenses/.</p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.</p>
 <p>
-	Get a copy at Google Code Page:<a title=""
+	Get a copy on Google Code Page:<a title=""
 		href="http://code.google.com/p/qylk2011/"><strong>http://code.google.com/p/qylk2011/</strong></a>
 </p>
 <p>
 	Visit my Blog Page for more:<a title=""
 		href="http://www.qylk.blog.163.com/"><b>http://www.qylk.blog.163.com</b></a>
 </p>
-<p>This player is for Android 3.0+,and it's compiled under android
-	API level-15.Now it is still on its middle stage and not that stable on
-	all devices,but this developer will try to make it more
-	compatible、functional and beautiful as well.</p>
-<p>if you have tried ttpod music player,you will find this player is
-	so similar with it.That's correct,this developer just imitates that
-	appearance,but it's code may not similar with that as this
-	developer;can not acess to ttpod resource.</p>
-<p>this project starts on 2011-07-15 approximately,when this
-	developer knew nothing about android and java.But with great interest
-	and confidence,the developer started this discovery jounery .This
-	project just indicates the developer's process and progress of
-	learning.</p>
-<p>As this project is not for commercial,but studying android
-	application programming,so how the app looks like is not that
-	important.</p>
+<p>This player is for Android 3.0+,and it's compiled under android API level-15.Now it is still on its middle stage and not that stable on all devices,but this developer will try to make it more compatible、functional and beautiful as well.</p>
+<p>If you have tried ttpod music player,you will find this player is so similar with it.That's correct,this developer just imitates that appearance,but it's code may not similar with that as this developer;can not acess to ttpod resource.</p>
+<p>This project starts on 2011-07-15 approximately,when this developer knew nothing about android and java.But with great interest and confidence,the developer started this discovery jounery .This project just indicates the developer's process and progress of learning.</p>
+<p>As this project is not for commercial,but studying android application programming,so how the app looks like is not that important.</p>
 <p>
-	<strong>features:</strong>
+	<strong>Features:</strong>
 </p>
 <ul>
 	<li>similar to miui mediaplayer</li>
@@ -93,6 +74,4 @@
 	<li>support voice search</li>
 	<li>faster than most other players in the same level</li>
 </ul>
-<i><font color="#ff0000"> Tips: while playing,downloading
-		high definition album pictures may consumes much data and if you use
-		GSM network,this will partly affect the performance. </font></i>
+<i><font color="#ff0000"> Tips: while playing,downloading high definition album pictures may consumes much data and if you use GSM network,this will partly affect the performance. </font></i>

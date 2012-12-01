@@ -29,7 +29,8 @@ public class MediaDatabase {
 		return resolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
 				new String[] { MediaStore.Audio.Albums.ALBUM,
 						MediaStore.Audio.Albums.NUMBER_OF_SONGS,
-						MediaStore.Audio.Albums.ARTIST ,MediaStore.Audio.Artists._ID}, null, null, null);
+						MediaStore.Audio.Albums.ARTIST,
+						MediaStore.Audio.Artists._ID }, null, null, null);
 	}
 
 	/**
@@ -41,7 +42,8 @@ public class MediaDatabase {
 		return resolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
 				new String[] { MediaStore.Audio.Artists.ARTIST,
 						MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
-						MediaStore.Audio.Artists.ARTIST,MediaStore.Audio.Artists._ID }, null, null, null);
+						MediaStore.Audio.Artists.ARTIST,
+						MediaStore.Audio.Artists._ID }, null, null, null);
 	}
 
 	public static Cursor GetCursor(ListTypeInfo type) {
@@ -163,6 +165,21 @@ public class MediaDatabase {
 				new String[] { MediaStore.Audio.Media.DATA },
 				MediaStore.Audio.Media._ID + " in (" + idds + ")", null, null);
 		File[] files = new File[ids.length];
+		int i = 0;
+		while (cursor.moveToNext())
+			files[i++] = new File(cursor.getString(0));
+		cursor.close();
+		return files;
+	}
+
+	public static File[] GetPaths(int id, boolean ArtistOrAlbum) {
+		Cursor cursor = resolver.query(
+				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+				new String[] { MediaStore.Audio.Media.DATA },
+				(ArtistOrAlbum ? MediaStore.Audio.Media.ARTIST_ID
+						: MediaStore.Audio.Media.ALBUM_ID) + "=?",
+				new String[] { String.valueOf(id) }, null);
+		File[] files = new File[cursor.getCount()];
 		int i = 0;
 		while (cursor.moveToNext())
 			files[i++] = new File(cursor.getString(0));
@@ -363,23 +380,15 @@ public class MediaDatabase {
 	}
 
 	/**
-	 * 删除数据库专辑
-	 * 
-	 * @param musicid
-	 */
-	public static void removeAlbum(String album) {
-		resolver.delete(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-				MediaStore.Audio.Albums.ALBUM + "=?", new String[] { album });
-	}
-
-	/**
 	 * 删除数据库艺术家
 	 * 
 	 * @param musicid
 	 */
-	public static void removeArtist(String artist) {
-		resolver.delete(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
-				MediaStore.Audio.Artists.ARTIST + "=?", new String[] { artist });
+	public static void removeArtistOrAlbum(int id, boolean ArtistOrAlbum) {
+		resolver.delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+				(ArtistOrAlbum ? MediaStore.Audio.Media.ARTIST_ID
+						: MediaStore.Audio.Media.ALBUM_ID) + "=?",
+				new String[] { String.valueOf(id) });
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package cn.qylk.fragment;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -36,9 +39,24 @@ public class Fragment_PersonalList extends Fragment_ListFragmentBase implements
 		AdapterContextMenuInfo acmf = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		fetchCursor().moveToPosition(acmf.position);
-		APP.list.setListType(new ListTypeInfo(ListType.PERSONAL, fetchCursor()
-				.getInt(0), null, 0));
-		SendAction.SendControlMsg(ServiceControl.PLAYNEW);
+		final int id=fetchCursor().getInt(0);
+		if(item.getItemId()==0){
+			APP.list.setListType(new ListTypeInfo(ListType.PERSONAL, id, null, 0));
+			SendAction.SendControlMsg(ServiceControl.PLAYNEW);
+		}
+		else if (item.getItemId() == 1) {
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Delete this PersonalList?")
+					.setPositiveButton("确定", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							MediaDatabase.RemovePersonalList(id);
+							handler.sendEmptyMessage(0);
+						}
+					}).setNegativeButton(R.string.operation_cancel, null)
+					.show();
+		}
 		return super.onContextItemSelected(item);
 	}
 
@@ -76,6 +94,7 @@ public class Fragment_PersonalList extends Fragment_ListFragmentBase implements
 			public void onCreateContextMenu(ContextMenu menu, View v,
 					ContextMenuInfo menuInfo) {
 				menu.add(Menu.NONE, 0, 1, R.string.play);
+				menu.add(Menu.NONE, 1, 2, "移除");
 			}
 		});
 		listview.setOnItemClickListener(this);
